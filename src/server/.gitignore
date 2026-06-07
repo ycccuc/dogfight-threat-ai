@@ -1,0 +1,4 @@
+# Re-include C# project files excluded by root Unity .gitignore
+!*.csproj
+!*.sln
+!*.slnx
