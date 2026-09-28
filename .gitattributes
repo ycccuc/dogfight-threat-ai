@@ -1,0 +1,115 @@
+# ============================================================
+# Git 属性配置（.gitattributes）
+#
+# 这个文件解决两类问题，跟文件大小无关：
+#   1. 换行符统一  —— 避免「只改一行，diff 显示整个文件都变了」
+#   2. Unity 场景/Prefab 的智能合并 —— 避免两人同改一个场景后场景变空
+#
+# ⚠️ 第 2 条的前提：Unity 里必须开启 Force Text 序列化
+#    Edit → Project Settings → Editor → Asset Serialization → Force Text
+#    不开这个，下面的 merge=unityyamlmerge 完全不生效。
+#
+# 详细说明见 CONTRIBUTING.md
+# ============================================================
+
+# ---------- 1. 换行符统一：仓库内一律 LF ----------
+# 全项目强制 LF，让 Windows / macOS / Linux 三端 diff 完全一致。
+* text=auto eol=lf
+
+# Windows 脚本保持 CRLF（有些工具对 .bat 的 CRLF 有硬要求）
+*.bat   text eol=crlf
+*.cmd   text eol=crlf
+*.ps1   text eol=crlf
+
+# ---------- 2. Unity 场景 / Prefab / 资源：启用官方智能合并 ----------
+# UnityYAMLMerge 是 Unity 自带的合并工具，能真正合并两个人的场景改动。
+# 不配这个，Git 会把 .unity/.prefab 当二进制，冲突后场景直接损坏。
+*.unity        text merge=unityyamlmerge eol=lf
+*.prefab       text merge=unityyamlmerge eol=lf
+*.asset        text merge=unityyamlmerge eol=lf
+*.mat          text merge=unityyamlmerge eol=lf
+*.controller   text merge=unityyamlmerge eol=lf
+*.anim         text merge=unityyamlmerge eol=lf
+*.overrideController text merge=unityyamlmerge eol=lf
+*.physicMaterial     text merge=unityyamlmerge eol=lf
+*.physicsMaterial2D  text merge=unityyamlmerge eol=lf
+
+# .meta 文件必须提交，且用文本处理（里面是 GUID 映射）
+*.meta         text eol=lf
+
+# ---------- 3. 代码与配置 ----------
+*.cs      text diff=csharp eol=lf
+*.shader  text eol=lf
+*.cginc   text eol=lf
+*.hlsl    text eol=lf
+*.json    text eol=lf
+*.xml     text eol=lf
+*.yml     text eol=lf
+*.yaml    text eol=lf
+*.md      text eol=lf
+*.asmdef  text eol=lf
+*.asmref  text eol=lf
+
+# ---------- 4. 图片 / 音频 / 字体：二进制，不做任何转换 ----------
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.gif   binary
+*.bmp   binary
+*.tga   binary
+*.tif   binary
+*.tiff  binary
+*.psd   binary
+*.psb   binary
+*.ai    binary
+*.aseprite binary
+*.ase   binary
+*.wav   binary
+*.mp3   binary
+*.ogg   binary
+*.aiff  binary
+*.ttf   binary
+*.otf   binary
+*.woff  binary
+*.woff2 binary
+
+# ---------- 5. 3D / 插件 / 二进制依赖 ----------
+*.fbx   binary
+*.obj   binary
+*.blend binary
+*.dll   binary
+*.so    binary
+*.dylib binary
+*.aar   binary
+*.jar   binary
+*.unitypackage binary
+
+# ---------- 6. 办公文档：二进制，**无法 merge**（见 CONTRIBUTING.md）----------
+*.docx  binary
+*.doc   binary
+*.xlsx  binary
+*.xls   binary
+*.pptx  binary
+*.ppt   binary
+*.pdf   binary
+
+# ---------- 7. Unity 工程目录：让 GitHub 语言统计更准 ----------
+/[Aa]ssets/**   linguist-language=C#
+/docs/**        linguist-documentation
+/art-source/**  linguist-documentation
+
+# ============================================================
+# 还需要做一步（只做一次，每个人在自己机器上做）：
+#
+# 配置 UnityYAMLMerge 为 git 的合并工具。把下面内容追加到
+# <你的用户目录>/.gitconfig 文件末尾（路径按你的 Unity 安装位置改）：
+#
+# [merge]
+#     tool = unityyamlmerge
+# [mergetool "unityyamlmerge"]
+#     cmd = 'C:\\Program Files\\Unity\\Editor\\Data\\Tools\\UnityYAMLMerge.exe' merge -p "$BASE" "$REMOTE" "$LOCAL" "$MERGED"
+#     trustExitCode = false
+#
+# ⚠️ 路径里的反斜杠必须写成双反斜杠 \\，写成单反斜杠或正斜杠都会失败。
+# 合并冲突时执行：git mergetool
+# ============================================================

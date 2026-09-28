@@ -1,0 +1,54 @@
+{
+  "files.encoding": "utf8",
+  "files.eol": "\n",
+  "files.insertFinalNewline": true,
+  "files.trimTrailingWhitespace": true,
+  "editor.tabSize": 4,
+  "editor.insertSpaces": true,
+  "editor.formatOnSave": false,
+  "editor.rulers": [100],
+  "search.exclude": {
+    "**/Library/**": true,
+    "**/Temp/**": true,
+    "**/obj/**": true,
+    "**/bin/**": true,
+    "**/Logs/**": true,
+    "**/UserSettings/**": true,
+    "**/[Bb]uild/**": true,
+    "**/[Bb]uilds/**": true,
+    "**/TestResults/**": true
+  },
+  "files.watcherExclude": {
+    "**/Library/**": true,
+    "**/Temp/**": true,
+    "**/obj/**": true,
+    "**/bin/**": true,
+    "**/Logs/**": true,
+    "**/UserSettings/**": true,
+    "**/[Bb]uild/**": true,
+    "**/[Bb]uilds/**": true
+  },
+  "files.associations": {
+    "*.asmdef": "json",
+    "*.asmref": "json",
+    "*.unity": "yaml",
+    "*.prefab": "yaml",
+    "*.asset": "yaml",
+    "*.meta": "yaml"
+  },
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  },
+  "[json]": {
+    "editor.tabSize": 2
+  },
+  "[jsonc]": {
+    "editor.tabSize": 2
+  },
+  "[yaml]": {
+    "editor.tabSize": 2
+  },
+  "[csharp]": {
+    "editor.tabSize": 4
+  }
+}

@@ -1,0 +1,51 @@
+# ============================================================
+# CODEOWNERS —— 自动指定「谁必须 review 这个改动」
+#
+# 作用：把 CONTRIBUTING.md 里的口头约定，变成 GitHub 的**系统强制**。
+#  PR 里改到下面标记的路径时，GitHub 会自动请求对应的人 review，
+#  没 review 就不能合并（配合分支保护规则）。
+#
+# ⚠️ 本文件目前**全部被注释掉**，因为 GitHub 用户名还没填。
+#    填入真实用户名后取消对应行的注释，否则 GitHub 会报错。
+#
+# 语法：
+#   <路径模式>   @用户名
+#   路径模式不带前导 / 时匹配任意层级；带前导 / 时从仓库根匹配
+#
+# 完整说明：https://docs.github.com/cn/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
+# ============================================================
+
+# ---------- 默认：仓库内的所有文件 ----------
+# 取消注释后，任何改动都会请求负责人 review。
+# 建议只在仓库主人确定后启用，否则所有 PR 都会被卡住。
+#
+# *    @<你的GitHub用户名>
+
+
+# ---------- 协议：改这里必须双端同步确认 ----------
+# 依据：src/shared/Protocol/README.md 与根 README「开发约定」第 1 条。
+# 这份 schema 是客户端与服务端之间的唯一契约，单方面改动必然导致联调失败。
+#
+# /src/shared/Protocol/    @<你的GitHub用户名> @<负责服务端的队友>
+
+
+# ---------- 客户端（Unity）----------
+# Unity 场景 / Prefab 冲突代价高，建议由固定的人把关。
+#
+# /src/client/             @<你的GitHub用户名>
+
+
+# ---------- 服务端 ----------
+# /src/server/             @<你的GitHub用户名>
+
+
+# ---------- 文档与仓库配置 ----------
+# 这些改动会影响全团队，建议自己把关。
+#
+# /docs/                   @<你的GitHub用户名>
+# /README.md               @<你的GitHub用户名>
+# /CONTRIBUTING.md         @<你的GitHub用户名>
+# /.gitignore              @<你的GitHub用户名>
+# /.gitattributes          @<你的GitHub用户名>
+# /.editorconfig           @<你的GitHub用户名>
+# /.github/                @<你的GitHub用户名>

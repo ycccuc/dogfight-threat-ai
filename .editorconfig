@@ -1,0 +1,71 @@
+# ============================================================
+# EditorConfig —— 跨编辑器统一代码风格
+# https://editorconfig.org
+#
+# 支持它的编辑器：VS Code、Visual Studio、Rider、Sublime、Vim、Notepad++
+# VS Code 需要装扩展：EditorConfig.EditorConfig（已列入 .vscode/extensions.json）
+# ============================================================
+
+root = true
+
+
+# ---------- 全局默认 ----------
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 4
+
+
+# ---------- C# ----------
+[*.{cs,csx}]
+indent_size = 4
+
+# 大括号另起一行（Allman 风格）—— C# 社区与 Unity 官方代码的主流风格
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+
+# using 指令排序：System 开头的排最前
+dotnet_sort_system_directives_first = true
+
+# 命名空间用文件作用域（C# 10+ 的 namespace X; 写法）
+csharp_style_namespace_declarations = file_scoped:suggestion
+
+# 私有字段加下划线前缀
+dotnet_naming_rule.private_fields_underscore.severity = suggestion
+dotnet_naming_rule.private_fields_underscore.symbols = private_fields
+dotnet_naming_rule.private_fields_underscore.style = underscore_camel
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+dotnet_naming_style.underscore_camel.required_prefix = _
+dotnet_naming_style.underscore_camel.capitalization = camel_case
+
+
+# ---------- JSON / YAML / Unity 配置：2 空格缩进 ----------
+[*.{json,yml,yaml,asmdef,asmref,meta}]
+indent_size = 2
+
+
+# ---------- Markdown ----------
+[*.md]
+# ⚠️ Markdown 里「行尾两个空格」表示强制换行，所以**不能**裁剪行尾空白
+trim_trailing_whitespace = false
+indent_size = 2
+
+
+# ---------- Shell / 脚本 ----------
+[*.sh]
+indent_size = 2
+
+[*.{bat,cmd,ps1}]
+end_of_line = crlf
+indent_size = 4
+
+
+# ---------- 工程文件 ----------
+[*.{csproj,sln,props,targets,xml}]
+indent_size = 2

@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "visualstudiotoolsforunity.vstuc",
+    "ms-dotnettools.csdevkit",
+    "editorconfig.editorconfig",
+    "eamodio.gitlens"
+  ]
+}
