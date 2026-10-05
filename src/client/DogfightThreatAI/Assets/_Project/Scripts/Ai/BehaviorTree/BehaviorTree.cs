@@ -255,7 +255,13 @@ namespace Dogfight.Ai
         readonly float _seconds;
         float _remaining;
 
-        public BtWait(float seconds) => _seconds = seconds < 0f ? 0f : seconds;
+        public BtWait(float seconds)
+        {
+            _seconds = seconds < 0f ? 0f : seconds;
+            // 必须在构造时就置位：_remaining 是值类型的默认 0，
+            // 忘了这一步会导致第一次 Tick 立刻判定"时间到"。
+            _remaining = _seconds;
+        }
 
         public override string Name => "Wait(" + _seconds.ToString("0.##") + "s)";
 

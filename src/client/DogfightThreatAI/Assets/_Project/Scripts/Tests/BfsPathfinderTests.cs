@@ -142,16 +142,16 @@ namespace Dogfight.Tests
         public void 孤岛能被统计出来()
         {
             var map = new GridMap(10, 10, 1f, Vec2.Zero);
-            // 用墙把右上一格封成孤岛
-            map.SetWalkable(new Vec2Int(5, 5), false);
-            map.SetWalkable(new Vec2Int(6, 8), false);
-            map.SetWalkable(new Vec2Int(8, 7), false);
+            // 把角落 (9,9) 仅有的两个邻格砌死 → 它成为孤岛（这一步之前写错了：只设障碍不形成孤岛）
+            map.SetWalkable(new Vec2Int(8, 9), false);
+            map.SetWalkable(new Vec2Int(9, 8), false);
 
             var scratch = new BfsScratch(map.CellCount);
             var cells = new List<Vec2Int>();
             int unreachable = BfsPathfinder.CountUnreachableWalkable(map, new Vec2Int(0, 0), 200, scratch, cells);
 
-            Assert.AreEqual(3, unreachable, "三个被围死的格子应被统计为不可达");
+            Assert.IsTrue(map.IsWalkable(new Vec2Int(9, 9)), "孤岛本身仍是可行走地形");
+            Assert.AreEqual(1, unreachable, "(9,9) 被围死，应恰好有 1 格不可达");
         }
 
         [Test]

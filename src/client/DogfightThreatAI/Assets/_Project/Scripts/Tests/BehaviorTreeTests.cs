@@ -119,11 +119,12 @@ namespace Dogfight.Tests
             BtContext ctx = NewContext();
             var runner = new BtRunner(cooldown, ctx);
 
+            // 冷却 0.5s、每步 0.1s：第 0.1s 成功 → 封锁到 0.6s → 0.2/0.3/0.4/0.5s 全被拦 → 0.6s 恢复
             Assert.AreEqual(BtStatus.Success, runner.Tick(0.1f), "第一次应该能开火");
-            Assert.AreEqual(BtStatus.Failure, runner.Tick(0.1f), "冷却中应该被拦住");
-
-            // 推进到冷却结束
-            for (int i = 0; i < 4; i++) runner.Tick(0.1f);
+            for (int i = 0; i < 4; i++)
+            {
+                Assert.AreEqual(BtStatus.Failure, runner.Tick(0.1f), "冷却中应该被拦住（第 " + (i + 2) + " 步）");
+            }
             Assert.AreEqual(BtStatus.Success, runner.Tick(0.1f), "冷却结束后应恢复");
         }
 

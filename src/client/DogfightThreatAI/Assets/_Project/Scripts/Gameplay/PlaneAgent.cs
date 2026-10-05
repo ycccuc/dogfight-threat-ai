@@ -40,8 +40,9 @@ namespace Dogfight.Gameplay
         [Tooltip("留空则自动取子物体上的 SpriteRenderer。")]
         [SerializeField] SpriteRenderer _spriteRenderer;
 
-        [Tooltip("精灵贴图机头方向与 +X 轴的夹角（度）。Kenney 的飞机机头朝上，所以是 -90。")]
-        [SerializeField] float _spriteHeadingOffsetDegrees = -90f;
+        [Tooltip("精灵贴图机头方向与 +Y 轴的夹角（度）。Kenney 的飞机机头朝上 → 填 0。\n" +
+                 "若换成机头朝右的贴图，填 -90。")]
+        [SerializeField] float _spriteHeadingOffsetDegrees;
 
         Rigidbody2D _body;
         KeyboardPlaneInput _keyboardInput;

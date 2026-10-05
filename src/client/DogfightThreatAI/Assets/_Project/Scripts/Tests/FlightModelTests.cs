@@ -117,11 +117,14 @@ namespace Dogfight.Tests
         [Test]
         public void 机头按角速度旋转一个步长()
         {
-            Vec2 heading = Vec2.Up;
-            float angularSpeed = 90f * MathUtil.Deg2Rad; // 90°/s
-            Vec2 next = FlightModel.StepHeading(heading, angularSpeed, 1f); // 一整秒 → 转 90°
+            Vec2 heading = Vec2.Up;                       // 朝上 = 90°
+            float angularSpeed = 90f * MathUtil.Deg2Rad;  // 90°/s，逆时针为正
+            Vec2 next = FlightModel.StepHeading(heading, angularSpeed, 1f); // 一整秒 → 再转 90°
 
-            Assert.AreEqual(90f, next.AngleRadians * MathUtil.Rad2Deg, 1e-2f);
+            // 朝上再逆时针转 90° = 朝左（180°）。
+            // 这里断言分量而不是角度：180° 附近 atan2 的符号会抖，用角度断言会假失败。
+            Assert.AreEqual(-1f, next.X, 1e-3f, "应该转到朝左");
+            Assert.AreEqual(0f, next.Y, 1e-3f);
         }
 
         [Test]
