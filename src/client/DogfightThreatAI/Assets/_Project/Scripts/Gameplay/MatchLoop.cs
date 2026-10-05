@@ -41,6 +41,22 @@ namespace Dogfight.Gameplay
         [Tooltip("由本循环手动步进 Physics2D。批量对战必须为 true。")]
         [SerializeField] bool _manualPhysicsStep = true;
 
+        [Header("─ 战场边界 ─")]
+        [Tooltip("勾上则用软边界把飞机推回场内，而不是让它们飞出视野。")]
+        [SerializeField] bool _useArena = true;
+
+        [Tooltip("战场中心（世界坐标）。")]
+        [SerializeField] Vector2 _arenaCenter = Vector2.zero;
+
+        [Tooltip("战场尺寸（整条边的长度）。默认 40×22.5 正好对应 1280×720 @ PPU 32 的一屏。")]
+        [SerializeField] Vector2 _arenaSize = new Vector2(40f, 22.5f);
+
+        [Tooltip("靠边的回推带宽度。俯视空战里撞墙急停手感很差，所以用「推」而不是「挡」。")]
+        [SerializeField] float _arenaSoftMargin = 3f;
+
+        [Tooltip("回推强度。太大会像有堵墙，太小会飞出去。")]
+        [SerializeField] float _arenaPushStrength = 60f;
+
         [Header("─ 参战飞机 ─")]
         [SerializeField] PlaneAgent[] _planes;
 
@@ -114,6 +130,8 @@ namespace Dogfight.Gameplay
                 PlaneAgent plane = _planes[i];
                 if (plane != null) plane.Step(step);
             }
+
+            ApplyArenaForces();
 
             if (_manualPhysicsStep)
             {
@@ -212,6 +230,35 @@ namespace Dogfight.Gameplay
                 TickCount,
                 Seed,
                 new[] { aliveTeam0, aliveTeam1 });
+        }
+
+        /// <summary>当前战场边界（由 Inspector 上的中心 / 尺寸 / 回推带推导）。</summary>
+        public ArenaBounds Arena =>
+            _useArena
+                ? ArenaBounds.FromSize(
+                    new Vec2(_arenaCenter.x, _arenaCenter.y),
+                    new Vec2(_arenaSize.x, _arenaSize.y),
+                    _arenaSoftMargin)
+                : ArenaBounds.Unbounded;
+
+        /// <summary>
+        /// 施加边界回推力。**必须在 Physics2D.Simulate 之前**调用 ——
+        /// 这就是把"施力"与"积分"分开的意义：顺序由本循环决定，而不是由 Unity 偷偷决定。
+        /// 每架飞机自己不该知道战场多大，这是对局规则，所以放在这里。
+        /// </summary>
+        void ApplyArenaForces()
+        {
+            if (!_useArena || _planes == null) return;
+
+            ArenaBounds arena = Arena;
+            for (int i = 0; i < _planes.Length; i++)
+            {
+                PlaneAgent plane = _planes[i];
+                if (plane == null || !plane.IsAlive) continue;
+
+                Vec2 force = arena.BoundaryForce(plane.Position, _arenaPushStrength);
+                if (force.SqrMagnitude > 0f) plane.ApplyBoundaryForce(force);
+            }
         }
 
         /// <summary>场景里临时挂载用的工具方法（批量对战与测试都用它）。</summary>

@@ -61,6 +61,26 @@ namespace Dogfight.Gameplay
 
         public float MaxHp => _maxHp;
 
+        /// <summary>当前位置（世界坐标，Ai 层的纯数据类型，方便交给 Ai 与世界快照）。</summary>
+        public Vec2 Position
+        {
+            get
+            {
+                Vector2 p = transform.position;
+                return new Vec2(p.x, p.y);
+            }
+        }
+
+        /// <summary>
+        /// 由 MatchLoop 施加的边界回推力。
+        /// 飞机自己不知道战场多大 —— 那是"对局规则"，属于 MatchLoop。
+        /// </summary>
+        public void ApplyBoundaryForce(Vec2 force)
+        {
+            if (!IsAlive || _body == null) return;
+            _body.AddForce(new Vector2(force.X, force.Y));
+        }
+
         public FlightSpec Spec => _spec;
 
         /// <summary>当前机头朝向（弧度，0 = +X，逆时针为正）。</summary>
