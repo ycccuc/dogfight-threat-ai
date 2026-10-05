@@ -37,7 +37,7 @@ namespace Dogfight.Tests
         }
 
         [Test]
-        public void 顺序节点遇Running会记住位置下次继续()
+        public void 顺序节点遇Running会在同一位置短路()
         {
             int thirdTicks = 0;
             var sequence = new BtSequence(
@@ -51,6 +51,51 @@ namespace Dogfight.Tests
 
             Assert.AreEqual(BtStatus.Running, sequence.Tick(ctx, 0.02f));
             Assert.AreEqual(0, thirdTicks);
+        }
+
+        [Test]
+        public void 序列是反应式的_条件不再成立就中断正在进行的动作()
+        {
+            bool gateOpen = true;
+            var sequence = new BtSequence(
+                new BtCondition("门", ctx => gateOpen),
+                Always(BtStatus.Running, "动作"));
+
+            BtContext ctx = NewContext();
+            Assert.AreEqual(BtStatus.Running, sequence.Tick(ctx, 0.02f));
+
+            gateOpen = false;
+            Assert.AreEqual(BtStatus.Failure, sequence.Tick(ctx, 0.02f),
+                "条件不再成立时必须中断 —— 否则动作会一直 Running，AI 卡在旧状态里出不来");
+        }
+
+        [Test]
+        public void 选择器是反应式的_高优先级分支一成立就立刻抢占()
+        {
+            bool emergency = false;
+            var selector = new BtSelector(
+                new BtSequence(
+                    new BtCondition("紧急", ctx => emergency),
+                    Always(BtStatus.Running, "规避")),
+                Always(BtStatus.Running, "巡逻"));
+
+            BtContext ctx = NewContext();
+            selector.Tick(ctx, 0.02f);
+            Assert.AreEqual("Selector(2)", selector.Name, "结构本身不重要，下面的抢占行为才是");
+
+            int evadeTicks = 0;
+            var counting = new BtSelector(
+                new BtSequence(
+                    new BtCondition("紧急", ctx => emergency),
+                    new BtAction("规避", (c, d) => { evadeTicks++; return BtStatus.Running; })),
+                new BtAction("巡逻", (c, d) => BtStatus.Running));
+
+            counting.Tick(ctx, 0.02f);
+            Assert.AreEqual(0, evadeTicks, "不紧急时不该走规避分支");
+
+            emergency = true;
+            counting.Tick(ctx, 0.02f);
+            Assert.AreEqual(1, evadeTicks, "紧急条件一成立就该立刻抢占");
         }
 
         [Test]

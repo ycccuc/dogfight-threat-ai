@@ -118,11 +118,17 @@ namespace Dogfight.Ai
         public override string ToString() => Name;
     }
 
-    /// <summary>顺序节点：依次执行，任一失败即失败；全部成功才成功。</summary>
+    /// <summary>
+    /// 顺序节点：依次执行，任一失败即失败；全部成功才成功。
+    ///
+    /// **反应式**：每帧都从第 0 个子节点重新求值，不缓存"上次跑到哪"。
+    /// 这一点很关键：如果缓存了位置，那么"条件 + 动作"这种最常见的组合里，
+    /// 条件只会在第一次被检查 —— 于是动作一旦返回 Running，AI 就再也出不来这个分支。
+    /// 实测后果就是"目标飞到 100 单位外了敌机还在开火"，也就是立项书批评的"固定剧本"。
+    /// </summary>
     public sealed class BtSequence : BtNode
     {
         readonly BtNode[] _children;
-        int _runningIndex;
 
         public BtSequence(params BtNode[] children) => _children = children ?? Array.Empty<BtNode>();
 
@@ -130,14 +136,10 @@ namespace Dogfight.Ai
 
         public override BtStatus Tick(BtContext context, float dt)
         {
-            for (int i = _runningIndex; i < _children.Length; i++)
+            for (int i = 0; i < _children.Length; i++)
             {
                 BtStatus status = _children[i].Tick(context, dt);
-                if (status == BtStatus.Running)
-                {
-                    _runningIndex = i;
-                    return BtStatus.Running;
-                }
+                if (status == BtStatus.Running) return BtStatus.Running;
                 if (status == BtStatus.Failure)
                 {
                     Reset();
@@ -150,16 +152,18 @@ namespace Dogfight.Ai
 
         public override void Reset()
         {
-            _runningIndex = 0;
             for (int i = 0; i < _children.Length; i++) _children[i].Reset();
         }
     }
 
-    /// <summary>选择节点：依次尝试，任一成功即成功；全部失败才失败。</summary>
+    /// <summary>
+    /// 选择节点：依次尝试，任一成功即成功；全部失败才失败。
+    /// 同样是**反应式**的（理由见 BtSequence）—— 每帧重新从最高优先级开始判断，
+    /// 所以"血量一低就立刻切规避"这类规则才会即时生效。
+    /// </summary>
     public sealed class BtSelector : BtNode
     {
         readonly BtNode[] _children;
-        int _runningIndex;
 
         public BtSelector(params BtNode[] children) => _children = children ?? Array.Empty<BtNode>();
 
@@ -167,14 +171,10 @@ namespace Dogfight.Ai
 
         public override BtStatus Tick(BtContext context, float dt)
         {
-            for (int i = _runningIndex; i < _children.Length; i++)
+            for (int i = 0; i < _children.Length; i++)
             {
                 BtStatus status = _children[i].Tick(context, dt);
-                if (status == BtStatus.Running)
-                {
-                    _runningIndex = i;
-                    return BtStatus.Running;
-                }
+                if (status == BtStatus.Running) return BtStatus.Running;
                 if (status == BtStatus.Success)
                 {
                     Reset();
@@ -187,7 +187,6 @@ namespace Dogfight.Ai
 
         public override void Reset()
         {
-            _runningIndex = 0;
             for (int i = 0; i < _children.Length; i++) _children[i].Reset();
         }
     }
