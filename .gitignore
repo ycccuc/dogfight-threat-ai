@@ -49,6 +49,19 @@ $RECYCLE.BIN/
 *.suo
 *.userprefs
 
+
+# ------------------------------------------------------------
+# 四、本地临时产物（生成物，不入库）
+# ------------------------------------------------------------
+# 编译验证用的临时 .NET 工程（证明 Dogfight.Ai 零 Unity 依赖用的）
+.scratch/
+
+# Unity 批处理编译日志（*.log 已在上面统一忽略，这里显式写出便于理解）
+.unity-build.log
+
+# AI 批量对战输出的 CSV —— 是跑出来的数据，不是源码
+tools/ai-benchmark/results/
+
 # ⚠️ 关键：这里**绝对不能**加 *.csproj / *.sln / *.unityproj
 #
 #   Unity 工程里的 .csproj / .sln 是 Unity 自动生成的（已在 Unity 的

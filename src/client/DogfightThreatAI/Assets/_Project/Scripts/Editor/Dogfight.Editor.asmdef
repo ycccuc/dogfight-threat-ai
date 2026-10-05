@@ -1,0 +1,19 @@
+{
+    "name": "Dogfight.Editor",
+    "rootNamespace": "Dogfight.EditorTools",
+    "references": [
+        "Dogfight.Ai",
+        "Dogfight.Gameplay"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

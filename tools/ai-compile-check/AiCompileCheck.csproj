@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Dogfight.Ai 的「独立编译验证」。
+
+    用途：证明 Ai 层真的是零 Unity 依赖 —— 能被一个普通 .NET 工程编译通过。
+    这条保证不是洁癖，它换来三件实际的事：
+      1. 单测不需要进 Unity Play 模式，毫秒级跑完
+      2. 改一行逻辑 20 秒就能知道对不对，不用等 Unity 域重载
+      3. 第三阶段的逻辑服务器（无头进程）可以直接复用这一层
+
+    用法（在仓库根目录）：
+        dotnet build tools/ai-compile-check/AiCompileCheck.csproj
+
+    注意：它**只编译 Ai 层**。Gameplay / Editor / Tests 依赖 UnityEngine，只能在 Unity 里编译。
+  -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>9.0</LangVersion>
+    <Nullable>disable</Nullable>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <AssemblyName>Dogfight.Ai.CompileCheck</AssemblyName>
+    <RootNamespace>Dogfight.Ai</RootNamespace>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <NoWarn>CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Include="../../src/client/DogfightThreatAI/Assets/_Project/Scripts/Ai/**/*.cs" />
+  </ItemGroup>
+
+</Project>

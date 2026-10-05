@@ -1,0 +1,16 @@
+{
+    "name": "Dogfight.Gameplay",
+    "rootNamespace": "Dogfight.Gameplay",
+    "references": [
+        "Dogfight.Ai"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
