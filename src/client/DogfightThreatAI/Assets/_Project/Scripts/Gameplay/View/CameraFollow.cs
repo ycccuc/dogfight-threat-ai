@@ -34,6 +34,8 @@ namespace DogfightThreatAI.Gameplay.View
         [SerializeField] Vector2 worldHalfSize = new Vector2(200f, 150f);
 
         Camera _camera;
+        Transform _trackedTarget;
+        PlayerView _targetView;
         Vector3 _velocity;
         Vector3 _lastTargetPosition;
         Vector3 _lookDirection;
@@ -54,20 +56,27 @@ namespace DogfightThreatAI.Gameplay.View
         void LateUpdate()
         {
             if (target == null) return;
+            if (_trackedTarget != target)
+            {
+                _trackedTarget = target;
+                _targetView = target.GetComponent<PlayerView>();
+                _hasLastPosition = false;
+            }
+            Vector3 targetPosition = _targetView != null ? _targetView.RenderPosition : target.position;
 
             // 用「这一帧目标移动了多少」推断移动方向——不依赖 PlayerController / 机头角度，
             // 所以 AI、观战、回放复用同一个相机都不用改。
-            Vector3 delta = target.position - _lastTargetPosition;
+            Vector3 delta = targetPosition - _lastTargetPosition;
             if (_hasLastPosition)
             {
                 Vector3 desiredDir = delta.magnitude > 1e-5f ? delta.normalized : Vector3.zero;
                 _lookDirection = Vector3.SmoothDamp(_lookDirection, desiredDir,
                                                     ref _lookDirectionVelocity, lookAheadSmoothTime);
             }
-            _lastTargetPosition = target.position;
+            _lastTargetPosition = targetPosition;
             _hasLastPosition = true;
 
-            Vector3 desired = target.position + offset + _lookDirection * lookAhead;
+            Vector3 desired = targetPosition + offset + _lookDirection * lookAhead;
             desired.z = offset.z;                      // 2D：z 永远保持 -10
 
             if (clampToWorld) desired = ClampInsideWorld(desired);

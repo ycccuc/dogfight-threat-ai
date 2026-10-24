@@ -1,0 +1,126 @@
+{
+  "schemaVersion": 1,
+  "generatedUtc": "2026-10-24T14:06:28.597343+00:00",
+  "freshRerun": true,
+  "ruleSet": {
+    "playerHealth": 5,
+    "collisionDamageAllTiers": 1,
+    "warningSeconds": 0.8,
+    "committedLaneSeconds": 0.3,
+    "invulnerabilitySeconds": 0.7,
+    "chargeSpeed": 45,
+    "fixedTimestepSeconds": 0.02
+  },
+  "tools": {
+    "dotnetSdk": "8.0.422",
+    "unityEditor": "2022.3.62f3c1"
+  },
+  "isolation": {
+    "inputFilesMatched": 598,
+    "csharpFilesMatched": 92,
+    "productionScriptsMatched": 49,
+    "inputHashFile": "input-hashes.json",
+    "inputManifestSha256": "575119462A31C0D2E6A1088C1D4C2D5661B4F974166984F53BB681F389495D59",
+    "originalGuiControlled": false,
+    "sharedWritableLibrary": false,
+    "packageCacheCopied": true,
+    "sourceOrCloneInputChanges": [],
+    "inputManifestSha256Basis": "Exact UTF-8 LF bytes of input-hashes.json",
+    "gitInputCommit": "040b5fec5780bdbed753a705cf15165e5a185c1f",
+    "gitNormalizedInputsMatched": 598,
+    "gitInputNormalization": "Text: CRLF to LF; binary per Git attributes or NUL content: unchanged",
+    "gitNormalizedChangedFiles": [
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Core/AI/PursuitChargeInputSource.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Core/AI/PursuitReentryPath.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Core/AI/PursuitSteeringPlanner.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Core/Input/FlightMotionCommand.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Core/Input/IFlightMotionSource.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Gameplay/Combat/AttackCueView.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Gameplay/Combat/BattleCombatController.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/AimOrbitCruiseTests.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/ContactCombatTests.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/FlightMotionCommandTests.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/PursuitChargeInputSourceTests.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/PursuitCirclePressureTests.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/PursuitDifficultyTests.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/PursuitMemoryWindowTests.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/PlayMode/AttackCuePresentationTests.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/PlayMode/BattleChaseIntegrationTests.cs"
+    ],
+    "binaryInputFiles": 148
+  },
+  "results": {
+    "core": {
+      "passed": 423,
+      "total": 423,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 24.563072,
+      "durationBasis": "TRX Times start to finish"
+    },
+    "unityEditMode": {
+      "passed": 423,
+      "total": 423,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 36.3668927,
+      "durationBasis": "Unity NUnit suite duration"
+    },
+    "unityPlayMode": {
+      "passed": 55,
+      "total": 55,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 30.3636491,
+      "durationBasis": "Unity NUnit suite duration"
+    }
+  },
+  "artifacts": [
+    {
+      "file": "core-handoff.trx.xml",
+      "sha256": "43C7B88AE6B4463ABA652B52E08BFFBF08D12B352B42277303DE971A40B268C5",
+      "rawResultSha256": "BA7CA70217CB67B67D71BDBFB0F1866E2908B9A8DF0A834E73750B59DEC588F8",
+      "machineDetailsRedacted": true
+    },
+    {
+      "file": "unity-edit-handoff.xml",
+      "sha256": "B6CCAB26D3F679F76207E5AC6D3408A8D960D68D7B387F87B8E11E05A5CDC2EE",
+      "rawResultSha256": "BC28C1023F406EF5CAD0837DD7318CD4858EA0550FD57992235D3C68542F158F",
+      "machineDetailsRedacted": true
+    },
+    {
+      "file": "unity-play-handoff.xml",
+      "sha256": "4C1909BC308CBC77C6F88C92CDC4F8B53A205D8ED59079647F312A5817E0A3E5",
+      "rawResultSha256": "4E6E9A9FB6A872EE514C60169AF38C691FE7FC3673DF97FDB0D2555FE9DCD553",
+      "machineDetailsRedacted": true
+    }
+  ],
+  "scope": {
+    "coreAndEditAreSameLogicalSuite": true,
+    "historicalBalanceMatrixRerunHere": false,
+    "historicalReactionTrajectoriesRerunHere": false,
+    "manualKeyboardPlayClaimed": false,
+    "difficultyFivefoldAcrossAllConditionsClaimed": false
+  },
+  "additionalHandoffBuildChecks": {
+    "performedByMainHandoffWorkflow": true,
+    "AiDemo": {
+      "result": "Passed",
+      "warnings": 0,
+      "errors": 0
+    },
+    "BalanceProbe": {
+      "result": "Passed",
+      "warnings": 0,
+      "errors": 0,
+      "dependencyRestoreRequiredBeforeBuild": true
+    },
+    "balanceOrReactionScenariosRerun": false
+  },
+  "environmentRecovery": {
+    "firstIsolatedAttemptReachedTests": false,
+    "initialIssue": "UPM package resolution could not start because a standard environment variable was absent",
+    "fix": "Set child-process ALLUSERSPROFILE from CommonApplicationData; source and dependency manifests unchanged",
+    "rawLogsCommitted": false
+  }
+}

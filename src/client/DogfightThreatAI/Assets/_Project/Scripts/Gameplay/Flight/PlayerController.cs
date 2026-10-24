@@ -41,6 +41,13 @@ namespace DogfightThreatAI.Gameplay
         bool _hasPrevious;
 
         public AircraftData Ship => ship;
+        /// <summary>模拟状态的值副本；AI 不读取插值后的视图 Transform。</summary>
+        public FlightState State => _state;
+        /// <summary>本次真实固定步开始时的状态，供接触扫掠检测读取。</summary>
+        public FlightState PreviousState => _hasPrevious ? _previous : _state;
+        public Bounds2D? ArenaBounds => arenaHalfSize.x > 0f && arenaHalfSize.y > 0f
+            ? Bounds2D.Centered(new Vec2(arenaHalfSize.x, arenaHalfSize.y)) : (Bounds2D?)null;
+        public bool IsInitialized { get; private set; }
 
         void Reset() => body = GetComponent<Rigidbody2D>();
 
@@ -76,6 +83,7 @@ namespace DogfightThreatAI.Gameplay
                                     ship.VisualForwardOffsetDeg * Mathf.Deg2Rad);
 
             if (view != null) view.SetVisualForward(ship.VisualForwardOffsetDeg);
+            IsInitialized = true;
         }
 
         void FixedUpdate()
@@ -83,8 +91,14 @@ namespace DogfightThreatAI.Gameplay
             var source = (IPlayerInputSource)inputSource;
             var input  = source.ReadInput(Time.fixedDeltaTime);
 
-            if (_hasPrevious) _previous = _state;   // 先存旧状态，再步进
-            _model.Step(ref _state, input, Time.fixedDeltaTime);
+            _previous = _state;   // 首步也必须从出生状态插值，不能使用默认原点
+            if (source is IFlightMotionSource motionSource)
+                _model.Step(ref _state, input, Time.fixedDeltaTime, motionSource.MotionCommand);
+            else if (source is IFlightSpeedSource speedSource)
+                _model.Step(ref _state, input, Time.fixedDeltaTime, speedSource.SpeedMultiplier,
+                    source is IFlightCruiseSource cruiseSource && cruiseSource.MaintainCruiseSpeed);
+            else
+                _model.Step(ref _state, input, Time.fixedDeltaTime);
             _hasPrevious = true;
 
             // 位置以物理引擎为落地方式（Kinematic 刚体不会自作主张改位置）
