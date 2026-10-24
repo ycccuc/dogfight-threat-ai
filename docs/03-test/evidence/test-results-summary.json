@@ -1,0 +1,106 @@
+{
+  "engine": "Tuanjie 2022.3.62t16 (1.10.4)",
+  "project": "Unity 2022.3 validation copy",
+  "suites": [
+    {
+      "result": "Passed",
+      "total": "16",
+      "passed": "16",
+      "failed": "0",
+      "skipped": "0",
+      "mode": "editmode",
+      "cases": [
+        {
+          "name": "单步加速度受限制_所以有惯性",
+          "result": "Passed"
+        },
+        {
+          "name": "无输入_不会自己往前冲",
+          "result": "Passed"
+        },
+        {
+          "name": "松开油门_保持惯性滑行",
+          "result": "Passed"
+        },
+        {
+          "name": "油门拉满_速度不会超过上限",
+          "result": "Passed"
+        },
+        {
+          "name": "油门调低_速度会下降",
+          "result": "Passed"
+        },
+        {
+          "name": "漂移会掉速",
+          "result": "Passed"
+        },
+        {
+          "name": "相同输入_结果完全一致",
+          "result": "Passed"
+        },
+        {
+          "name": "转向时出现漂移_松开后自动收敛",
+          "result": "Passed"
+        },
+        {
+          "name": "飞出战场会被挡住",
+          "result": "Passed"
+        },
+        {
+          "name": "世界坐标转格子_边界与中心都要对",
+          "result": "Passed"
+        },
+        {
+          "name": "夹紧转换_越界也不会崩",
+          "result": "Passed"
+        },
+        {
+          "name": "尺寸换算_400x300除以4_应该是100x75",
+          "result": "Passed"
+        },
+        {
+          "name": "索引往返一致_行优先",
+          "result": "Passed"
+        },
+        {
+          "name": "负坐标不能被强转截断",
+          "result": "Passed"
+        },
+        {
+          "name": "越界返回false_并给出负一",
+          "result": "Passed"
+        },
+        {
+          "name": "邻居查询_边界外不算",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "result": "Passed",
+      "total": "4",
+      "passed": "4",
+      "failed": "0",
+      "skipped": "0",
+      "mode": "playmode",
+      "cases": [
+        {
+          "name": "ClosingSettingsDiscardsDraftWithoutChangingAudio",
+          "result": "Passed"
+        },
+        {
+          "name": "ControlsAndCreditsHaveWorkingReturnPaths",
+          "result": "Passed"
+        },
+        {
+          "name": "ModalBlocksMenuAndRestoresItsOriginFocus",
+          "result": "Passed"
+        },
+        {
+          "name": "SplashAndTransitionCannotLaunchBattle",
+          "result": "Passed"
+        }
+      ]
+    }
+  ]
+}

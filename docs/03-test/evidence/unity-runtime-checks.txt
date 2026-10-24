@@ -1,0 +1,8 @@
+PASS: Menu controller loaded from native scene
+PASS: Initial press-any-key state
+PASS: Menu transition completed
+PASS: Main menu is interactive
+PASS: Settings panel opened
+PASS: Settings panel returned to menu
+PASS: Actual Battle scene loaded
+PASS: Menu cleaned up after scene switch

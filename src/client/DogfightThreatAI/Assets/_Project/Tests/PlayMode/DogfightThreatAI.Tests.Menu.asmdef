@@ -1,0 +1,14 @@
+{
+    "name": "DogfightThreatAI.Tests.Menu",
+    "rootNamespace": "DogfightThreatAI.Tests.Menu",
+    "references": ["DogfightThreatAI.UI", "UnityEngine.UI", "UnityEngine.TestRunner"],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": true,
+    "precompiledReferences": ["nunit.framework.dll"],
+    "autoReferenced": false,
+    "defineConstraints": ["UNITY_INCLUDE_TESTS"],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
