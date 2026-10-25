@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using DogfightThreatAI.UI.Navigation;
 
 namespace DogfightThreatAI.Editor
 {
@@ -9,9 +10,23 @@ namespace DogfightThreatAI.Editor
     [InitializeOnLoad]
     public static class GameEntrySetup
     {
-        const string MenuPath = "Assets/_Project/Scenes/StartMenu/StartMenu.unity";
+        const string MenuPath = SceneNavigation.StartMenuScenePath;
 
-        static GameEntrySetup() => EditorApplication.delayCall += ConfigurePlayEntry;
+        static GameEntrySetup()
+        {
+            EditorApplication.delayCall += ConfigurePlayEntry;
+            EditorApplication.playModeStateChanged += state =>
+            {
+                if (state == PlayModeStateChange.EnteredEditMode) ConfigurePlayEntry();
+            };
+        }
+
+        /// <summary>AI作者工具只为本次试玩选择游戏场景；退出Play后恢复正常菜单入口。</summary>
+        public static void ConfigureGamePreview()
+        {
+            EditorSceneManager.playModeStartScene = Application.isBatchMode ? null :
+                AssetDatabase.LoadAssetAtPath<SceneAsset>(SceneNavigation.GameScenePath);
+        }
 
         public static void ConfigurePlayEntry()
         {

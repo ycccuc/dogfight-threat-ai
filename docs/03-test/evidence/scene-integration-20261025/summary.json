@@ -1,0 +1,143 @@
+{
+  "schemaVersion": 1,
+  "generatedUtc": "2026-10-25T04:54:23.033216+00:00",
+  "freshRerun": true,
+  "sourceSnapshot": {
+    "schemaVersion": 1,
+    "sourceTree": "acc4cee218a4b7545a8948ef7bdeaa4ef83f1a38",
+    "sourceBasis": "Explicit uncommitted staged tree for local input freezing; not a checkout commit",
+    "sourceSubtrees": {
+      "src/client/DogfightThreatAI/Assets": "ed22ff59035b0c6a978244bf217449fc6cdc4c09",
+      "src/client/DogfightThreatAI/Packages": "b9582cc8ccd01acb501555549ab63bf654cf9084",
+      "src/client/DogfightThreatAI/ProjectSettings": "5b44ee6b4127a47ca752b76876c879662a36c445"
+    },
+    "receiverVerificationBasis": "Compare normalized input hashes and source subtree IDs in the final merge commit",
+    "rawInputFiles": 652,
+    "sourceRawInputsMatched": 652,
+    "cloneRawInputsMatched": 652,
+    "gitNormalizedInputsMatched": 652,
+    "textInputFiles": 500,
+    "binaryInputFiles": 152,
+    "lineEndingOnlyChangedInputs": [
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Core/AI/PursuitChargeInputSource.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Core/AI/PursuitReentryPath.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Core/AI/PursuitSteeringPlanner.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Core/Input/FlightMotionCommand.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Core/Input/IFlightMotionSource.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Gameplay/Combat/AttackCueView.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Scripts/Gameplay/Combat/BattleCombatController.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/AimOrbitCruiseTests.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/ContactCombatTests.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/FlightMotionCommandTests.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/PursuitChargeInputSourceTests.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/PursuitCirclePressureTests.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/PursuitDifficultyTests.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/PursuitMemoryWindowTests.cs.meta",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/PlayMode/AttackCuePresentationTests.cs",
+      "src/client/DogfightThreatAI/Assets/_Project/Tests/PlayMode/BattleChaseIntegrationTests.cs"
+    ],
+    "normalization": "Text CRLF to LF only; binary per Git attributes or NUL bytes unchanged",
+    "sourceInputChanges": [],
+    "cloneInputChanges": [],
+    "gitBlobMismatches": [],
+    "sourceExtraInputs": [],
+    "cloneExtraInputs": [],
+    "gitExtraInputs": [],
+    "gitMissingInputs": [],
+    "inputManifestSha256": "1C5AE685B65CD1E103109D59968742CBB74BA2D376CBFBF76EE09C6C1D369BB0",
+    "inputManifestSha256Basis": "Exact on-disk UTF-8 LF bytes of input-hashes.json",
+    "gitArchiveSha256": "2F16EBB38482452C8D16184DF7D4D8A11D10B6C49315F38AFBDC6DEB671E3E1E",
+    "passed": true
+  },
+  "tools": {
+    "dotnetSdk": "8.0.422",
+    "unityEditor": "2022.3.62f3c1"
+  },
+  "isolation": {
+    "allInputFilesMatched": 652,
+    "inputManifestFile": "input-hashes.json",
+    "inputManifestSha256": "1C5AE685B65CD1E103109D59968742CBB74BA2D376CBFBF76EE09C6C1D369BB0",
+    "inputManifestSha256Basis": "Exact on-disk UTF-8 LF bytes of input-hashes.json",
+    "originalGuiControlled": false,
+    "sharedWritableLibrary": false,
+    "packageCacheCopied": true,
+    "sourceOrCloneInputChanges": [],
+    "environmentRecovery": "Child-process ALLUSERSPROFILE supplied from CommonApplicationData",
+    "rawLogsPublished": false
+  },
+  "results": {
+    "core": {
+      "total": 423,
+      "passed": 423,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 20.308473,
+      "durationBasis": "TRX Times start to finish",
+      "exitCode": 0
+    },
+    "unityEditMode": {
+      "total": 426,
+      "passed": 426,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 33.3501071,
+      "durationBasis": "Unity NUnit suite duration",
+      "exitCode": 0
+    },
+    "unityPlayMode": {
+      "total": 61,
+      "passed": 61,
+      "failed": 0,
+      "skipped": 0,
+      "durationSeconds": 45.8881107,
+      "durationBasis": "Unity NUnit suite duration",
+      "exitCode": 0
+    }
+  },
+  "verifiedIntegration": {
+    "scenes": [
+      "StartMenu",
+      "GameScene"
+    ],
+    "menuRoundTripAndReentry": true,
+    "riverValleyMapRetained": true,
+    "aircraftPerBattle": 2,
+    "enemyAiPerBattle": 1,
+    "combatAuthorityPerBattle": 1,
+    "freshPlayerHealth": 5,
+    "freshPlayerAndEnemyEnergy": 60,
+    "priorHealthAndEnergyDiscarded": true,
+    "allFourCameraCornersCovered": true
+  },
+  "scope": {
+    "coreAndEditModeOverlap": true,
+    "mapTestsRunInUnityEditModeOnly": true,
+    "manualKeyboardPlayClaimed": false,
+    "historicalBalanceOrReactionScenariosRerun": false
+  },
+  "artifacts": [
+    {
+      "file": "core.trx.xml",
+      "sha256": "96629E12C3282C7DD5607DDFF054AC14D520127E6B71EEDC20DD0C5AAFE3E72E",
+      "machineDetailsRedacted": true,
+      "rawResultSha256": "3EB5A4013DA9EE74A7C926A99852222D123B38B9E0299A4A955B31C25EA2F511"
+    },
+    {
+      "file": "unity-edit.xml",
+      "sha256": "3F1FEF1A4C698158DA82A254CAD910322BC082B117DC312BAF05FEECD307AF0F",
+      "machineDetailsRedacted": true,
+      "rawResultSha256": "5AEF2EAD2F47E3D8C28341C1974DCC02C3650B7B7BD061FE1C98C06324FE1997"
+    },
+    {
+      "file": "unity-play.xml",
+      "sha256": "27B8D3050272BC2ED5EAF46481934689367EE87153EC5BA5D17239B699CA6929",
+      "machineDetailsRedacted": true,
+      "rawResultSha256": "D6D59445CEF0D9BDC2037D42E657FC7659623E72762FDB5CC1AEEB393CC0E54E"
+    },
+    {
+      "file": "static-scene-audit.json",
+      "sha256": "DEA47FE32FDF9E55635653545866FAB984FBD8A78A73D1F46D566D3DB0E56C97",
+      "kind": "Independent static scene and assembly audit"
+    }
+  ]
+}

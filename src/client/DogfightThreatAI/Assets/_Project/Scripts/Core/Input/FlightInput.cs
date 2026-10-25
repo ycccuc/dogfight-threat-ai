@@ -10,7 +10,7 @@ namespace DogfightThreatAI.Core.Input
         /// <summary>油门：-1（减速）~ 1（加速）</summary>
         public float Throttle;
 
-        /// <summary>转向：-1（左转）~ 1（右转）</summary>
+        /// <summary>转向：-1（顺时针）~ 1（逆时针），与 FlightModel 中 Heading 的正方向一致。</summary>
         public float Steer;
 
         public FlightInput(float throttle, float steer)

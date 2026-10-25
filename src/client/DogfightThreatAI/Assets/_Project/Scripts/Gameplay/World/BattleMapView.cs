@@ -10,6 +10,8 @@ namespace DogfightThreatAI.Gameplay.World
     public sealed class BattleMapView : MonoBehaviour
     {
         const int ChunkSize = 32;
+        // 镜头可越过物理边界 1.2 单位；四格外沿仅绘制边缘地形，不扩大地图或碰撞范围。
+        const int VisualPaddingTiles = 4;
         [SerializeField] BattleMapData map;
         [SerializeField] Camera targetCamera;
         [SerializeField] int sortingOrder = -50;
@@ -62,14 +64,15 @@ namespace DogfightThreatAI.Gameplay.World
             float halfY = cam.orthographicSize;
             float halfX = halfY * cam.aspect;
             float span = map.TileWorldSize * ChunkSize;
-            int lastX = (map.Width - 1) / ChunkSize;
-            int lastY = (map.Height - 1) / ChunkSize;
+            int firstChunk = Mathf.FloorToInt(-VisualPaddingTiles / (float)ChunkSize);
+            int lastX = (map.Width + VisualPaddingTiles - 1) / ChunkSize;
+            int lastY = (map.Height + VisualPaddingTiles - 1) / ChunkSize;
             // 一格余量避免相机插值/像素取样露出空边；换分块时才重建，逐帧不分配数组。
             float pad = map.TileWorldSize;
-            int minX = Mathf.Clamp(Mathf.FloorToInt((center.x - halfX - pad) / span), 0, lastX);
-            int maxX = Mathf.Clamp(Mathf.FloorToInt((center.x + halfX + pad) / span), 0, lastX);
-            int minY = Mathf.Clamp(Mathf.FloorToInt((center.y - halfY - pad) / span), 0, lastY);
-            int maxY = Mathf.Clamp(Mathf.FloorToInt((center.y + halfY + pad) / span), 0, lastY);
+            int minX = Mathf.Clamp(Mathf.FloorToInt((center.x - halfX - pad) / span), firstChunk, lastX);
+            int maxX = Mathf.Clamp(Mathf.FloorToInt((center.x + halfX + pad) / span), firstChunk, lastX);
+            int minY = Mathf.Clamp(Mathf.FloorToInt((center.y - halfY - pad) / span), firstChunk, lastY);
+            int maxY = Mathf.Clamp(Mathf.FloorToInt((center.y + halfY + pad) / span), firstChunk, lastY);
             var region = new RectInt(minX, minY, maxX - minX + 1, maxY - minY + 1);
             if (_hasRegion && region.Equals(_loadedRegion)) return;
             _loadedRegion = region;
@@ -119,9 +122,12 @@ namespace DogfightThreatAI.Gameplay.World
                 {
                     int gx = startX + x, gy = startY + y;
                     Tile tile = null;
-                    if (gx < map.Width && gy < map.Height)
+                    if (gx >= -VisualPaddingTiles && gx < map.Width + VisualPaddingTiles &&
+                        gy >= -VisualPaddingTiles && gy < map.Height + VisualPaddingTiles)
                     {
-                        int index = _layout[(map.Height - 1 - gy) * map.Width + gx];
+                        int sourceX = Mathf.Clamp(gx, 0, map.Width - 1);
+                        int sourceY = Mathf.Clamp(gy, 0, map.Height - 1);
+                        int index = _layout[(map.Height - 1 - sourceY) * map.Width + sourceX];
                         if (index < _palette.Length) tile = _palette[index];
                     }
                     _block[y * ChunkSize + x] = tile;

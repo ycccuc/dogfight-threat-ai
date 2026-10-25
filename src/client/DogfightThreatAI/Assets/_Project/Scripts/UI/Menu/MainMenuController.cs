@@ -396,14 +396,14 @@ namespace DogfightThreatAI.UI.Menu
         {
             var rect = OpenPanel("操作说明", "起飞之前，先熟悉你的战机。", _controls);
             if (rect == null) return;
-            string[] keys = { "W", "S", "A / D", "↑ / ↓ / Tab", "Enter / Space", "Esc" };
-            string[] labels = { "加速", "减速 / 刹车", "向左 / 向右转向", "选择菜单项目", "确认选择", "返回 / 关闭面板" };
+            string[] keys = { "W / S", "A / D", "Shift / Space", "R", "F1–F4 / F5", "↑↓ / Tab / Enter / Esc" };
+            string[] labels = { "加速 / 刹车", "向左 / 向右转向", "长按持续加速 / 点按短冲", "重开当前对局", "固定 AI 难度 / 自动成长", "菜单选择 / 确认 / 返回" };
             for (int i = 0; i < keys.Length; i++)
             {
                 _ui.Text("Key" + i, rect, keys[i], 24, 70, 224 + i * 62, 390, 54, MenuUi.Ivory);
                 _ui.Text("Action" + i, rect, labels[i], 23, 520, 224 + i * 62, 510, 54, MenuUi.Muted);
             }
-            _ui.Text("FlightNote", rect, "松开油门会惯性滑行；转向时会产生侧滑。", 18, 68, 622, 980, 42, MenuUi.Muted);
+            _ui.Text("FlightNote", rect, "惯性滑行会侧滑；推进耗尽会过热，短冲不提供无敌。", 18, 68, 622, 980, 42, MenuUi.Muted);
             var back = _ui.Button("Back", rect, "返回", 23, 798, 690, 254, 60, ClosePanel);
             MenuUi.Navigation(back);
         }

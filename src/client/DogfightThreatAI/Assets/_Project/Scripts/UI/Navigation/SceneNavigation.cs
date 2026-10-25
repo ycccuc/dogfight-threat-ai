@@ -15,6 +15,8 @@ namespace DogfightThreatAI.UI.Navigation
         // 必须与实际场景文件名一致，并在 Build Settings 中勾选这两个场景。
         public const string StartMenuScene = "StartMenu";
         public const string GameScene = "GameScene";
+        public const string StartMenuScenePath = "Assets/_Project/Scenes/StartMenu/StartMenu.unity";
+        public const string GameScenePath = "Assets/_Project/Scenes/GameScene/GameScene.unity";
         bool _loading;
 
         public static bool CanLoadGameScene => Application.CanStreamedLevelBeLoaded(GameScene);

@@ -1,0 +1,12 @@
+{
+  "scene_asset_paths": [
+    "src/client/DogfightThreatAI/Assets/_Project/Scenes/StartMenu/StartMenu.unity",
+    "src/client/DogfightThreatAI/Assets/_Project/Scenes/GameScene/GameScene.unity"
+  ],
+  "duplicate_scene_file_ids": 0,
+  "unresolved_scene_local_refs": 0,
+  "assets_missing_meta": 0,
+  "duplicate_asset_guids": 0,
+  "build_settings_paths_and_guids_match": true,
+  "duplicate_asmdefs_per_directory": 0
+}

@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="NUnit" Version="3.13.3" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.6.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="../DogfightThreatAI.Core/DogfightThreatAI.Core.csproj" />
+    <!-- Map rendering/asset tests depend on UnityEditor and run in Unity EditMode only. -->
+    <Compile Include="../../src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/**/*.cs"
+             Exclude="../../src/client/DogfightThreatAI/Assets/_Project/Tests/EditMode/BattleMapTests.cs"
+             Link="EditMode/%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+</Project>

@@ -85,6 +85,20 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1293666402417591650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1972092411808597225}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23b00dece7dcfbd4a8c48f6afbcdbcf8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 4733871073791651194}
+  visualForwardOffsetDeg: 90
 --- !u!1 &5920757651408459525
 GameObject:
   m_ObjectHideFlags: 0
@@ -98,6 +112,7 @@ GameObject:
   - component: {fileID: 2159651385653498510}
   - component: {fileID: 270979249602941958}
   - component: {fileID: 4886330096741342016}
+  - component: {fileID: 5945100712764197615}
   m_Layer: 0
   m_Name: Player_Ship01
   m_TagString: Untagged
@@ -131,7 +146,7 @@ Rigidbody2D:
   m_GameObject: {fileID: 5920757651408459525}
   m_BodyType: 1
   m_Simulated: 1
-  m_UseFullKinematicContacts: 0
+  m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
   m_LinearDrag: 0
@@ -177,7 +192,7 @@ CircleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -212,17 +227,17 @@ MonoBehaviour:
   inputSource: {fileID: 270979249602941958}
   body: {fileID: 3841788131030971619}
   view: {fileID: 1293666402417591650}
---- !u!114 &1293666402417591650
+  arenaHalfSize: {x: 8.5, y: 4.5}
+--- !u!114 &5945100712764197615
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1972092411808597225}
+  m_GameObject: {fileID: 5920757651408459525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23b00dece7dcfbd4a8c48f6afbcdbcf8, type: 3}
-  m_Name:
-  m_EditorClassIdentifier:
-  spriteRenderer: {fileID: 4733871073791651194}
-  visualForwardOffsetDeg: 90
+  m_Script: {fileID: 11500000, guid: c4e04e81fb0483f4c8869d9933a24350, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volume: {fileID: 2159651385653498510}
