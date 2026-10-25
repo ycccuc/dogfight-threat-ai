@@ -15,6 +15,7 @@ using UnityEngine.TestTools;
 
 namespace DogfightThreatAI.Tests.PlayMode
 {
+    [Category("LegacyRam")]
     public sealed class PursuitBoostBattleTests
     {
         const BindingFlags Private = BindingFlags.Instance | BindingFlags.NonPublic;
@@ -28,6 +29,7 @@ namespace DogfightThreatAI.Tests.PlayMode
             _scale = Time.timeScale;
             Time.timeScale = 0f;
             yield return SceneManager.LoadSceneAsync(SceneNavigation.GameScene, LoadSceneMode.Single);
+            LegacyRamFixture.Activate();
             _combat = Object.FindObjectOfType<BattleCombatController>();
             _ai = _combat.Enemy.GetComponent<ChaseAiInputSource>();
             Camera.main.transform.position = new Vector3(0, 0, -10);
@@ -80,7 +82,9 @@ namespace DogfightThreatAI.Tests.PlayMode
             Assert.IsFalse(keyboard.IsOverheated);
             Assert.AreEqual(0, keyboard.DashCooldownRemaining);
             Assert.AreEqual(60, _ai.BoostEnergy);
-            Assert.AreEqual(0, _ai.DifficultyOverride);
+            // Restart now enters the shipping cannon scene and restores the menu's saved choice.
+            Assert.AreEqual(Object.FindObjectOfType<DogfightThreatAI.UI.Battle.BattleMenuView>().SelectedDifficulty + 1,
+                _ai.DifficultyOverride);
             LogAssert.NoUnexpectedReceived();
         }
 

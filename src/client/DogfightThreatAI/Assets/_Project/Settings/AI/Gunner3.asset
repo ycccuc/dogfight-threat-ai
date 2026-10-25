@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fbe2a6af04ef7c409201052f3959bea, type: 3}
+  m_Name: Gunner3
+  m_EditorClassIdentifier:
+  displayName: "\u8001\u5175"
+  description: "\u66F4\u5FEB\u5730\u8C03\u6574\u822A\u7EBF\uFF0C\u5C04\u51FB\u66F4\u679C\u65AD\u3002"
+  useAStar: 1
+  observationInterval: 0.1
+  prediction: 0.8
+  aimToleranceDegrees: 5
+  fireDelay: 0.12
+  cruiseSpeed: 11
+  turnRate: 250
+  retreatDistance: 3
+  engageDistance: 7
+  shotSpacing: 0.6

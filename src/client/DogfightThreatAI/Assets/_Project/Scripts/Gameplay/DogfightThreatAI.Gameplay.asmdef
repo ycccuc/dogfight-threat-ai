@@ -2,7 +2,8 @@
     "name": "DogfightThreatAI.Gameplay",
     "rootNamespace": "DogfightThreatAI.Gameplay",
     "references": [
-        "DogfightThreatAI.Core"
+        "DogfightThreatAI.Core",
+        "DogfightThreatAI.UI"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

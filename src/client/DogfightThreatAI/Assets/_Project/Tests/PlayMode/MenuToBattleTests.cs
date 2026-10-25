@@ -2,12 +2,14 @@ using System.Collections;
 using System.Linq;
 using System.Reflection;
 using DogfightThreatAI.Core.Flight;
+using DogfightThreatAI.Core.Math;
 using DogfightThreatAI.Gameplay;
 using DogfightThreatAI.Gameplay.Combat;
 using DogfightThreatAI.Gameplay.InputSource;
 using DogfightThreatAI.Gameplay.View;
 using DogfightThreatAI.Gameplay.World;
 using DogfightThreatAI.UI.Menu;
+using DogfightThreatAI.UI.Battle;
 using DogfightThreatAI.UI.Navigation;
 using NUnit.Framework;
 using UnityEngine;
@@ -67,6 +69,7 @@ namespace DogfightThreatAI.Tests.Menu
 
             var navigation = Object.FindObjectOfType<SceneNavigation>();
             Assert.That(navigation, Is.Not.Null);
+            Object.FindObjectOfType<BattleMenuView>().OpenPause();
             var back = navigation.GetComponentsInChildren<Button>().Single(button => button.name == "ReturnToMainMenu");
             ExecuteEvents.Execute(back.gameObject,
                 new PointerEventData(EventSystem.current) { button = PointerEventData.InputButton.Left },
@@ -105,10 +108,13 @@ namespace DogfightThreatAI.Tests.Menu
             var firstEnemy = firstBattle.Enemy;
             AssertFreshBattle(firstBattle);
 
-            // Resolve a real contact, then spend a dash on the player's actual boost model.
+            // Resolve a real enemy round, then spend a dash on the player's actual boost model.
             // Pausing makes the fixture independent of attack timing and physical keyboard input.
-            SetAircraftState(firstEnemy, firstPlayer.State);
-            typeof(BattleCombatController).GetMethod("FixedUpdate", Private).Invoke(firstBattle, null);
+            var enemyState = FlightState.At(firstPlayer.State.Position + Vec2.Right * 3, Mathf.PI);
+            SetAircraftState(firstEnemy, enemyState);
+            var sim = firstBattle.Simulation;
+            sim.Tick(.02f, firstPlayer.State, firstPlayer.State, enemyState, enemyState, .5f, .5f, false, true);
+            sim.Tick(.08f, firstPlayer.State, firstPlayer.State, enemyState, enemyState, .5f, .5f, false, false);
             Assert.That(firstBattle.Status.PlayerHealth, Is.EqualTo(4));
             Assert.That(firstBattle.Status.HitSequence, Is.EqualTo(1));
             Assert.That(firstBattle.Status.InvulnerabilityRemaining, Is.GreaterThan(0f));
@@ -119,6 +125,7 @@ namespace DogfightThreatAI.Tests.Menu
             Assert.That(keyboard.DashCooldownRemaining, Is.GreaterThan(0f));
 
             var navigation = Object.FindObjectsOfType<SceneNavigation>().Single();
+            Object.FindObjectOfType<BattleMenuView>().OpenPause();
             Click(navigation.GetComponentsInChildren<Button>().Single(button => button.name == "ReturnToMainMenu"));
             yield return WaitForScene(SceneNavigation.StartMenuScene);
             Assert.That(Time.timeScale, Is.EqualTo(1f), "Returning from a paused battle must restore the menu clock");

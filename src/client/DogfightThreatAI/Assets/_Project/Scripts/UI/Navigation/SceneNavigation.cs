@@ -1,8 +1,6 @@
-using DogfightThreatAI.UI.Menu;
+using DogfightThreatAI.UI.Battle;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
 namespace DogfightThreatAI.UI.Navigation
 {
@@ -64,31 +62,9 @@ namespace DogfightThreatAI.UI.Navigation
             // 导航 UI 属于当前游戏场景，返回时随场景一起卸载，不使用 DontDestroyOnLoad。
             var root = new GameObject("Game Navigation", typeof(RectTransform));
             SceneManager.MoveGameObjectToScene(root, scene);
-            root.AddComponent<SceneNavigation>().BuildReturnButton();
+            var navigation = root.AddComponent<SceneNavigation>();
+            root.AddComponent<BattleMenuView>().Build(navigation.ReturnToMainMenu);
         }
 
-        void BuildReturnButton()
-        {
-            var canvas = gameObject.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
-            canvas.sortingOrder = 20;
-            var scaler = gameObject.AddComponent<CanvasScaler>();
-            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920, 1080);
-            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
-            scaler.matchWidthOrHeight = .5f;
-            gameObject.AddComponent<GraphicRaycaster>();
-
-            var ui = new MenuUi();
-            var panel = MenuUi.Image("Navigation panel", transform, new Color(.04f, .08f, .10f, .84f), 0, 0, 222, 54);
-            panel.rectTransform.anchorMin = panel.rectTransform.anchorMax = panel.rectTransform.pivot = new Vector2(1, 1);
-            panel.rectTransform.anchoredPosition = new Vector2(-20, -20);
-            ui.Button("ReturnToMainMenu", panel.transform, "返回主菜单", 23, 0, 0, 222, 54, ReturnToMainMenu);
-            if (EventSystem.current == null)
-            {
-                var events = new GameObject("Game EventSystem", typeof(EventSystem), typeof(StandaloneInputModule));
-                SceneManager.MoveGameObjectToScene(events, gameObject.scene);
-            }
-        }
     }
 }
