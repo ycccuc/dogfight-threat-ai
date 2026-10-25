@@ -396,12 +396,12 @@ namespace DogfightThreatAI.UI.Menu
         {
             var rect = OpenPanel("操作说明", "起飞之前，先熟悉你的战机。", _controls);
             if (rect == null) return;
-            string[] keys = { "W / S", "A / D", "Shift / Space", "R", "F1–F4 / F5", "↑↓ / Tab / Enter / Esc" };
-            string[] labels = { "加速 / 刹车", "向左 / 向右转向", "长按持续加速 / 点按短冲", "重开当前对局", "固定 AI 难度 / 自动成长", "菜单选择 / 确认 / 返回" };
+            string[] keys = { "W / S", "A / D", "J / 鼠标左键", "Shift / Space", "R", "Esc", "↑↓ / Enter" };
+            string[] labels = { "加速 / 刹车", "向左 / 向右转向", "机炮射击（长按连续发射）", "长按加速 / 点按短冲", "重开当前对局", "暂停、选择难度或返回", "菜单选择 / 确认" };
             for (int i = 0; i < keys.Length; i++)
             {
-                _ui.Text("Key" + i, rect, keys[i], 24, 70, 224 + i * 62, 390, 54, MenuUi.Ivory);
-                _ui.Text("Action" + i, rect, labels[i], 23, 520, 224 + i * 62, 510, 54, MenuUi.Muted);
+                _ui.Text("Key" + i, rect, keys[i], 24, 70, 218 + i * 54, 390, 50, MenuUi.Ivory);
+                _ui.Text("Action" + i, rect, labels[i], 23, 520, 218 + i * 54, 510, 50, MenuUi.Muted);
             }
             _ui.Text("FlightNote", rect, "惯性滑行会侧滑；推进耗尽会过热，短冲不提供无敌。", 18, 68, 622, 980, 42, MenuUi.Muted);
             var back = _ui.Button("Back", rect, "返回", 23, 798, 690, 254, 60, ClosePanel);

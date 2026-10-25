@@ -435,6 +435,14 @@ MonoBehaviour:
   enemy: {fileID: 1948062178}
   maxHealth: 5
   invulnerabilitySeconds: 0.7
+  useProjectileCombat: 1
+  weapon: {fileID: 11400000, guid: 922e8baf79d02744ead7921550abd390, type: 2}
+  difficulties:
+  - {fileID: 11400000, guid: 055c02dba0e687c47b8cfff057310351, type: 2}
+  - {fileID: 11400000, guid: 0c467b638e3474042b131e1c7e89a597, type: 2}
+  - {fileID: 11400000, guid: 19eb2ab9b18ff2d43b0e2267455e5f56, type: 2}
+  - {fileID: 11400000, guid: 7f1fdd73008854f4b86f7cb394a8ed2f, type: 2}
+  navigationCellSize: 4
 --- !u!4 &44845029
 Transform:
   m_ObjectHideFlags: 0

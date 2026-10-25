@@ -1,0 +1,2105 @@
+{
+  "engine": "Tuanjie 2022.3.62t16 (1.10.4)",
+  "date": "2026-10-25",
+  "suites": [
+    {
+      "mode": "editmode",
+      "total": "449",
+      "passed": "449",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "27.7257717",
+      "cases": [
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AimOrbitCruiseTests.AimingFromRestImmediatelyMovesAtNormalCruiseSpeed",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AimOrbitCruiseTests.CruiseCapabilityIsOnlyActiveDuringMovingAim",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AimOrbitCruiseTests.EarlyAimGuidesTowardThePlayersRearSideInsteadOfTheCenter",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AimOrbitCruiseTests.OrbitGivesWayToDirectAimBeforeTheOriginalDeadline",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AimOrbitCruiseTests.OrbitSideDoesNotFlipWhenTheTargetOrEnemyCrossesIt",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AimOrbitCruiseTests.OrdinaryFlightStillAcceleratesNormallyWithoutPoweredCruise",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AimOrbitCruiseTests.PoweredCruiseDoesNotStallDuringAReverseTurn",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.CornerPreparation_UsesTheRealObservedCenterWithoutMovingItInward(-1.0f,-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.CornerPreparation_UsesTheRealObservedCenterWithoutMovingItInward(-1.0f,1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.CornerPreparation_UsesTheRealObservedCenterWithoutMovingItInward(1.0f,-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.CornerPreparation_UsesTheRealObservedCenterWithoutMovingItInward(1.0f,1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Difficulty_InvalidEarlyTimeUsesFirstBand(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Difficulty_InvalidEarlyTimeUsesFirstBand(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Difficulty_InvalidEarlyTimeUsesFirstBand(float.NegativeInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Difficulty_UsesTheApprovedTimeBands(0.0f,1,0.35f,0.0f,7.5f,1.8f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Difficulty_UsesTheApprovedTimeBands(19.999f,1,0.35f,0.0f,7.5f,1.8f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Difficulty_UsesTheApprovedTimeBands(20.0f,2,0.25f,0.3f,7.8f,1.6f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Difficulty_UsesTheApprovedTimeBands(40.0f,3,0.2f,0.4f,8.0f,1.4f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Difficulty_UsesTheApprovedTimeBands(60.0f,4,0.15f,0.45f,8.0f,1.2f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Difficulty_UsesTheApprovedTimeBands(600.0f,4,0.15f,0.45f,8.0f,1.2f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.EarlierLevels_DoNotReadTheRecordedDodgeHabit",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.FiniteExtremeObservedPositionAndVelocity_DoNotProduceAnInfinitePlan",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.FlankChoice_IsStableAcrossRepeatedReadsAndTinyMotion",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.HigherLevels_SelectLateralPreparationPositions",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.LevelFour_RecentFourDodgesCanChangeTheNextPlanWithoutMutatingTheOldPlan",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.LevelOne_PreparesFivePointOneUnitsFromTheObservedTarget",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.LevelThree_DodgeRecordsDoNotEvenChangeItsSideHysteresis",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.LevelTwo_UsesOnlyTheSuppliedObservedVelocityForItsLimitedLead",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Memory_DoesNotExtrapolateAFreshVelocityOrPositionIntoAnOlderObservation",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Memory_DoesNotRevealASampleBeforeItsDelayHasElapsed",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Memory_KeepsTheActualTimestampWhenASampleArrivesLate",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Memory_RejectsInvalidTimesAndNonfiniteSnapshots",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Memory_ResetClockRewindAndTargetChangeDiscardOldHistory",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Memory_RetainsTheApprovedMaximumDelayAcrossLongBattles",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.Memory_UsesTenHertzSamplesWithoutReplacingASameTickSnapshot",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.PreparationRoute_DoesNotCutThroughTheObservedPlayer",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AiTacticsTests.TacticalSelection_KeepsItsPreparationPointAndEscapeSpaceInsideTheArena",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.ACommittedApproachIsDiscardedWhenTheObservedTargetLeavesItsRegion",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.ActualImpactEstimateChangesTheCurvedAimWithoutMovingTheApproach",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.AdvancedApproach_DoesNotSpinItsWorldAnchorWithEveryObservedTurn(40.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.AdvancedApproach_DoesNotSpinItsWorldAnchorWithEveryObservedTurn(60.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.AdvancedApproach_WithoutProgressFallsBackToAnExecutableDirectIntercept(40.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.AdvancedApproach_WithoutProgressFallsBackToAnExecutableDirectIntercept(60.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.AimRefreshKeepsTheCommittedWaypointButUsesTheNewDelayedObservation",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.AimRefreshUsesTheActualObservationAgeAndObservedCurvature",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.Forecast_LimitsItsHorizonAndKeepsPredictionsInsideTheArena",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.Forecast_RepeatedTimestampCannotReplaceTheObservedTurnHistory",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.Forecast_TargetChangeAndClockRewindDiscardTheOldCurve",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.Forecast_UsesObservedCurvatureRatherThanProjectingACircleAlongItsTangent",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.ImpactEstimateIsBoundedAndDoesNotDisplaceAStationaryTarget",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackApproachTests.StationaryAimRemainsAtTheObservedTargetAndNeverAtThePreparationWaypoint",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackDecisionRepeatTests.CornerAlternateApproach_RepeatedReadsDoNotReplaceAMoveOrderWithAnAimOrder",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackDecisionRepeatTests.LevelFourCorner_RejectedApproachFindsAnotherLegalAngleAndCompletesTheAttackLoop(-200.0f,150.0f,1.099804f,-200.0f,150.0f,1.026904f,2.58704f,4.144922f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackDecisionRepeatTests.LevelFourCorner_RejectedApproachFindsAnotherLegalAngleAndCompletesTheAttackLoop(-200.0f,-150.0f,2.97754f,-200.0f,-146.9184f,-2.59948f,0.0f,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackReadabilityTests.AttackHasAnObservableWarningBeforeReachingStationaryPlayer",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.EachLevelStillThreatensIdlePlayerAndAllowsAReaction(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.EachLevelStillThreatensIdlePlayerAndAllowsAReaction(20.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.EachLevelStillThreatensIdlePlayerAndAllowsAReaction(40.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.EachLevelStillThreatensIdlePlayerAndAllowsAReaction(60.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.FiniteExtremeSnapshotsAndInvalidTimeNeverProduceInvalidInput",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.IdlePlayerReceivesFiveSeparatedWarnedAttacks(0.0f,0.0f,4.0f,-2.5f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.IdlePlayerReceivesFiveSeparatedWarnedAttacks(0.0f,0.0f,2.2f,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.IdlePlayerReceivesFiveSeparatedWarnedAttacks(0.0f,0.0f,0.0f,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.IdlePlayerReceivesFiveSeparatedWarnedAttacks(200.0f,150.0f,194.0f,147.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.IdlePlayerReceivesFiveSeparatedWarnedAttacks(-200.0f,-150.0f,-194.0f,-147.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.IdlePlayerReceivesFiveSeparatedWarnedAttacks(200.0f,0.0f,198.0f,4.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.LevelChangesByClockButFreezesDuringCommittedAttackAndRecovery",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.LosingTargetDuringWarningKeepsRecoveryWhenItReturns",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.MovingThenStoppedPlayerIsAttackedAgain(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.MovingThenStoppedPlayerIsAttackedAgain(0.65f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.MovingThenStoppedPlayerIsAttackedAgain(-0.65f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.PressuringEnemyDoesNotFreezeGrowthAndStoppingRestoresAttack",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.PreviewMatchesTheActualLockedFlightModelIncludingMovingWindup",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.RepeatedReadsDoNotMutateClockWorldOrInputs",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.SameInputsReplayExactly",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.TargetLostAndReacquiredRequiresNewObservationAndWarning",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.VisibilityOnlyBlocksNewWindupAndClockStillLevelsUp",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackRunTests.WindupLastsPointEightSecondsAndHeadingStaysLockedWhenPlayerMoves",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackSafetyGateTests.Gate_DoesNotClaimEscapeWhenTheWholeArenaFitsInsideTheContactRadius",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackSafetyGateTests.Gate_RejectsAnAttackWhenThePlayerCannotPhysicallyClearItsPath",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackSafetyGateTests.StationaryPlayer_WithATimedTurnOrStraightEscape_DoesNotBlockAllAttacks(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackSafetyGateTests.StationaryPlayer_WithATimedTurnOrStraightEscape_DoesNotBlockAllAttacks(-0.5585993f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.AttackSafetyGateTests.StationaryPlayer_WithATimedTurnOrStraightEscape_DoesNotBlockAllAttacks(1.570796f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.BattleMapTests.MapStreaming_CoversCameraAtSpawnChunkCrossingsAndWorldCorners",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.BattleMapTests.MapStreaming_CoversExpandedCameraCornersWithFiniteNonCollidingEdgePadding",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.BattleMapTests.RiverValley_AllCellsHaveValidSprites_AndMatchExistingArena",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChargeTelegraphTests.CommitmentAnnouncesItsFutureLaunchLaneWhileTheAircraftFinishesBanking",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChargeTelegraphTests.FinalWarningCommitsBeforeChargeAndMovingTargetCannotRedirectTheAttack(0.01f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChargeTelegraphTests.FinalWarningCommitsBeforeChargeAndMovingTargetCannotRedirectTheAttack(0.02f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChargeTelegraphTests.FinalWarningCommitsBeforeChargeAndMovingTargetCannotRedirectTheAttack(0.0333f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChargeTelegraphTests.WarningShowsTheActualAircraftAxisInsteadOfAnUnrelatedTargetLine(1)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChargeTelegraphTests.WarningShowsTheActualAircraftAxisInsteadOfAnUnrelatedTargetLine(4)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.AccumulatedHeading_StillFacesTargetWithoutFullTurn",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.AcrossPiBoundary_TakesShortestTurn(1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.AcrossPiBoundary_TakesShortestTurn(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.AtConfiguredSpacing_Brakes(0.5f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.BehindTarget_TurnIsDeterministic",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.ConfiguredCruiseThrottleAndSpacing_AreUsed",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidAcceleration(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidAcceleration(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidAcceleration(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidAcceleration(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidArrivalRadius(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidArrivalRadius(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidArrivalRadius(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidDistanceTolerance(-0.1f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidDistanceTolerance(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidDistanceTolerance(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidMaxSpeed(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidMaxSpeed(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidMaxSpeed(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidMaxSpeed(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidMinSpeed(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidMinSpeed(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidMinSpeed(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidThrottle(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidThrottle(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidThrottle(1.01f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidThrottle(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidThrottle(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidTurnRate(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidTurnRate(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidTurnRate(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsInvalidTurnRate(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsMinSpeedAboveMaxSpeed",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Constructor_RejectsNullWorld",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.Decisions_DoNotModifyWorldSnapshots",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.EqualDistance_UsesStableIdInsteadOfEnumerationOrder",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.ExtremeFiniteCoordinates_StillSelectNearestPlayer",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.IdenticalWorldSequence_ReplaysExactInputsAndFlightStates",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.InvalidCoordinates_AreIgnoredWithoutPoisoningInput",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.InvalidDeltaTime_ReturnsNeutral(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.InvalidDeltaTime_ReturnsNeutral(-0.02f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.InvalidDeltaTime_ReturnsNeutral(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.InvalidDeltaTime_ReturnsNeutral(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.InvalidVelocity_DoesNotPoisonSpacingDecision(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.InvalidVelocity_DoesNotPoisonSpacingDecision(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.MissingOrDeadSelf_Brakes",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.NearestEnemyPlayer_IsSelected",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.NoEnemyPlayer_BrakesRatherThanCoasts",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.PlayerAhead_ProducesForwardInput",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.RealFlightModel_ApproachesPlayer(30.0f,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.RealFlightModel_ApproachesPlayer(20.0f,15.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.RealFlightModel_ApproachesPlayer(-20.0f,-10.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.SeededWorlds_AlwaysProduceFiniteLegalInputs",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.SmallAngle_DoesNotOvershootInOneStep",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.SteerSign_MatchesFlightModel(0.0f,10.0f,1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.SteerSign_MatchesFlightModel(0.0f,-10.0f,-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.TargetMovementAndRemoval_AreReadOnEveryDecision",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseInputSourceTests.TargetSelection_IgnoresSelfFriendDeadAndNonPlayer",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.FullSpeedPlayerAlreadyTooClose_ChaserFallsBackToSafeSpacing(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.FullSpeedPlayerAlreadyTooClose_ChaserFallsBackToSafeSpacing(1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.FullSpeedPlayerBrakes_ChaserRetainsSeparation",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.IdenticalMovingWorldSequence_ReplaysSpacingInputsAndStatesExactly",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.InitiallyTooCloseOrCoincident_ActivelyRestoresSeparation(1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.InitiallyTooCloseOrCoincident_ActivelyRestoresSeparation(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.SlowBrakingAircraft_UsesItsActualBrakingCapability",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.SlowPlayerBelowChaserMinSpeed_IsFollowedWithoutClosingTheGap(0.6f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.SlowPlayerBelowChaserMinSpeed_IsFollowedWithoutClosingTheGap(1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.SpacingDecision_DoesNotModifyThePublishedWorld",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.StationaryPlayer_ChaserBrakesEarlyAndSettlesAtTwoUnits(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.StationaryPlayer_ChaserBrakesEarlyAndSettlesAtTwoUnits(9.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ChaseSpacingTests.TurningApproach_AccountsForRealLateralDrift",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.AttackBlockedByInvulnerability_IsNotConsumedUntilItActuallyHits",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.Contact_RemovesOneHealthAndStartsInvulnerability",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.ContactAfterInvulnerabilityExpiresWithinStep_DamagesOnce",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.ContactInsidePartialWindow_UsesActualContactTimeForInvulnerability",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.ContactOnlyBeforeInvulnerabilityExpires_DoesNotRetroactivelyDamage",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.Death_ClampsHealthAndFreezesFurtherDamageAndBattleTime",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.Difficulty_RisesWithLiveBattleTimeAndCapsAfterOneMinute",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.ExactTangent_IsAContact",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.FiniteExtremeCoordinates_DoNotOverflowIntoFalseContact",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidConfiguration_IsRejectedAtConstruction",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidDeltaTime_DoesNotDamageOrAdvanceTime(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidDeltaTime_DoesNotDamageOrAdvanceTime(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidDeltaTime_DoesNotDamageOrAdvanceTime(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidDeltaTime_DoesNotDamageOrAdvanceTime(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidWindow_CannotDamageAndDoesNotPoisonAttackIds(0,0.0f,1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidWindow_CannotDamageAndDoesNotPoisonAttackIds(-1,0.0f,1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidWindow_CannotDamageAndDoesNotPoisonAttackIds(1,-0.1f,1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidWindow_CannotDamageAndDoesNotPoisonAttackIds(1,0.0f,1.1f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidWindow_CannotDamageAndDoesNotPoisonAttackIds(1,0.7f,0.3f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidWindow_CannotDamageAndDoesNotPoisonAttackIds(1,0.5f,0.5f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidWindow_CannotDamageAndDoesNotPoisonAttackIds(1,float.NaN,1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidWindow_CannotDamageAndDoesNotPoisonAttackIds(1,0.0f,float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvalidWindow_CannotDamageAndDoesNotPoisonAttackIds(100,0.8f,0.2f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.InvulnerabilityAndAttackWindow_MustOverlapAtContactTime",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.MissedAttack_CanTryAgainOnLaterTickWithSameId",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.MissingOrInactiveAttackWindow_AdvancesTimeWithoutContactDamage",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.NearMiss_DoesNotDamageDespiteOverlappingAxisRanges",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.NewAttackStillOverlappingWhenInvulnerabilityEnds_CanDamageAgain",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.NonFiniteFlightState_DoesNotDamageOrAdvanceTime",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.OlderAttackId_CannotBeReplayedAfterNewerAttackWasObserved",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.RelativeSweep_DetectsBothAircraftMovingThroughEachOther",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.RepeatedOverlap_CannotDrainHealthInsideInvulnerabilityWindow",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.SameAttack_CannotDamageAgainEvenAfterInvulnerabilityEnds",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.SweptContact_DetectsFastAircraftThatCrossBetweenFrames",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.WindowEnd_RejectsContactThatBeganAfterAttackEnded",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactCombatTests.WindowStart_RejectsContactThatEndedBeforeAttackBegan",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactVolumeCombatTests.ContactOnlyBeforeProtectionEndsCannotDamageRetroactively",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactVolumeCombatTests.DamageUsesCurrentCombinedColliderRadius",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactVolumeCombatTests.FortyFiveSpeedGlancingPassUsesSweepInsteadOfOnlyEndpointOverlap(0.99f,True)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactVolumeCombatTests.FortyFiveSpeedGlancingPassUsesSweepInsteadOfOnlyEndpointOverlap(1.0f,True)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactVolumeCombatTests.FortyFiveSpeedGlancingPassUsesSweepInsteadOfOnlyEndpointOverlap(1.01f,False)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactVolumeCombatTests.PersistentOverlapCannotDamageAgainUntilProtectionActuallyExpires",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactVolumeCombatTests.RepeatedContactsEventuallyKillAtExactlyFiveDamageEvents",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ContactVolumeCombatTests.TouchNeedsNoAttackWindowAndGrantsPointSevenSecondsProtection",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightModelTests.单步加速度受限制_所以有惯性",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightModelTests.无输入_不会自己往前冲",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightModelTests.松开油门_保持惯性滑行",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightModelTests.油门拉满_速度不会超过上限",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightModelTests.油门调低_速度会下降",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightModelTests.漂移会掉速",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightModelTests.相同输入_结果完全一致",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightModelTests.转向时出现漂移_松开后自动收敛",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightModelTests.飞出战场会被挡住",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.AccelerationThresholdUsesOnlyTheRemainingTimeAboveCruise",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.ASubCruiseSpeedLimitDoesNotUseLegacyMultiplierValidation",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.BrakeTakesPriorityOverAnExplicitSpeedOverride",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.ExitSegmentUsesItsOwnTurnRateAndAnAlreadyExpiredActionAddsNoSpeed",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.ExplicitSpeedOverrideIsTheActualPostDragForwardSpeed(0.5f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.ExplicitSpeedOverrideIsTheActualPostDragForwardSpeed(14.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.ExplicitSpeedOverrideIsTheActualPostDragForwardSpeed(21.6f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.ExplicitSpeedOverrideIsTheActualPostDragForwardSpeed(45.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.FiniteAccelerationKeepsSidewaysVelocityAndItsNormalDamping",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.FiniteAccelerationUsesItsActualTurnLimit",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.HalfStepOfHoldThenOverheatPaysOnlyForTheAuthorizedMotion",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.HalfStepOfPaidDashCompletesBeforeFiniteExit",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.HoldAddsPointOneFiveActualForwardSpeedEachStepUntilEighteen",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.HoldFromRestUsesNormalAccelerationWithoutAnInitialDash",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.HoldReachesEighteenAfterOnePointTwoSecondsWithinOneStep(0.01f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.HoldReachesEighteenAfterOnePointTwoSecondsWithinOneStep(0.02f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.HoldReachesEighteenAfterOnePointTwoSecondsWithinOneStep(0.0333f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.InvalidMotionParametersAreRejectedWithoutRejectingLowLimits",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.MotionStillClampsAtTheArenaAndRemovesOnlyOutwardVelocity",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.NeutralFiniteExitStillRemovesOverspeedAtAFiniteRate",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.OrdinaryBrakingNeutralOverspeedAndTurningMatchLegacyMotion(-1.0f,0.0f,9.0f,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.OrdinaryBrakingNeutralOverspeedAndTurningMatchLegacyMotion(0.0f,0.0f,21.6f,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.OrdinaryBrakingNeutralOverspeedAndTurningMatchLegacyMotion(1.0f,1.0f,9.0f,3.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.OrdinaryBrakingNeutralOverspeedAndTurningMatchLegacyMotion(0.0f,1.0f,12.0f,3.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.OrdinaryBrakingNeutralOverspeedAndTurningMatchLegacyMotion(1.0f,0.0f,21.6f,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.OrdinaryCommandRetainsTheLegacyInertiaAndDrag",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.OverspeedReturnsAtThirtyPerSecondWithoutClamping(9.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.OverspeedReturnsAtThirtyPerSecondWithoutClamping(18.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.FlightMotionCommandTests.OverspeedReturnsAtThirtyPerSecondWithoutClamping(7.2f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.Grid2DTests.世界坐标转格子_边界与中心都要对",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.Grid2DTests.夹紧转换_越界也不会崩",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.Grid2DTests.尺寸换算_400x300除以4_应该是100x75",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.Grid2DTests.索引往返一致_行优先",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.Grid2DTests.负坐标不能被强转截断",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.Grid2DTests.越界返回false_并给出负一",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.Grid2DTests.邻居查询_边界外不算",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GridPathfinderTests.AStarMatchesBfsShortestPathsAcrossSeededObstacleMaps",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GridPathfinderTests.BfsFindsShortestUnweightedRouteWhileAStarAvoidsExpensiveCells",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GridPathfinderTests.BothSearchesRespectWallsAndClearStalePathWhenUnreachable",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GridPathfinderTests.StartEqualsGoalReturnsSingleCellAndInvalidCostsAreRejected",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GunnerBehaviorTests.AlignedTargetRequiresReactionThenRequestsFire",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GunnerBehaviorTests.ChangingDifficultyResetsObservationAndReaction",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GunnerBehaviorTests.CloseTargetTriggersRetreatAndDeadTargetStopsFire",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GunnerBehaviorTests.DistantApproachActuallyUsesSelectedPathfindingAlgorithm(False)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GunnerBehaviorTests.DistantApproachActuallyUsesSelectedPathfindingAlgorithm(True)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GunnerBehaviorTests.FollowingTargetAtEngagementDistanceMatchesItsSpeed",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GunnerBehaviorTests.ReactiveSelectorLetsEmergencyPreemptRunningAction",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GunnerBehaviorTests.SequenceStopsOnFailureAndRunning",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.GunnerBehaviorTests.ShootingDisciplineWaitsBetweenShotsWithoutChangingWeaponCooldown",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPressureTests.EveryTierDeliversThreeRealContactsWithinItsStrengthenedPressureBudget(1,1.0f,8.7f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPressureTests.EveryTierDeliversThreeRealContactsWithinItsStrengthenedPressureBudget(1,-1.0f,8.5f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPressureTests.EveryTierDeliversThreeRealContactsWithinItsStrengthenedPressureBudget(2,1.0f,10.9f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPressureTests.EveryTierDeliversThreeRealContactsWithinItsStrengthenedPressureBudget(2,-1.0f,9.2f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPressureTests.EveryTierDeliversThreeRealContactsWithinItsStrengthenedPressureBudget(3,1.0f,12.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPressureTests.EveryTierDeliversThreeRealContactsWithinItsStrengthenedPressureBudget(3,-1.0f,12.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPressureTests.EveryTierDeliversThreeRealContactsWithinItsStrengthenedPressureBudget(4,1.0f,4.5f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPressureTests.EveryTierDeliversThreeRealContactsWithinItsStrengthenedPressureBudget(4,-1.0f,4.5f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.LowerTiersCanReenterUsingActuallyObservedCurvature(1)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.LowerTiersCanReenterUsingActuallyObservedCurvature(2)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.LowerTiersCanReenterUsingActuallyObservedCurvature(3)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.ProtectedPlayerCanReceiveAFullNewWarningWithoutRemovingProtection(1)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.ProtectedPlayerCanReceiveAFullNewWarningWithoutRemovingProtection(2)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.ProtectedPlayerCanReceiveAFullNewWarningWithoutRemovingProtection(3)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.ProtectedPlayerCanReceiveAFullNewWarningWithoutRemovingProtection(4)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.StraightRecoveryDoesNotOvershootItsEscapePointAndTurnBackBeforeItsDeadline(1)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.StraightRecoveryDoesNotOvershootItsEscapePointAndTurnBackBeforeItsDeadline(2)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.StraightRecoveryDoesNotOvershootItsEscapePointAndTurnBackBeforeItsDeadline(3)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.HardenedPursuitTempoTests.StraightRecoveryDoesNotOvershootItsEscapePointAndTurnBackBeforeItsDeadline(4)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackGrowthTests.AdvancedEnemyDoesNotSpendFifteenSecondsOnlyRepositioning(40.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackGrowthTests.AdvancedEnemyDoesNotSpendFifteenSecondsOnlyRepositioning(60.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackGrowthTests.PublicWarningStillAllowsPointThreeSecondReactionAtEveryLevel(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackGrowthTests.PublicWarningStillAllowsPointThreeSecondReactionAtEveryLevel(20.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackGrowthTests.PublicWarningStillAllowsPointThreeSecondReactionAtEveryLevel(40.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackGrowthTests.PublicWarningStillAllowsPointThreeSecondReactionAtEveryLevel(60.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackGrowthTests.UnchangedTwoKeyCircleStillReceivesMeaningfulAttacks(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackGrowthTests.UnchangedTwoKeyCircleStillReceivesMeaningfulAttacks(20.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackGrowthTests.UnchangedTwoKeyCircleStillReceivesMeaningfulAttacks(40.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackGrowthTests.UnchangedTwoKeyCircleStillReceivesMeaningfulAttacks(60.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackSafetyTests.RealLevelThreeCornerStartRequiresEscapeAfterCoastingLeftDuringReaction",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackSafetyTests.RealLevelThreeCornerStartRequiresEscapeAfterCoastingRightDuringReaction",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingAttackSafetyTests.RealLevelTwoCornerStartRequiresEscapeAfterCoastingTurnDuringReaction",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingWindupTests.LevelFourUsesInvulnerableWaitToPrepareItsNextApproachWithoutStartingAnotherAttack",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingWindupTests.WarningKeepsMovingAlongTheLockedCourseAndCannotDamage(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingWindupTests.WarningKeepsMovingAlongTheLockedCourseAndCannotDamage(20.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingWindupTests.WarningKeepsMovingAlongTheLockedCourseAndCannotDamage(40.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.MovingWindupTests.WarningKeepsMovingAlongTheLockedCourseAndCannotDamage(60.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.ABufferedHoldRepressMustPayTheRestartThreshold",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.AFullHoldPaysForExactlyOnePointFiveSeconds",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.AnAuthorizedHoldContinuesBelowTwentyFive",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.AReleasedSpaceTapCompletesItsWholePaidDash",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.CancellingAnExhaustingPaidDashKeepsItsOverheatDebt",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.DashPreemptsHoldAndRestoresItWhenEnoughEnergyRemains",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.DashWithoutEnoughEnergyForHoldRequiresShiftRelease",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.EarlyReleaseHasFiniteTailWithoutOverheat",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.ExactlyTwentyFiveCompletesDashBeforeItsOverheatDebt",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.ExhaustionOnlyAuthorizesTheAffordablePartOfTheStep",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.ExhaustionResourceTimingIsIndependentOfFixedStep(0.01f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.ExhaustionResourceTimingIsIndependentOfFixedStep(0.02f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.ExhaustionResourceTimingIsIndependentOfFixedStep(0.0333f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.HoldFromRestKeepsNormalAccelerationBelowCruise",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.HoldingShiftNeverBuysAnInitialDash",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.InvalidTimeDoesNotConsumeInputOrChangeState(0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.InvalidTimeDoesNotConsumeInputOrChangeState(-0.02f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.InvalidTimeDoesNotConsumeInputOrChangeState(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.InvalidTimeDoesNotConsumeInputOrChangeState(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.LowEnergyHoldCannotAutomaticallyStartAfterRecharge",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.NormalRechargeWaitsPointSevenSeconds",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.OverheatBlocksForPointNineThenRefillsImmediatelyAtTwentyPerSecond",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.PressDuringDashCooldownIsDroppedWithoutQueuing",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.RejectedSpaceDoesNotInterruptAnAuthorizedHold",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.RepeatedEmptyRequestsAndBrakeCannotClearOrExtendOverheat",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.ResetRestoresResourceButHeldShiftMustRelease",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.SafetyCancelLocksHeldShiftWithoutRefundingEnergy",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.SpaceImmediatelyPaysTwentyFiveAndStartsItsOwnCooldown",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PlayerBoostTests.StartsWithSixtyEnergyAndReadyDash",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ProjectileCombatTests.AircraftContactDoesNotCauseDamage",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ProjectileCombatTests.ExpiredRoundCannotHitBeyondItsLifetime",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ProjectileCombatTests.FiveHitsFinishBattleAndPreventFurtherFire",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ProjectileCombatTests.HighSpeedRoundSweepsThroughTargetAndRemovesExactlyOneSegment",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ProjectileCombatTests.HoldingFireRespectsSharedCooldown",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ProjectileCombatTests.InvalidTimeAndUninitializedWeaponAreRejected",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ProjectileCombatTests.PlayerAndEnemyFireFromTheirOwnNosesAndUseSameSpeed",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ProjectileCombatTests.ProtectionAbsorbsRoundsWithoutStoringDamage",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ProjectileCombatTests.RoundCannotHitItsOwner",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.ProjectileCombatTests.SweptRoundHitsAnAircraftCrossingItsPath",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.ACommittedChargeEndsEarlyOnlyAfterTheAircraftActuallyPassesItsOriginalTargetRay",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.BoostPaysOnceAndCancelNeverRefundsOrClearsCooldown",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.ChargeKeepsAbsoluteFortyFiveAndRecoveryImmediatelyReturnsToItsCruise(1)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.ChargeKeepsAbsoluteFortyFiveAndRecoveryImmediatelyReturnsToItsCruise(2)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.ChargeKeepsAbsoluteFortyFiveAndRecoveryImmediatelyReturnsToItsCruise(3)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.ChargeKeepsAbsoluteFortyFiveAndRecoveryImmediatelyReturnsToItsCruise(4)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.DurationPredictionIncludesExistingLateralMomentumAndBraking(15.0f,15.0f,100.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.DurationPredictionIncludesExistingLateralMomentumAndBraking(18.0f,12.0f,100.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.DurationPredictionIncludesExistingLateralMomentumAndBraking(21.0f,14.0f,100.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.DurationPredictionIncludesExistingLateralMomentumAndBraking(23.0f,8.0f,100.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.DurationPredictionIncludesExistingLateralMomentumAndBraking(24.0f,16.0f,100.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.DurationPredictionIncludesExistingLateralMomentumAndBraking(18.0f,8.0f,60.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.FinalWarningControlUsesTheActualFixedStepForASmallHeadingCorrection",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.FourByThreeCameraAllowsAnotherHitAfterThePlayerMovesTurnsAndStops(False)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.FourByThreeCameraAllowsAnotherHitAfterThePlayerMovesTurnsAndStops(True)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.FourthLevelUsesTheVisibleAttackResultAndCruiseTravelToChooseRecoverySpace(False,12.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.FourthLevelUsesTheVisibleAttackResultAndCruiseTravelToChooseRecoverySpace(True,4.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.FreshVisibleOverheatChangesBudgetChoiceAndAnUnseenOldCueExpires",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.HigherLevelsDefeatStoppingAndFixedCircleTargetsInOpenSpace(3,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.HigherLevelsDefeatStoppingAndFixedCircleTargetsInOpenSpace(4,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.HigherLevelsDefeatStoppingAndFixedCircleTargetsInOpenSpace(4,1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.HigherLevelsDefeatStoppingAndFixedCircleTargetsInOpenSpace(4,-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.InvalidGameTimeCannotStartOrPoisonAPaidBoost(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.InvalidGameTimeCannotStartOrPoisonAPaidBoost(float.NaN)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.InvalidGameTimeCannotStartOrPoisonAPaidBoost(float.PositiveInfinity)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.MovingWarningAvoidsAnActiveBodyCollisionWhenThereIsReactionSpace(1,9.5f,7.8f,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.MovingWarningAvoidsAnActiveBodyCollisionWhenThereIsReactionSpace(4,13.5f,7.8f,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.MovingWarningAvoidsAnActiveBodyCollisionWhenThereIsReactionSpace(4,24.0f,7.8f,-9.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.OriginalBattleSpawnAndAPlayerWhoStopsAfterTurningRemainAttackable(False)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.OriginalBattleSpawnAndAPlayerWhoStopsAfterTurningRemainAttackable(True)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.PlayerDeathBrakesAChargeFromFortyFiveToRestWithinOneSecondWithoutAnInstantClip",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.ProfilesDefineTheActualAircraftPerformance(1,16.0f,420.0f,24.0f,0.45f,4.2f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.ProfilesDefineTheActualAircraftPerformance(2,17.0f,450.0f,28.0f,0.5f,3.5f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.ProfilesDefineTheActualAircraftPerformance(3,18.0f,480.0f,32.0f,0.6f,2.8f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.ProfilesDefineTheActualAircraftPerformance(4,18.0f,520.0f,36.0f,0.65f,2.2f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.PursuitBoostNinetyDegreeLimitChangesTheActualAircraftHeading(1)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.PursuitBoostNinetyDegreeLimitChangesTheActualAircraftHeading(4)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.RealPursuitBoostClosesAFortyUnitGapAndUsesNinetyDegreeTurnLimit",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.RepeatedContactCannotExtendRecoveryOrMoveItsEscapePoint",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.RepeatedReadsAtOneTimeCannotRegenerateOrConsumeExtraEnergy",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.SuddenRangeEntryCancelsBoostAndKeepsEntryForwardSpeedForOneUnresetWarning",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.UnsafeShortGapDoesNotBoostAndDoesNotStopFollowing",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitBoostTests.UpgradeWaitsForBoostAndCoastBoundaryWithoutResettingBudget",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitChargeInputSourceTests.ActualFlightAndCombatRepeatAgainstStoppedPlayerUntilFiveHits(0.0f,0.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitChargeInputSourceTests.ActualFlightAndCombatRepeatAgainstStoppedPlayerUntilFiveHits(199.5f,149.5f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitChargeInputSourceTests.ChargeHasNoPreviewAndRequestsItsExplicitSpeedAbility",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitChargeInputSourceTests.EnteringRangeStartsFullMovingAimWithoutAnyPreparationPoint",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitChargeInputSourceTests.OffScreenRangeEntryKeepsChasingAndStartsFullAimOnceVisible",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitChargeInputSourceTests.OutsideRangeAlwaysChasesCurrentPositionEvenWhenOffScreen",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitChargeInputSourceTests.PredictionTracksTheMovingPlayerWhileTheWarningShowsTheNoseWithoutRestartingItsTimer",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitChargeInputSourceTests.RecoveryEndsOnTimeAndInvulnerabilityAllowsOnlyACompleteNewWarning",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitChargeInputSourceTests.RepeatedReadsDoNotAdvanceAimAndInvalidTargetClearsDamageAndPreview",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitChargeInputSourceTests.TimerFinishesWhenTargetMovesOrVisibilityChangesAndKeepsTheCommittedHeading",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitCirclePressureTests.FourthLevelDefeatsTwelveContinuousTurnStartsWithMedianAtMostTwentyFiveSeconds(1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitCirclePressureTests.FourthLevelDefeatsTwelveContinuousTurnStartsWithMedianAtMostTwentyFiveSeconds(-1.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.ACurrentAttackKeepsItsLevelUntilRecoveryHasFinished",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.EachLevelHasItsOwnRecoveryButKeepsTheFullWarningAndStraightCharge(1,1.4f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.EachLevelHasItsOwnRecoveryButKeepsTheFullWarningAndStraightCharge(2,0.65f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.EachLevelHasItsOwnRecoveryButKeepsTheFullWarningAndStraightCharge(3,0.6f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.EachLevelHasItsOwnRecoveryButKeepsTheFullWarningAndStraightCharge(4,0.2f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.EveryLevelStillDefeatsAStationaryPlayerWithRealFlightAndContact(1)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.EveryLevelStillDefeatsAStationaryPlayerWithRealFlightAndContact(2)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.EveryLevelStillDefeatsAStationaryPlayerWithRealFlightAndContact(3)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.EveryLevelStillDefeatsAStationaryPlayerWithRealFlightAndContact(4)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.FourthLevelLearnsOnlyAnAlreadyObservedConsistentTurnAndBoundsItsPrediction",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.InterceptionLeadsTheMovingTargetWhereTheBasicPursuerDoesNot",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.ObservationDoesNotExposeSamplesNewerThanTheCutoffOrRepeatedSameClockReads",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.PursuitProgressesThroughFourDistinctLevels(20.0f,2)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.PursuitProgressesThroughFourDistinctLevels(40.0f,3)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.PursuitProgressesThroughFourDistinctLevels(60.0f,4)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.RepeatedReadsCannotManufactureObservationHistoryOrAdaptation",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.RequestedDifficultyWaitsForTheAttackBoundaryAndDoesNotResetItsWarning",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitDifficultyTests.SideApproachChangesTheRouteWithoutWaitingForAPreparationPoint",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitMemoryWindowTests.AVisibleReversalUsesTheSameElapsedHistoryAtFiftyAndOneHundredHertz",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitMemoryWindowTests.StableVisibleCurvatureCanActivateRecoveryAtEverySupportedFixedStep(0.005f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitMemoryWindowTests.StableVisibleCurvatureCanActivateRecoveryAtEverySupportedFixedStep(0.01f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitMemoryWindowTests.StableVisibleCurvatureCanActivateRecoveryAtEverySupportedFixedStep(0.02f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitMemoryWindowTests.StableVisibleCurvatureCanActivateRecoveryAtEverySupportedFixedStep(0.0333f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitSkillProfileTests.FourthLevelCanUseOnlyRecordedVisibleEvasionAndFallsBackWithoutHistory",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitSkillProfileTests.NarrowCameraApproachUsesItsVisibleCornerAndGivesStoppedTargetsTurningRoom(0.0f,0.3f,0.1f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitSkillProfileTests.NarrowCameraApproachUsesItsVisibleCornerAndGivesStoppedTargetsTurningRoom(9.0f,0.0f,-0.4f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitSkillProfileTests.OffscreenVerticalApproachChoosesAWideVisibleEntryWithoutAnArrivalGate",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitSkillProfileTests.ThreeRoutePlannerHasBoundedWorkAndKeepsItsSideUntilItsHoldExpires",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitSkillProfileTests.VisibleCueUsesTheSameDelayedCutoffAsMotionAndInvisibleSamplesDoNotReplaceIt",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.PursuitSkillProfileTests.VisibleOverheatCanSpendFourthLevelBudgetOnlyAfterItPassesTheBrakingCheck",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.RamSpeedTests.AimingKeepsTheSameFullThrottleAsPursuit",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.RamSpeedTests.ChargeRequestsFiveTimesNormalSpeedWithoutDrawingAChargePreview",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.RamSpeedTests.DashIsStraightAlongTheCommittedHeadingDespiteInheritedSidewaysVelocity",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.RamSpeedTests.EndOfChargeReturnsToNormalSpeedOnTheFirstRecoveryStep",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.RamSpeedTests.LegacyFlightRetainsAccelerationWhileExplicitAbilityModeClampsItsNormalLimit",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.RamSpeedTests.LosingTheTargetCancelsTheTemporarySpeedAbility",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.RamSpeedTests.RealChargeStepTravelsAtFiveTimesTheNormalFlightSpeed",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.TieredContactDamageTests.ExplicitDamageStillRequiresRealSweptContact",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.TieredContactDamageTests.HigherDamageCannotBypassOrRefreshExistingProtection",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.TieredContactDamageTests.InvalidDamageDoesNotAdvanceAnyCombatState(0)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.TieredContactDamageTests.InvalidDamageDoesNotAdvanceAnyCombatState(-1)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.TieredContactDamageTests.InvalidDamageDoesNotAdvanceAnyCombatState(int.MinValue)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.TieredContactDamageTests.InvalidRadiusStillAdvancesClockWithoutDamage",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.TieredContactDamageTests.LegacyContactKeepsConstructorDamageAfterExplicitDamageCall",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.TieredContactDamageTests.LethalDamageClampsHealthAndCountsOneContact",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.TieredContactDamageTests.PendingDifficultyDoesNotChangeDamageInsideAnAttackOrRecovery",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.TieredContactDamageTests.PerContactDamageChangesWithoutResettingHealthClockOrSequence",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.WindupCounterWindowTests.NearObliqueWarningHasTheSameTurnAndPaidDashCountersAtBothFixedSteps(135.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.WindupCounterWindowTests.NearObliqueWarningHasTheSameTurnAndPaidDashCountersAtBothFixedSteps(225.0f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.WindupCounterWindowTests.NearObliqueWarningKeepsBodyClearanceUntilTheActualCharge(135.0f,0.01f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.WindupCounterWindowTests.NearObliqueWarningKeepsBodyClearanceUntilTheActualCharge(135.0f,0.02f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.WindupCounterWindowTests.NearObliqueWarningKeepsBodyClearanceUntilTheActualCharge(225.0f,0.01f)",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.EditMode.WindupCounterWindowTests.NearObliqueWarningKeepsBodyClearanceUntilTheActualCharge(225.0f,0.02f)",
+          "result": "Passed"
+        }
+      ]
+    },
+    {
+      "mode": "playmode",
+      "total": "68",
+      "passed": "68",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "42.5041299",
+      "cases": [
+        {
+          "name": "DogfightThreatAI.Tests.Menu.MainMenuFlowTests.ClosingSettingsDiscardsDraftWithoutChangingAudio",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.Menu.MainMenuFlowTests.ControlsAndCreditsHaveWorkingReturnPaths",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.Menu.MainMenuFlowTests.ModalBlocksMenuAndRestoresItsOriginFocus",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.Menu.MainMenuFlowTests.SplashAndTransitionCannotLaunchBattle",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.Menu.MenuToBattleTests.ReturningToMenuAndReenteringKeepsRiverValleyAndResetsDamagedBattle",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.Menu.MenuToBattleTests.StartGameAndReturnMenuPreserveBothScenesAndResetAircraft",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.AimOrbitIntegrationTests.MovingAimMaintainsCruiseSpeedWhileTheRealControllerTurnsAndAdvances",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests.ArtMovementDoesNotMoveTheDamageVolume",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests.DisabledVolumeOrSimulationCannotAuthorizeContact",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests.SavedBattleHasTwoSimulationAnchoredContactVolumes",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests.DisablingAiAlsoHidesAnyYellowAimMarker",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests.MovingAimCommitsAFixedWorldLaunchLaneThenChargesAlongIt",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests.WarningLaneFadesAndTapersWithoutAnEndpointArrow",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests.YellowAimKeepsAThinLiveDirectionWithoutBroadDangerFill",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.AimCountdownAtNormalSpeedThenChargeCommitsAndRecovers",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.AutomaticDifficulty_ReflectsFourRealLevelsAcrossBattleClocks",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.BattleScene_HasFairAircraftCombatAuthorityAndRuntimeCues",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.CornerPlayer_EnemyFindsVisibleAttackAndCanRecoverInsideArena",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.DisabledThenDestroyedTarget_EnemyBrakesSafely",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.FirstSimulationStep_InterpolationUsesEnemySpawnState",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.MovingAndTurningPlayerStops_EnemyAttacksTheNewPosition",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.MovingWarningShowsTheNoseThenCommitsItsWorldLaunchLaneBeforeCharge",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.NonChargeOverlapDamagesOnceAndProtectionPreventsImmediateRepeats",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.OutsideAimRange_EnemyKeepsApproachingUntilThePlayerIsVisibleAndInRange",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.RecoveryFinishesOnTimeWithoutResettingProtectionAndEnemyCanReaim",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.RestartBattle_ResetsHealthAndRestartsTheFirstFullAim",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.StationaryPlayerReceivesContactHitsAtProtectedIntervalsAndEventuallyDies",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.CameraHitShakeIsolationTests.FollowingArtAfterHitShakeMatchesFollowingTheUnshakenInterpolatedPosition",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.CannonBattleTests.DestroyingEnemyOpensResultAndStopsBothAircraft",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.CannonBattleTests.EnemyUsesBehaviorTreeToFireAndFiveSegmentHudTracksHealth",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.CannonBattleTests.HudDisplaysFourSegmentsAndBothPhysicalRounds",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.CannonBattleTests.MenuPointerInputCannotLeakIntoNextShot",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.CannonBattleTests.PauseFreezesBattleAndDifficultyAppliesThenResumeRestoresClock",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.CannonBattleTests.QuitConfirmationUsesNativeMenuAndCancelReturnsToPause",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.CannonBattleTests.SceneUsesOneCannonForBothAircraftAndSweptRoundDamagesEnemy",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.AimKeepsProfileSpeedAndChargeMovesAtAbsoluteFortyFiveThenRestores",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.ChargeDoesNotRenderAnyPathStreakArrowOrDangerMarker",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.CollisionInvulnerabilityLastsPointSevenSeconds",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.CollisionUsesTheCurrentTwoColliderRadiiInsteadOfAnOldFixedDistance",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.ContactOutsideChargeImmediatelyDamagesThePlayer",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.ContinuousContactCannotRepeatDamageBeforeProtectionExpires",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.DisabledColliderOrHitboxStopsDamageWhileTheCombatClockContinues",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.FortyFiveSpeedSweepDetectsCrossingEvenWhenBothEndpointsMiss",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.HitShakeMovesOnlyArtAndReturnsToItsLogicalPosition",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.RecoveryContactCanDamageOnceProtectionHasExpired",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.SavedBattleContainsBothRealRootContactVolumes",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.FourTierBattleTests.DifficultyPreviewSelectsEachRealLevelInsteadOfChangingOnlyTheHud",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.FourTierBattleTests.EveryDifficultyKeepsAFullMovingWarningWithoutHovering",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.FourTierBattleTests.SavedBattleAutomaticallyAdvancesThroughFourLevels",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.FourTierBattleTests.SelectingAHigherLevelCannotResetAnOngoingWarningOrTurnItsCharge",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.AShiftTapBetweenFixedStepsStillReceivesOnePaidThrustStep",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.BrakeDropsPendingSpaceAndLocksHeldAbilityKeys",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.BrakeTapBetweenFixedStepsDropsAnOlderPendingSpace",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.BufferedReleaseRepressCannotKeepALowEnergyHoldAuthorized",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.DeathDropsUnconsumedEdgesAndLocksUntilRelease",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.FocusLossCancelsPaidDashWithoutRefund",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.FocusLossDropsQueuedEdgesAndRequiresRelease",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.HeldSpaceNeverRepeatsAfterCooldown",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.NewBattleRestoresTankButHeldKeysNeedRelease",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.SpacePressedDuringCooldownCannotBecomeADeferredDash",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.SpaceTapBetweenFixedStepsIsConsumedExactlyOnce",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.UnityDownEdgeSurvivesAnAlreadyReleasedHeldSample",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PursuitBoostBattleTests.PursuitBoostUsesTheRealSceneMotionCommandAndClearsItsTrailAtWarning",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.PursuitBoostBattleTests.RestartClearsBothResourcesCooldownAndPenalty",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.TieredDamageBattleTests.AllFourPublicDamageValuesReachTheRealContactAuthority",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.TieredDamageBattleTests.ChangingLevelKeepsTheSameHealthProtectionAndAFullNextWarning",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.VisibleAttackReturnTests.AtFortySeconds_EnemyDirectlyReturnsToViewAndStartsAFullAim",
+          "result": "Passed"
+        },
+        {
+          "name": "DogfightThreatAI.Tests.PlayMode.VisibleAttackReturnTests.AtSixtySeconds_EnemyDirectlyReturnsToViewAndStartsAFullAim",
+          "result": "Passed"
+        }
+      ]
+    }
+  ],
+  "capture": "Native camera and uGUI rendered to 1920x1080 RenderTexture in PlayMode; controlled test states",
+  "metadata": {
+    "normalized": 39,
+    "unique_project_guids": 389
+  },
+  "portable_metadata_recheck": {
+    "result": "Passed",
+    "total": "7",
+    "passed": "7",
+    "failed": "0"
+  }
+}

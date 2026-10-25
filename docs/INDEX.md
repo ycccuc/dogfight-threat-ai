@@ -81,6 +81,11 @@
 | Kenney 素材说明 | `art-source/third-party/kenney-pixel-shmup/NOTES.md` | 记录授权与来源，需与第三方素材放在一起 |
 | PR 模板 | `.github/PULL_REQUEST_TEMPLATE.md` | GitHub 自动读取，位置固定 |
 
+## 本轮射击与 HUD
+
+- [机炮与五段圆环使用、配置和架构说明](04-manuals/机炮与圆环HUD.md)
+- [机炮、菜单与 AI 算法验证](03-test/机炮与圆环HUD验证.md)
+
 ## 变更记录
 
 - 2026-10-25：合并开始界面、河谷地图和双向导航入口；补充现行 GameScene 玩法与本轮集成验证索引。

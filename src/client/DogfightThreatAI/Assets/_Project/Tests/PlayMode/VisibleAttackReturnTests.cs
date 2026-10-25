@@ -16,6 +16,7 @@ using UnityEngine.TestTools;
 
 namespace DogfightThreatAI.Tests.PlayMode
 {
+    [Category("LegacyRam")]
     public sealed class VisibleAttackReturnTests
     {
         const BindingFlags Private = BindingFlags.NonPublic | BindingFlags.Instance;
@@ -27,6 +28,7 @@ namespace DogfightThreatAI.Tests.PlayMode
             _originalScale = Time.timeScale;
             Time.timeScale = 0f;
             yield return SceneManager.LoadSceneAsync(SceneNavigation.GameScene, LoadSceneMode.Single);
+            LegacyRamFixture.Activate();
         }
 
         [UnityTearDown]

@@ -16,6 +16,7 @@ using UnityEngine.TestTools;
 
 namespace DogfightThreatAI.Tests.PlayMode
 {
+    [Category("LegacyRam")]
     public sealed class BattleChaseIntegrationTests
     {
         const BindingFlags PrivateInstance = BindingFlags.Instance | BindingFlags.NonPublic;
@@ -42,6 +43,7 @@ namespace DogfightThreatAI.Tests.PlayMode
         {
             Time.timeScale = 0f;
             yield return SceneManager.LoadSceneAsync(SceneNavigation.GameScene, LoadSceneMode.Single);
+            LegacyRamFixture.Activate();
             FindSceneAircraft();
             Assert.IsTrue(_player.IsInitialized);
             Assert.IsTrue(_enemy.IsInitialized);
@@ -58,6 +60,7 @@ namespace DogfightThreatAI.Tests.PlayMode
             // can legitimately leave view during a variable number of setup frames.
             Time.timeScale = 0f;
             yield return SceneManager.LoadSceneAsync(SceneNavigation.GameScene, LoadSceneMode.Single);
+            LegacyRamFixture.Activate();
             FindSceneAircraft();
             Assert.AreEqual(2, Object.FindObjectsOfType<PlayerController>().Length);
             Assert.AreEqual(1, Object.FindObjectsOfType<BattleCombatController>().Length);
@@ -422,6 +425,7 @@ namespace DogfightThreatAI.Tests.PlayMode
         {
             Time.timeScale = 0f;
             yield return SceneManager.LoadSceneAsync(SceneNavigation.GameScene, LoadSceneMode.Single);
+            LegacyRamFixture.Activate();
             FindSceneAircraft();
             FlightState spawn = _enemy.State;
             typeof(PlayerController).GetMethod("FixedUpdate", PrivateInstance).Invoke(_enemy, null);

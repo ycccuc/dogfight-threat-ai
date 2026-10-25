@@ -25,12 +25,16 @@ namespace DogfightThreatAI.Gameplay.InputSource
 
         PursuitChargeInputSource _source;
         ChaseWorldView _world;
+        GunnerPilot _gunner;
+        int _gunnerLevel = 1;
+        public bool WantsFire => _gunner != null && _gunner.WantsFire;
+        public GunnerPilot Gunner => _gunner;
 
         public PlayerController Target => target;
         public BattleCombatController Combat => combat;
         public AttackRunPhase Phase => _source != null ? _source.Phase : AttackRunPhase.NoTarget;
         public AttackTactic Tactic => _source != null ? _source.Tactic : AttackTactic.Pursuit;
-        public int Level => _source != null ? _source.Level : 1;
+        public int Level => _gunner != null ? _gunnerLevel : _source != null ? _source.Level : 1;
         public int CollisionDamage => _source != null ? _source.CollisionDamage : PursuitDifficultyProfile.ForLevel(1).CollisionDamage;
         public int DifficultyOverride => difficultyOverride;
         public float RecoverySeconds => _source != null ? _source.RecoverySeconds : PursuitDifficultyProfile.ForLevel(1).RecoverySeconds;
@@ -58,7 +62,8 @@ namespace DogfightThreatAI.Gameplay.InputSource
         public float BoostCooldownRemaining => _source != null ? _source.BoostCooldownRemaining : 0f;
         public bool IsPursuitBoosting => isActiveAndEnabled && _source != null && _source.IsPursuitBoosting;
         public bool IsBoostCoasting => isActiveAndEnabled && _source != null && _source.IsBoostCoasting;
-        public FlightMotionCommand MotionCommand => isActiveAndEnabled && _source != null ? _source.MotionCommand : FlightMotionCommand.Ordinary();
+        public FlightMotionCommand MotionCommand => isActiveAndEnabled && _gunner != null ? _gunner.MotionCommand :
+            isActiveAndEnabled && _source != null ? _source.MotionCommand : FlightMotionCommand.Ordinary();
 
         public Vec2 GetPreviewPoint(int index)
         {
@@ -73,13 +78,20 @@ namespace DogfightThreatAI.Gameplay.InputSource
 
         public void SetDifficulty(int level)
         {
-            if (level < 0 || level > 4) throw new ArgumentOutOfRangeException(nameof(level));
+            int max = combat != null && combat.UsesProjectileCombat ? combat.Difficulties.Length : 4;
+            if (level < 0 || level > max) throw new ArgumentOutOfRangeException(nameof(level));
             difficultyOverride = level;
             if (_source != null) _source.RequestDifficulty(level);
+            if (_gunner != null)
+            {
+                _gunnerLevel = Mathf.Clamp(level, 1, combat.Difficulties.Length);
+                _gunner.SetProfile(combat.Difficulties[_gunnerLevel - 1].ToSpec());
+            }
         }
 
         void Update()
         {
+            if (combat != null && combat.UsesProjectileCombat) return;
             if (combat != null && !combat.Status.IsPlayerAlive) return;
             if (UnityEngine.Input.GetKeyDown(KeyCode.F1)) SetDifficulty(1);
             else if (UnityEngine.Input.GetKeyDown(KeyCode.F2)) SetDifficulty(2);
@@ -92,6 +104,20 @@ namespace DogfightThreatAI.Gameplay.InputSource
         {
             if (!isActiveAndEnabled || self == null || !self.IsInitialized || combat == null)
                 return new FlightInput(-1f, 0f);
+
+            if (combat.UsesProjectileCombat)
+            {
+                if (_gunner == null)
+                {
+                    _gunnerLevel = Mathf.Clamp(difficultyOverride, 1, combat.Difficulties.Length);
+                    var bounds = self.ArenaBounds ?? Bounds2D.Centered(new Vec2(200, 150));
+                    _gunner = new GunnerPilot(new Grid2D(bounds, combat.NavigationCellSize), combat.Weapon,
+                        combat.Difficulties[_gunnerLevel - 1].ToSpec());
+                }
+                bool alive = combat.Status.IsPlayerAlive && combat.Simulation.EnemyHealth > 0 &&
+                    target != null && target.IsInitialized && target.isActiveAndEnabled;
+                return _gunner.Tick(self.State, alive ? target.State : default, alive, deltaTime);
+            }
 
             // 不在 Awake 读取其他组件的初始化结果：首次固定步调用时再接线。
             if (_source == null)

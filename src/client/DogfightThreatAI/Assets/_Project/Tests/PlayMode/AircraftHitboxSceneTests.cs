@@ -9,6 +9,7 @@ using UnityEngine.TestTools;
 
 namespace DogfightThreatAI.Tests.PlayMode
 {
+    [Category("LegacyRam")]
     public sealed class AircraftHitboxSceneTests
     {
         float _originalTimeScale;
@@ -20,6 +21,7 @@ namespace DogfightThreatAI.Tests.PlayMode
             _originalTimeScale = Time.timeScale;
             Time.timeScale = 0f;
             yield return SceneManager.LoadSceneAsync(SceneNavigation.GameScene, LoadSceneMode.Single);
+            LegacyRamFixture.Activate();
             _combat = Object.FindObjectOfType<BattleCombatController>();
             Assert.IsNotNull(_combat);
         }

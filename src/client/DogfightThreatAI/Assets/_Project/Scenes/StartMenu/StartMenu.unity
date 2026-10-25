@@ -1679,6 +1679,7 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
+  - component: {fileID: 991772778}
   - component: {fileID: 991772776}
   - component: {fileID: 991772777}
   m_Layer: 5
@@ -2845,3 +2846,11 @@ SceneRoots:
   m_Roots:
   - {fileID: 1447519547}
   - {fileID: 2134586}
+--- !u!222 &991772778
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 991772775}
+  m_CullTransparentMesh: 1

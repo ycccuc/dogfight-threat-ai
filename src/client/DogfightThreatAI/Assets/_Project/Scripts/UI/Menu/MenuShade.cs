@@ -5,6 +5,7 @@ namespace DogfightThreatAI.UI.Menu
 {
     /// <summary>Native UI mesh: no transient texture references when saving the authored scene.</summary>
     [AddComponentMenu("Dogfight/UI/Menu Shade")]
+    [RequireComponent(typeof(CanvasRenderer))]
     public sealed class MenuShade : MaskableGraphic
     {
         protected override void OnPopulateMesh(VertexHelper vh)

@@ -15,6 +15,7 @@ using UnityEngine.TestTools;
 
 namespace DogfightThreatAI.Tests.PlayMode
 {
+    [Category("LegacyRam")]
     public sealed class AttackCuePresentationTests
     {
         const BindingFlags Private = BindingFlags.Instance | BindingFlags.NonPublic;
@@ -28,6 +29,7 @@ namespace DogfightThreatAI.Tests.PlayMode
             _originalScale = Time.timeScale;
             Time.timeScale = 0f;
             yield return SceneManager.LoadSceneAsync(SceneNavigation.GameScene, LoadSceneMode.Single);
+            LegacyRamFixture.Activate();
             _ai = Object.FindObjectOfType<ChaseAiInputSource>();
             _enemy = _ai.GetComponent<PlayerController>();
             _player = _ai.Target;
