@@ -37,13 +37,24 @@ namespace DogfightThreatAI.Gameplay
         }
 
         /// <summary>由 PlayerController 在 Awake 里根据 AircraftData 设定。</summary>
-        public void SetVisualForward(float degrees) => visualForwardOffsetDeg = degrees;
+        public void SetVisualForward(float degrees)
+        {
+            visualForwardOffsetDeg = degrees;
+        }
 
-        void Reset() => spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        // 为编辑器中的新组件补齐机身精灵引用。
+        void Reset()
+        {
+            spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+        }
 
+        // 缓存机身渲染器，供后续状态显示使用。
         void Awake()
         {
-            if (spriteRenderer == null) spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            if (spriteRenderer == null)
+            {
+                spriteRenderer = GetComponentInChildren<SpriteRenderer>();
+            }
         }
 
         /// <param name="current">当前固定步状态</param>
@@ -74,9 +85,13 @@ namespace DogfightThreatAI.Gameplay
             }
         }
 
+        // 在基础位置之上叠加短暂受击抖动。
         void LateUpdate()
         {
-            if (!_hasRendered) return;
+            if (!_hasRendered)
+            {
+                return;
+            }
             if (_shakeRemaining <= 0f)
             {
                 transform.position = _renderedPosition;
@@ -88,19 +103,29 @@ namespace DogfightThreatAI.Gameplay
             transform.position = _renderedPosition + offset;
             _shakeElapsed += Time.deltaTime;
             _shakeRemaining = Mathf.Max(0f, _shakeRemaining - Time.deltaTime);
-            if (_shakeRemaining <= 0f) transform.position = _renderedPosition;
+            if (_shakeRemaining <= 0f)
+            {
+                transform.position = _renderedPosition;
+            }
         }
 
+        // 清除表现层的抖动状态。
         void OnDisable()
         {
             _shakeRemaining = 0f;
-            if (_hasRendered) transform.position = _renderedPosition;
+            if (_hasRendered)
+            {
+                transform.position = _renderedPosition;
+            }
         }
 
         /// <summary>观战/回放时把自己隐藏（不要销毁，状态还要用）。</summary>
         public void SetVisible(bool visible)
         {
-            if (spriteRenderer != null) spriteRenderer.enabled = visible;
+            if (spriteRenderer != null)
+            {
+                spriteRenderer.enabled = visible;
+            }
         }
     }
 }

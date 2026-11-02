@@ -61,7 +61,10 @@ namespace DogfightThreatAI.Tests.EditMode
             world.Player = FlightState.At(new Vec2(0f, 4f));
             clock.Now = .3f;
             ai.ReadInput(Dt);
-            Assert.AreEqual(before, ai.PredictionPoint, "A basic observer must not read the newly changed target before its observation delay.");
+            Assert.AreEqual(
+                before,
+                ai.PredictionPoint,
+                "A basic observer must not read the newly changed target before its observation delay.");
             clock.Now = .48f;
             FlightInput input = ai.ReadInput(Dt);
             Assert.AreEqual(AttackRunPhase.Windup, ai.Phase);
@@ -160,7 +163,15 @@ namespace DogfightThreatAI.Tests.EditMode
         [TestCase(199.5f, 149.5f)]
         public void ActualFlightAndCombatRepeatAgainstStoppedPlayerUntilFiveHits(float x, float y)
         {
-            var world = new World { Player = FlightState.At(new Vec2(x, y)), Enemy = FlightState.At(new Vec2(x - 6f, y - 2f), .3f) };
+            var world = new World
+            {
+                Player = FlightState.At(new Vec2(x, y)),
+                Enemy = FlightState.At(
+                new Vec2(
+                    x - 6f,
+                    y - 2f),
+                .3f)
+            };
             var combat = new ContactCombatModel(invulnerabilitySeconds: .7f);
             var ai = Create(world, combat);
             var flight = FlightModel.From(Spec, Arena);
@@ -170,11 +181,17 @@ namespace DogfightThreatAI.Tests.EditMode
                 FlightInput input = ai.ReadInput(Dt);
                 Assert.That(input.Throttle, Is.InRange(-1f, 1f));
                 Assert.That(input.Steer, Is.InRange(-1f, 1f));
-                if (ai.Phase != AttackRunPhase.Charge) Assert.IsFalse(ai.AttackWindow.IsActive);
+                if (ai.Phase != AttackRunPhase.Charge)
+                {
+                    Assert.IsFalse(ai.AttackWindow.IsActive);
+                }
                 flight.Step(ref world.Enemy, input, Dt, ai.MotionCommand);
                 combat.StepContact(world.Player, world.Player, previous, world.Enemy, Dt, 1f);
             }
-            Assert.AreEqual(0, combat.Status.PlayerHealth, $"stationary target not defeated; time={combat.Status.ElapsedTime}, phase={ai.Phase}, enemy={world.Enemy.Position}");
+            Assert.AreEqual(
+                0,
+                combat.Status.PlayerHealth,
+                $"stationary target not defeated; time={combat.Status.ElapsedTime}, phase={ai.Phase}, enemy={world.Enemy.Position}");
             Assert.AreEqual(5, combat.Status.HitSequence);
         }
 
@@ -224,23 +241,31 @@ namespace DogfightThreatAI.Tests.EditMode
         }
 
         static PursuitChargeInputSource Create(World world, ICombatStatusView combat)
-            => new PursuitChargeInputSource(world, 2, Spec, combat, Arena);
+        {
+            return new PursuitChargeInputSource(world, 2, Spec, combat, Arena);
+        }
 
         sealed class World : IWorldView
         {
             public FlightState Enemy = FlightState.At(new Vec2(-6f, 0f), 0f);
             public FlightState Player = FlightState.At(Vec2.Zero);
             public bool Alive = true;
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0
                 ? new AircraftSnapshot(2, 2, Enemy)
                 : new AircraftSnapshot(1, 1, Player, Alive, true);
+            }
         }
 
         sealed class Clock : ICombatStatusView
         {
             public float Now, Invulnerable;
             public int Hits;
+
             public CombatStatus Status => new CombatStatus(5, 5, Hits, Invulnerable, Now);
         }
     }

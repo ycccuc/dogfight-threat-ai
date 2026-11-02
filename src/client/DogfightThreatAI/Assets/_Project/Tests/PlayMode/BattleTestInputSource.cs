@@ -8,6 +8,9 @@ namespace DogfightThreatAI.Tests.PlayMode
     {
         public FlightInput DesiredInput;
 
-        public FlightInput ReadInput(float deltaTime) => DesiredInput;
+        public FlightInput ReadInput(float deltaTime)
+        {
+            return DesiredInput;
+        }
     }
 }

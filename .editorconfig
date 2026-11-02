@@ -32,8 +32,20 @@ csharp_new_line_before_finally = true
 # using 指令排序：System 开头的排最前
 dotnet_sort_system_directives_first = true
 
-# 命名空间用文件作用域（C# 10+ 的 namespace X; 写法）
-csharp_style_namespace_declarations = file_scoped:suggestion
+# Unity 2022 / Core 的 C# 9 边界使用块级命名空间。
+csharp_style_namespace_declarations = block_scoped:suggestion
+
+# 条件和循环即使只有一条语句，也写完整花括号。
+csharp_prefer_braces = true:warning
+csharp_preserve_single_line_blocks = false
+csharp_preserve_single_line_statements = false
+
+# 方法与构造函数采用展开的块结构；简单只读属性可保留表达式写法。
+csharp_style_expression_bodied_methods = false:suggestion
+csharp_style_expression_bodied_constructors = false:suggestion
+csharp_style_expression_bodied_operators = false:suggestion
+csharp_style_expression_bodied_local_functions = false:suggestion
+csharp_style_expression_bodied_properties = when_on_single_line:suggestion
 
 # 私有字段加下划线前缀
 dotnet_naming_rule.private_fields_underscore.severity = suggestion

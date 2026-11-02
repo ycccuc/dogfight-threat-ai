@@ -8,13 +8,22 @@ namespace DogfightThreatAI.UI.Battle
     public sealed class SegmentedHealthRing : MaskableGraphic
     {
         int _health = 5;
+
         public int FilledSegments => _health;
+
+        // 限制生命显示范围，并在数值变化时请求重绘。
         public void SetHealth(int health)
         {
             int next = Mathf.Clamp(health, 0, 5);
-            if (next == _health) return;
-            _health = next; SetVerticesDirty();
+            if (next == _health)
+            {
+                return;
+            }
+            _health = next;
+            SetVerticesDirty();
         }
+
+        // 根据当前生命绘制五段圆环网格。
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
@@ -23,19 +32,29 @@ namespace DogfightThreatAI.UI.Battle
             for (int segment = 0; segment < 5; segment++)
             {
                 Color tint = segment < _health ? color : new Color(color.r, color.g, color.b, color.a * .18f);
-                if (_health <= 1 && segment < _health) tint = new Color(.82f, .37f, .29f, color.a);
+                if (_health <= 1 && segment < _health)
+                {
+                    tint = new Color(.82f, .37f, .29f, color.a);
+                }
                 for (int step = 0; step < 24; step++)
                 {
                     float a = (90 - segment * 72 - 3 - step * 66f / 24) * Mathf.Deg2Rad;
                     float b = (90 - segment * 72 - 3 - (step + 1) * 66f / 24) * Mathf.Deg2Rad;
                     int index = vh.currentVertCount;
-                    Add(vh, rect.center, a, outer, tint); Add(vh, rect.center, b, outer, tint);
-                    Add(vh, rect.center, b, inner, tint); Add(vh, rect.center, a, inner, tint);
-                    vh.AddTriangle(index, index + 1, index + 2); vh.AddTriangle(index, index + 2, index + 3);
+                    Add(vh, rect.center, a, outer, tint);
+                    Add(vh, rect.center, b, outer, tint);
+                    Add(vh, rect.center, b, inner, tint);
+                    Add(vh, rect.center, a, inner, tint);
+                    vh.AddTriangle(index, index + 1, index + 2);
+                    vh.AddTriangle(index, index + 2, index + 3);
                 }
             }
         }
+
+        // 把指定角度和半径转换为圆环顶点。
         static void Add(VertexHelper vh, Vector2 center, float angle, float radius, Color tint)
-            => vh.AddVert(center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius, tint, Vector2.zero);
+        {
+            vh.AddVert(center + new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * radius, tint, Vector2.zero);
+        }
     }
 }

@@ -17,12 +17,15 @@ namespace DogfightThreatAI.Tests.EditMode
     {
         const float Dt = 1f / 50f;   // 固定步长，必须和 Time.fixedDeltaTime 一致
 
-        static FlightModel NewModel() => new FlightModel(
+        static FlightModel NewModel()
+        {
+            return new FlightModel(
             minSpeed: 2f,
             maxSpeed: 8f,
             acceleration: 12f,
             turnRateDegPerSec: 180f,
             drag: 0f);
+        }
 
         /// <summary>测试 1：油门拉满也不能超过极速上限。</summary>
         [Test]
@@ -30,10 +33,12 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             var model = NewModel();
             var state = FlightState.At(Vec2.Zero);
-            var full  = new FlightInput(1f, 0f);
+            var full = new FlightInput(1f, 0f);
 
-            for (int i = 0; i < 500; i++) model.Step(ref state, full, Dt);
-
+            for (int i = 0; i < 500; i++)
+            {
+                model.Step(ref state, full, Dt);
+            }
             Assert.LessOrEqual(state.Speed, 8f + 1e-3f, "速度超过了 maxSpeed，手感边界失效");
             Assert.Greater(state.Speed, 0f, "飞机应该已经飞起来了");
         }
@@ -44,7 +49,7 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             var model = NewModel();
             var state = FlightState.At(Vec2.Zero);
-            var full  = new FlightInput(1f, 0f);
+            var full = new FlightInput(1f, 0f);
 
             model.Step(ref state, full, Dt);
 
@@ -59,11 +64,16 @@ namespace DogfightThreatAI.Tests.EditMode
             var model = NewModel();
             var state = FlightState.At(Vec2.Zero);
 
-            for (int i = 0; i < 200; i++) model.Step(ref state, new FlightInput(1f, 0f), Dt);
+            for (int i = 0; i < 200; i++)
+            {
+                model.Step(ref state, new FlightInput(1f, 0f), Dt);
+            }
             float fast = state.Speed;
 
-            for (int i = 0; i < 200; i++) model.Step(ref state, new FlightInput(-1f, 0f), Dt);
-
+            for (int i = 0; i < 200; i++)
+            {
+                model.Step(ref state, new FlightInput(-1f, 0f), Dt);
+            }
             Assert.Less(state.Speed, fast, "减速无效，说明油门没接进速度目标");
             Assert.Less(state.Speed, 0.5f, "按住 S 之后应该基本停下来");
             Assert.GreaterOrEqual(state.Speed, 0f, "速度不能为负");
@@ -87,7 +97,7 @@ namespace DogfightThreatAI.Tests.EditMode
 
             Assert.AreEqual(a.Position.X, b.Position.X, 1e-6f);
             Assert.AreEqual(a.Position.Y, b.Position.Y, 1e-6f);
-            Assert.AreEqual(a.Heading,    b.Heading,    1e-6f);
+            Assert.AreEqual(a.Heading, b.Heading, 1e-6f);
         }
 
         /// <summary>
@@ -101,8 +111,10 @@ namespace DogfightThreatAI.Tests.EditMode
             var model = NewModel();
             var state = FlightState.At(Vec2.Zero);
 
-            for (int i = 0; i < 500; i++) model.Step(ref state, FlightInput.Neutral, Dt);
-
+            for (int i = 0; i < 500; i++)
+            {
+                model.Step(ref state, FlightInput.Neutral, Dt);
+            }
             Assert.AreEqual(0f, state.Speed, 1e-3f, "不按任何键飞机却在移动");
             Assert.AreEqual(0f, state.Position.Magnitude, 1e-3f, "不按任何键飞机却位移了");
         }
@@ -114,11 +126,16 @@ namespace DogfightThreatAI.Tests.EditMode
             var model = NewModel();
             var state = FlightState.At(Vec2.Zero);
 
-            for (int i = 0; i < 100; i++) model.Step(ref state, new FlightInput(1f, 0f), Dt);
+            for (int i = 0; i < 100; i++)
+            {
+                model.Step(ref state, new FlightInput(1f, 0f), Dt);
+            }
             float cruise = state.Speed;
 
-            for (int i = 0; i < 50; i++) model.Step(ref state, FlightInput.Neutral, Dt);
-
+            for (int i = 0; i < 50; i++)
+            {
+                model.Step(ref state, FlightInput.Neutral, Dt);
+            }
             Assert.AreEqual(cruise, state.Speed, 0.05f, "松开油门速度应基本保持，这才是惯性");
         }
 
@@ -135,14 +152,21 @@ namespace DogfightThreatAI.Tests.EditMode
             var model = NewModel();
             var state = FlightState.At(Vec2.Zero);
 
-            for (int i = 0; i < 100; i++) model.Step(ref state, new FlightInput(1f, 0f), Dt);  // 直飞
-            for (int i = 0; i < 40;  i++) model.Step(ref state, new FlightInput(1f, 1f), Dt);  // 持续左转 → 甩尾
-
+            for (int i = 0; i < 100; i++)
+            {
+                model.Step(ref state, new FlightInput(1f, 0f), Dt);  // 直飞
+            }
+            for (int i = 0; i < 40; i++)
+            {
+                model.Step(ref state, new FlightInput(1f, 1f), Dt);  // 持续左转 → 甩尾
+            }
             float slipWhileTurning = SlipDegrees(state);
             Assert.Greater(slipWhileTurning, 5f, "转向时应该有甩尾（机头与速度方向不一致），否则就是'被钉在轨道上'");
 
-            for (int i = 0; i < 120; i++) model.Step(ref state, new FlightInput(1f, 0f), Dt);  // 松开转向
-
+            for (int i = 0; i < 120; i++)
+            {
+                model.Step(ref state, new FlightInput(1f, 0f), Dt);  // 松开转向
+            }
             Assert.Less(SlipDegrees(state), 1f, "松开转向后甩尾应该自己收住");
         }
 
@@ -151,18 +175,18 @@ namespace DogfightThreatAI.Tests.EditMode
         public void 漂移会掉速()
         {
             var straight = FlightState.At(Vec2.Zero);
-            var turning  = FlightState.At(Vec2.Zero);
+            var turning = FlightState.At(Vec2.Zero);
             var m1 = NewModel();
             var m2 = NewModel();
 
             for (int i = 0; i < 150; i++)
             {
                 m1.Step(ref straight, new FlightInput(1f, 0f), Dt);
-                m2.Step(ref turning,  new FlightInput(1f, 1f), Dt);
+                m2.Step(ref turning, new FlightInput(1f, 1f), Dt);
             }
 
             float fwdStraight = Vec2.Dot(straight.Velocity, straight.Forward);
-            float fwdTurning  = Vec2.Dot(turning.Velocity,  turning.Forward);
+            float fwdTurning = Vec2.Dot(turning.Velocity, turning.Forward);
 
             Assert.Less(fwdTurning, fwdStraight - 0.2f, "漂移应该损失前进速度");
         }
@@ -175,8 +199,10 @@ namespace DogfightThreatAI.Tests.EditMode
             var model = new FlightModel(2f, 8f, 12f, 180f, 0f, 6f, 0.35f, arena);
             var state = FlightState.At(Vec2.Zero, 0f);   // 机头朝 +X
 
-            for (int i = 0; i < 500; i++) model.Step(ref state, new FlightInput(1f, 0f), Dt);
-
+            for (int i = 0; i < 500; i++)
+            {
+                model.Step(ref state, new FlightInput(1f, 0f), Dt);
+            }
             Assert.LessOrEqual(state.Position.X, 5f + 1e-3f, "飞出了右边界");
             Assert.GreaterOrEqual(state.Position.X, 4.9f, "应该贴在边界上，而不是被弹回去很远");
         }
@@ -184,10 +210,19 @@ namespace DogfightThreatAI.Tests.EditMode
         /// <summary>机头方向与速度方向的夹角（度）。0 = 完全贴地，90 = 纯侧滑。</summary>
         static float SlipDegrees(FlightState s)
         {
-            if (s.Speed < 1e-3f) return 0f;
+            if (s.Speed < 1e-3f)
+            {
+                return 0f;
+            }
             float cos = Vec2.Dot(s.Velocity.Normalized, s.Forward);
-            if (cos > 1f) cos = 1f;
-            else if (cos < -1f) cos = -1f;
+            if (cos > 1f)
+            {
+                cos = 1f;
+            }
+            else if (cos < -1f)
+            {
+                cos = -1f;
+            }
             return MathF.Acos(cos) * 57.29578f;   // 弧度 → 度
         }
     }

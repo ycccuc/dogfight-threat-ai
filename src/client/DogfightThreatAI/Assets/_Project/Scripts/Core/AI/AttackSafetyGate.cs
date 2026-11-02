@@ -15,11 +15,13 @@ namespace DogfightThreatAI.Core.AI
         readonly FlightModel _player;
         readonly AttackTrajectory _motion;
         readonly Vec2[] _trajectory = new Vec2[90];
+
         public AttackSafetyGate(in AircraftSpec enemy, in AircraftSpec player, Bounds2D? arena)
         {
             _motion = new AttackTrajectory(enemy, arena);
             _player = FlightModel.From(player, arena);
         }
+
         public bool CanStart(in FlightState enemy, in FlightState player, float lockedHeading, float warningSpeed = 0f)
         {
             int pointCount = _motion.Build(enemy, lockedHeading, AttackRunInputSource.WarningSeconds,
@@ -35,37 +37,61 @@ namespace DogfightThreatAI.Core.AI
                     for (int i = 1; i < pointCount; i++)
                     {
                         FlightState previous = simulated;
-                        FlightInput input = i <= ReactionTicks ? Continuation(continuation) : Response(response, i - ReactionTicks - 1);
+                        FlightInput input = i <= ReactionTicks ? Continuation(continuation) : Response(
+                            response,
+                            i - ReactionTicks - 1);
                         _player.Step(ref simulated, input, Dt);
                         if (i > 40 && SweptContact(previous.Position, simulated.Position,
-                            _trajectory[i - 1], _trajectory[i])) { hit = true; break; }
+                            _trajectory[i - 1], _trajectory[i]))
+                        {
+                            hit = true;
+                            break;
+                        }
                     }
                     escape = !hit;
                 }
-                if (!escape) return false;
+                if (!escape)
+                {
+                    return false;
+                }
             }
             return true;
         }
+
         static FlightInput Continuation(int index)
-            => index == 0 ? FlightInput.Neutral : index == 1 ? new FlightInput(1f, 0f) :
-               index == 2 ? new FlightInput(1f, 1f) : index == 3 ? new FlightInput(1f, -1f) :
-               index == 4 ? new FlightInput(-1f, 0f) : index == 5 ? new FlightInput(0f, 1f) :
-               index == 6 ? new FlightInput(0f, -1f) : new FlightInput(-1f, index == 7 ? 1f : -1f);
+        {
+            return index == 0 ? FlightInput.Neutral : index == 1 ? new FlightInput(1f, 0f) :
+           index == 2 ? new FlightInput(1f, 1f) : index == 3 ? new FlightInput(1f, -1f) :
+           index == 4 ? new FlightInput(-1f, 0f) : index == 5 ? new FlightInput(0f, 1f) :
+           index == 6 ? new FlightInput(0f, -1f) : new FlightInput(-1f, index == 7 ? 1f : -1f);
+        }
+
         static FlightInput Response(int index, int ticksSinceReaction)
         {
-            if (index == 0) return new FlightInput(1f, 0f);
-            if (index == 1) return new FlightInput(-1f, 0f);
+            if (index == 0)
+            {
+                return new FlightInput(1f, 0f);
+            }
+            if (index == 1)
+            {
+                return new FlightInput(-1f, 0f);
+            }
             if (index < 6)
+            {
                 return new FlightInput(index < 4 ? 1f : -1f, (index & 1) == 0 ? 1f : -1f);
-
+            }
             // A player can release A/D after a short turn. Requiring continuous full circles
             // incorrectly brings an otherwise successful dodge back into the attack line.
             bool brakeFirst = index >= 18;
             int pattern = index - (brakeFirst ? 18 : 6);
             int turnTicks = TurnTicks[pattern / 2];
-            if (ticksSinceReaction >= turnTicks) return new FlightInput(1f, 0f);
+            if (ticksSinceReaction >= turnTicks)
+            {
+                return new FlightInput(1f, 0f);
+            }
             return new FlightInput(brakeFirst ? -1f : 1f, (pattern & 1) == 0 ? 1f : -1f);
         }
+
         internal static bool SweptContact(Vec2 playerBefore, Vec2 playerAfter, Vec2 enemyBefore, Vec2 enemyAfter)
         {
             double x = (double)playerBefore.X - enemyBefore.X, y = (double)playerBefore.Y - enemyBefore.Y;

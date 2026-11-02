@@ -19,7 +19,9 @@ namespace DogfightThreatAI.Tests.EditMode
             var gate = new AttackSafetyGate(Enemy, Player, null);
             var enemy = FlightState.At(new Vec2(4f, -2.5f), 2.5829933f);
             var player = FlightState.At(Vec2.Zero, heading);
-            Assert.IsTrue(gate.CanStart(enemy, player, enemy.Heading), "Sustained full circles are not the only legal dodge: permit a short turn followed by straight thrust.");
+            Assert.IsTrue(
+                gate.CanStart(enemy, player, enemy.Heading),
+                "Sustained full circles are not the only legal dodge: permit a short turn followed by straight thrust.");
         }
 
         [Test]

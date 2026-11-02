@@ -12,12 +12,16 @@ namespace DogfightThreatAI.Editor
     {
         const string MenuPath = SceneNavigation.StartMenuScenePath;
 
+        // 在编辑器加载后安排游戏入口配置。
         static GameEntrySetup()
         {
             EditorApplication.delayCall += ConfigurePlayEntry;
             EditorApplication.playModeStateChanged += state =>
             {
-                if (state == PlayModeStateChange.EnteredEditMode) ConfigurePlayEntry();
+                if (state == PlayModeStateChange.EnteredEditMode)
+                {
+                    ConfigurePlayEntry();
+                }
             };
         }
 
@@ -28,27 +32,40 @@ namespace DogfightThreatAI.Editor
                 AssetDatabase.LoadAssetAtPath<SceneAsset>(SceneNavigation.GameScenePath);
         }
 
+        // 设置正常 Play 的启动场景。
         public static void ConfigurePlayEntry()
         {
-            if (EditorApplication.isPlayingOrWillChangePlaymode) return;
-            // Test Runner 和批处理工具自行安排场景，不能把它们的入口覆盖成菜单。
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                return;
+            }            // Test Runner 和批处理工具自行安排场景，不能把它们的入口覆盖成菜单。
             if (Application.isBatchMode)
             {
                 EditorSceneManager.playModeStartScene = null;
                 return;
             }
             var menu = AssetDatabase.LoadAssetAtPath<SceneAsset>(MenuPath);
-            if (menu != null) EditorSceneManager.playModeStartScene = menu;
+            if (menu != null)
+            {
+                EditorSceneManager.playModeStartScene = menu;
+            }
         }
 
+        // 通过编辑器入口打开主菜单场景。
         [MenuItem("Tools/Dogfight Threat AI/打开完整游戏入口")]
         public static void OpenMenu()
         {
-            if (EditorApplication.isPlayingOrWillChangePlaymode) return;
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                return;
+            }
             ConfigurePlayEntry();
             if (SceneManager.GetActiveScene().path != MenuPath)
             {
-                if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+                if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+                {
+                    return;
+                }
                 EditorSceneManager.OpenScene(MenuPath, OpenSceneMode.Single);
             }
             EditorApplication.ExecuteMenuItem("Window/General/Game");

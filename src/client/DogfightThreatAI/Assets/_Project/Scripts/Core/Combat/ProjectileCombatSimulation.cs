@@ -22,32 +22,54 @@ namespace DogfightThreatAI.Core.Combat
         readonly int _capacity;
         int _nextId, _hits;
         float _elapsed;
+
         public CombatStatus Status => new CombatStatus(_health[0], _maxHealth, _hits, _invulnerability[0], _elapsed);
         public int EnemyHealth => _health[1];
+        /// <summary>玩家和敌机共用最大生命及命中保护配置。</summary>
+        public int MaxHealth => _maxHealth;
+        public float EnemyInvulnerabilityRemaining => _invulnerability[1];
         public bool IsFinished => _health[0] <= 0 || _health[1] <= 0;
         public IReadOnlyList<ProjectileState> Projectiles => _projectiles;
         public IReadOnlyList<WeaponEvent> Events => _events;
         public float PlayerCooldown01 => _cooldown[0] / _weapon.ShotInterval;
 
+        // 校验共用武器与生命配置，初始化双方战斗状态和弹丸缓存。
         public ProjectileCombatSimulation(WeaponSpec weapon, int maxHealth, float invulnerabilitySeconds)
         {
             if (maxHealth < 1 || invulnerabilitySeconds < 0 || float.IsNaN(invulnerabilitySeconds) ||
-                float.IsInfinity(invulnerabilitySeconds)) throw new ArgumentOutOfRangeException(nameof(maxHealth));
-            if (weapon.ShotInterval <= 0f) throw new ArgumentException("WeaponSpec must be initialized.", nameof(weapon));
-            _weapon = weapon; _maxHealth = maxHealth; _protection = invulnerabilitySeconds;
+                float.IsInfinity(invulnerabilitySeconds))
+            {
+                throw new ArgumentOutOfRangeException(nameof(maxHealth));
+            }
+            if (weapon.ShotInterval <= 0f)
+            {
+                throw new ArgumentException(
+                            "WeaponSpec must be initialized.",
+                            nameof(weapon));
+            }
+            _weapon = weapon;
+            _maxHealth = maxHealth;
+            _protection = invulnerabilitySeconds;
             _health[0] = _health[1] = maxHealth;
             _capacity = checked(2 * ((int)MathF.Ceiling(weapon.Lifetime / weapon.ShotInterval) + 2));
             _projectiles = new List<ProjectileState>(_capacity);
             _events = new List<WeaponEvent>(_capacity * 2 + 4);
         }
 
+        // 推进冷却、弹丸和命中结算，再根据双方意图生成新弹丸。
         public void Tick(float dt, in FlightState playerPrevious, in FlightState player,
-            in FlightState enemyPrevious, in FlightState enemy, float playerRadius, float enemyRadius,
-            bool playerFire, bool enemyFire)
+                    in FlightState enemyPrevious, in FlightState enemy, float playerRadius, float enemyRadius,
+                    bool playerFire, bool enemyFire)
         {
-            if (dt <= 0 || float.IsNaN(dt) || float.IsInfinity(dt)) throw new ArgumentOutOfRangeException(nameof(dt));
+            if (dt <= 0 || float.IsNaN(dt) || float.IsInfinity(dt))
+            {
+                throw new ArgumentOutOfRangeException(nameof(dt));
+            }
             _events.Clear();
-            if (IsFinished) return;
+            if (IsFinished)
+            {
+                return;
+            }
             _elapsed += dt;
             for (int i = 0; i < 2; i++)
             {
@@ -75,31 +97,61 @@ namespace DogfightThreatAI.Core.Combat
                     {
                         _health[victim]--;
                         _invulnerability[victim] = _protection;
-                        if (victim == 0) _hits++;
+                        if (victim == 0)
+                        {
+                            _hits++;
+                        }
                         _events.Add(new WeaponEvent(WeaponEventKind.Hit, victim + 1, current.Position));
-                        if (_health[victim] == 0) _events.Add(new WeaponEvent(WeaponEventKind.Destroyed, victim + 1, current.Position));
+                        if (_health[victim] == 0)
+                        {
+                            _events.Add(new WeaponEvent(
+                                WeaponEventKind.Destroyed,
+                                victim + 1,
+                                current.Position));
+                        }
                     }
                     _projectiles.RemoveAt(i);
                 }
-                else if (shot.Remaining <= 0) _projectiles.RemoveAt(i);
-                else _projectiles[i] = shot;
+                else if (shot.Remaining <= 0)
+                {
+                    _projectiles.RemoveAt(i);
+                }
+                else
+                {
+                    _projectiles[i] = shot;
+                }
             }
-            if (IsFinished) { _projectiles.Clear(); return; }
+            if (IsFinished)
+            {
+                _projectiles.Clear();
+                return;
+            }
             Fire(0, player, playerFire);
             Fire(1, enemy, enemyFire);
         }
 
+        // 检查开火意图与冷却，从机头位置生成一发有归属的弹丸。
         void Fire(int index, in FlightState aircraft, bool intent)
         {
-            if (!intent || _cooldown[index] > .00001f || _projectiles.Count >= _capacity) return;
+            if (!intent || _cooldown[index] > .00001f || _projectiles.Count >= _capacity)
+            {
+                return;
+            }
             _cooldown[index] = _weapon.ShotInterval;
             Vec2 position = aircraft.Position + aircraft.Forward * _weapon.MuzzleOffset;
-            _projectiles.Add(new ProjectileState { Id = ++_nextId, OwnerId = index + 1,
-                Position = position, PreviousPosition = position,
-                Velocity = aircraft.Forward * _weapon.ProjectileSpeed, Remaining = _weapon.Lifetime });
+            _projectiles.Add(new ProjectileState
+            {
+                Id = ++_nextId,
+                OwnerId = index + 1,
+                Position = position,
+                PreviousPosition = position,
+                Velocity = aircraft.Forward * _weapon.ProjectileSpeed,
+                Remaining = _weapon.Lifetime
+            });
             _events.Add(new WeaponEvent(WeaponEventKind.Fired, index + 1, position));
         }
 
+        // 计算相对运动线段与命中圆的接触，避免高速弹丸穿透。
         static bool SweptHit(Vec2 from, Vec2 to, float radius)
         {
             Vec2 delta = to - from;

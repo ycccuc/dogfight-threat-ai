@@ -27,6 +27,7 @@ namespace DogfightThreatAI.Gameplay.InputSource
         ChaseWorldView _world;
         GunnerPilot _gunner;
         int _gunnerLevel = 1;
+
         public bool WantsFire => _gunner != null && _gunner.WantsFire;
         public GunnerPilot Gunner => _gunner;
 
@@ -65,23 +66,38 @@ namespace DogfightThreatAI.Gameplay.InputSource
         public FlightMotionCommand MotionCommand => isActiveAndEnabled && _gunner != null ? _gunner.MotionCommand :
             isActiveAndEnabled && _source != null ? _source.MotionCommand : FlightMotionCommand.Ordinary();
 
+        // 读取旧攻击轨迹的预览点，供表现层绘制。
         public Vec2 GetPreviewPoint(int index)
         {
-            if (_source == null) throw new ArgumentOutOfRangeException(nameof(index));
+            if (_source == null)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
             return _source.GetPreviewPoint(index);
         }
 
+        // 缓存自身控制器，供后续 AI 读取模拟状态。
         void Awake()
         {
-            if (self == null) self = GetComponent<PlayerController>();
+            if (self == null)
+            {
+                self = GetComponent<PlayerController>();
+            }
         }
 
+        // 应用指定难度，并同步更新当前使用的 AI 配置。
         public void SetDifficulty(int level)
         {
             int max = combat != null && combat.UsesProjectileCombat ? combat.Difficulties.Length : 4;
-            if (level < 0 || level > max) throw new ArgumentOutOfRangeException(nameof(level));
+            if (level < 0 || level > max)
+            {
+                throw new ArgumentOutOfRangeException(nameof(level));
+            }
             difficultyOverride = level;
-            if (_source != null) _source.RequestDifficulty(level);
+            if (_source != null)
+            {
+                _source.RequestDifficulty(level);
+            }
             if (_gunner != null)
             {
                 _gunnerLevel = Mathf.Clamp(level, 1, combat.Difficulties.Length);
@@ -89,36 +105,50 @@ namespace DogfightThreatAI.Gameplay.InputSource
             }
         }
 
+        // 为旧撞击玩法处理难度快捷键；机炮玩法由菜单控制。
         void Update()
         {
-            if (combat != null && combat.UsesProjectileCombat) return;
-            if (combat != null && !combat.Status.IsPlayerAlive) return;
-            if (UnityEngine.Input.GetKeyDown(KeyCode.F1)) SetDifficulty(1);
-            else if (UnityEngine.Input.GetKeyDown(KeyCode.F2)) SetDifficulty(2);
-            else if (UnityEngine.Input.GetKeyDown(KeyCode.F3)) SetDifficulty(3);
-            else if (UnityEngine.Input.GetKeyDown(KeyCode.F4)) SetDifficulty(4);
-            else if (UnityEngine.Input.GetKeyDown(KeyCode.F5)) SetDifficulty(0);
+            if (combat != null && combat.UsesProjectileCombat)
+            {
+                return;
+            }
+            if (combat != null && !combat.Status.IsPlayerAlive)
+            {
+                return;
+            }
+            if (UnityEngine.Input.GetKeyDown(KeyCode.F1))
+            {
+                SetDifficulty(1);
+            }
+            else if (UnityEngine.Input.GetKeyDown(KeyCode.F2))
+            {
+                SetDifficulty(2);
+            }
+            else if (UnityEngine.Input.GetKeyDown(KeyCode.F3))
+            {
+                SetDifficulty(3);
+            }
+            else if (UnityEngine.Input.GetKeyDown(KeyCode.F4))
+            {
+                SetDifficulty(4);
+            }
+            else if (UnityEngine.Input.GetKeyDown(KeyCode.F5))
+            {
+                SetDifficulty(0);
+            }
         }
 
+        // 根据当前战斗模式选择机炮或旧追击 AI，返回操作意图。
         public FlightInput ReadInput(float deltaTime)
         {
             if (!isActiveAndEnabled || self == null || !self.IsInitialized || combat == null)
+            {
                 return new FlightInput(-1f, 0f);
-
+            }
             if (combat.UsesProjectileCombat)
             {
-                if (_gunner == null)
-                {
-                    _gunnerLevel = Mathf.Clamp(difficultyOverride, 1, combat.Difficulties.Length);
-                    var bounds = self.ArenaBounds ?? Bounds2D.Centered(new Vec2(200, 150));
-                    _gunner = new GunnerPilot(new Grid2D(bounds, combat.NavigationCellSize), combat.Weapon,
-                        combat.Difficulties[_gunnerLevel - 1].ToSpec());
-                }
-                bool alive = combat.Status.IsPlayerAlive && combat.Simulation.EnemyHealth > 0 &&
-                    target != null && target.IsInitialized && target.isActiveAndEnabled;
-                return _gunner.Tick(self.State, alive ? target.State : default, alive, deltaTime);
+                return ReadGunnerInput(deltaTime);
             }
-
             // 不在 Awake 读取其他组件的初始化结果：首次固定步调用时再接线。
             if (_source == null)
             {
@@ -140,9 +170,31 @@ namespace DogfightThreatAI.Gameplay.InputSource
             return _source.ReadInput(deltaTime);
         }
 
+        // 当前机炮玩法的适配入口：Unity 配置/组件 → Core 值数据 → 动作意图。
+        // 目标的状态来自模拟，不读取渲染 Transform，也不使用相机决定射击。
+        FlightInput ReadGunnerInput(float deltaTime)
+        {
+            // 首次读取时创建本架敌机的驾驶员，后续固定步复用其观察与计时。
+            if (_gunner == null)
+            {
+                _gunnerLevel = Mathf.Clamp(difficultyOverride, 1, combat.Difficulties.Length);
+                var bounds = self.ArenaBounds ?? Bounds2D.Centered(new Vec2(200, 150));
+                var profile = combat.Difficulties[_gunnerLevel - 1].ToSpec();
+                _gunner = new GunnerPilot(new Grid2D(bounds, combat.NavigationCellSize), combat.Weapon, profile);
+            }
+
+            bool canFight = combat.Status.IsPlayerAlive && combat.Simulation.EnemyHealth > 0 &&
+                target != null && target.IsInitialized && target.isActiveAndEnabled;
+            return _gunner.Tick(self.State, canFight ? target.State : default, canFight, deltaTime);
+        }
+
+        // 根据相机视口检查飞机是否完整入屏，供旧攻击规则使用。
         static bool FullyVisible(Camera camera, PlayerController aircraft)
         {
-            if (aircraft == null || !aircraft.IsInitialized) return false;
+            if (aircraft == null || !aircraft.IsInitialized)
+            {
+                return false;
+            }
             var position = aircraft.State.Position;
             float radius = 0.6f;
             if (aircraft.Ship != null && aircraft.Ship.BodySprite != null)
@@ -163,7 +215,13 @@ namespace DogfightThreatAI.Gameplay.InputSource
 
             public int AircraftCount => 2;
 
-            public void Capture(PlayerController self, PlayerController target, bool playerAlive, bool targetVisible, float now)
+            // 把双方控制器状态复制为本次决策使用的只读世界快照。
+            public void Capture(
+                            PlayerController self,
+                            PlayerController target,
+                            bool playerAlive,
+                            bool targetVisible,
+                            float now)
             {
                 _self = new AircraftSnapshot(SelfId, 2, self.State,
                     isAlive: self.IsInitialized && self.isActiveAndEnabled);
@@ -176,20 +234,30 @@ namespace DogfightThreatAI.Gameplay.InputSource
                     isVisible: targetVisible, cueObservedAt: now);
             }
 
+            // 只提取玩家公开的推进表现线索，不读取隐藏操作意图。
             static VisiblePropulsionCue ReadVisibleCue(PlayerController aircraft)
             {
                 foreach (MonoBehaviour behaviour in aircraft.GetComponents<MonoBehaviour>())
-                    if (behaviour is IVisiblePropulsionCueSource cue && behaviour.isActiveAndEnabled) return cue.VisiblePropulsionCue;
+                {
+                    if (behaviour is IVisiblePropulsionCueSource cue && behaviour.isActiveAndEnabled)
+                    {
+                        return cue.VisiblePropulsionCue;
+                    }
+                }
                 return VisiblePropulsionCue.None;
             }
 
+            // 按约定索引返回自身或目标的飞机值快照。
             public AircraftSnapshot GetAircraft(int index)
             {
                 switch (index)
                 {
-                    case 0: return _self;
-                    case 1: return _target;
-                    default: throw new ArgumentOutOfRangeException(nameof(index));
+                    case 0:
+                        return _self;
+                    case 1:
+                        return _target;
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(index));
                 }
             }
         }

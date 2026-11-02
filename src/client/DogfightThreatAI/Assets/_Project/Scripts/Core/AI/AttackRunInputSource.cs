@@ -8,7 +8,10 @@ using DogfightThreatAI.Core.World;
 
 namespace DogfightThreatAI.Core.AI
 {
-    public enum AttackRunPhase { NoTarget, Pursuit, Positioning, Windup, Charge, Recover }
+    public enum AttackRunPhase
+    {
+        NoTarget, Pursuit, Positioning, Windup, Charge, Recover
+    }
 
     /// <summary>Delayed tactics, committed warning, bounded charge, harmless recovery. Only outputs FlightInput.</summary>
     public sealed class AttackRunInputSource : IPlayerInputSource
@@ -43,22 +46,51 @@ namespace DogfightThreatAI.Core.AI
         Vec2 _observedAtCommit;
         TacticalPlan _plan;
 
-        public AttackRunPhase Phase { get; private set; }
-        public AttackTactic Tactic { get; private set; }
+        public AttackRunPhase Phase
+        {
+            get; private set;
+        }
+        public AttackTactic Tactic
+        {
+            get; private set;
+        }
         public int Level => _profile.Level;
-        public int AttackId { get; private set; }
+        public int AttackId
+        {
+            get; private set;
+        }
         public float Aggression01 => (Level - 1) / 3f;
-        public float PhaseRemaining { get; private set; }
-        public float LockedHeading { get; private set; }
+        public float PhaseRemaining
+        {
+            get; private set;
+        }
+        public float LockedHeading
+        {
+            get; private set;
+        }
         public float WarningSpeed => _profile.WindupSpeed;
         public Vec2 LockedDirection => Vec2.FromAngle(LockedHeading);
-        public AttackWindow AttackWindow { get; private set; }
+        public AttackWindow AttackWindow
+        {
+            get; private set;
+        }
         public bool CanStartVisibleAttack { get; set; } = true;
-        public int PreviewPointCount { get; private set; }
-        public Vec2 ManeuverPoint { get; private set; }
+        public int PreviewPointCount
+        {
+            get; private set;
+        }
+        public Vec2 ManeuverPoint
+        {
+            get; private set;
+        }
+
+        // 读取指定索引的预览轨迹点。
         public Vec2 GetPreviewPoint(int index)
         {
-            if (index < 0 || index >= PreviewPointCount) throw new ArgumentOutOfRangeException(nameof(index));
+            if (index < 0 || index >= PreviewPointCount)
+            {
+                throw new ArgumentOutOfRangeException(nameof(index));
+            }
             return _preview[index];
         }
 
@@ -69,7 +101,10 @@ namespace DogfightThreatAI.Core.AI
             _combat = combat ?? throw new ArgumentNullException(nameof(combat));
             _pilot = new AttackFlightPilot(aircraft);
             if (arena.HasValue && (!Finite(arena.Value.Min) || !Finite(arena.Value.Max) ||
-                arena.Value.Width <= 2f || arena.Value.Height <= 2f)) throw new ArgumentOutOfRangeException(nameof(arena));
+                arena.Value.Width <= 2f || arena.Value.Height <= 2f))
+            {
+                throw new ArgumentOutOfRangeException(nameof(arena));
+            }
             _selfId = selfId;
             _aircraft = aircraft;
             _arena = arena;
@@ -80,6 +115,7 @@ namespace DogfightThreatAI.Core.AI
             _profile = AiDifficultyProfile.ForTime(0f);
         }
 
+        // 读取世界与战斗状态，推进旧攻击流程并输出本步意图。
         public FlightInput ReadInput(float deltaTime)
         {
             if (!Finite(deltaTime) || deltaTime <= 0f)
@@ -98,14 +134,19 @@ namespace DogfightThreatAI.Core.AI
                 PreviewPointCount = 0;
                 _hasDecision = false;
                 if (Finite(combat.ElapsedTime) && combat.ElapsedTime >= 0f)
+                {
                     PreserveCancelledRecovery(combat.ElapsedTime);
+                }
                 Phase = AttackRunPhase.NoTarget;
                 PhaseRemaining = 0f;
                 return new FlightInput(-1f, 0f);
             }
             if (_hasDecision && _decisionDt == deltaTime && _decisionVisible == CanStartVisibleAttack &&
                 _decisionTargetId == target.EntityId && SameFlight(_decisionSelf, self.Flight) &&
-                SameFlight(_decisionTarget, target.Flight) && SameCombat(_decisionCombat, combat)) return _decisionInput;
+                SameFlight(_decisionTarget, target.Flight) && SameCombat(_decisionCombat, combat))
+            {
+                return _decisionInput;
+            }
             AttackWindow = AttackWindow.Inactive;
             PreviewPointCount = 0;
             FlightInput decision = Decide(deltaTime, combat, self, target);
@@ -120,10 +161,18 @@ namespace DogfightThreatAI.Core.AI
             return decision;
         }
 
-        FlightInput Decide(float deltaTime, in CombatStatus combat, in AircraftSnapshot self, in AircraftSnapshot target)
+        // 根据当前攻击阶段选择下一步追击、预警或恢复行为。
+        FlightInput Decide(
+                    float deltaTime,
+                    in CombatStatus combat,
+                    in AircraftSnapshot self,
+                    in AircraftSnapshot target)
         {
             float now = combat.ElapsedTime;
-            if (_targetId != 0 && _targetId != target.EntityId) PreserveCancelledRecovery(now);
+            if (_targetId != 0 && _targetId != target.EntityId)
+            {
+                PreserveCancelledRecovery(now);
+            }
             if (Phase == AttackRunPhase.NoTarget || _targetId != target.EntityId || now < _lastTime)
             {
                 bool resumeRecovery = now >= _lastTime && now < _cancelRecoverUntil;
@@ -151,7 +200,9 @@ namespace DogfightThreatAI.Core.AI
             }
             _lastTime = now;
             if (Phase != AttackRunPhase.Windup && Phase != AttackRunPhase.Charge && now >= _freezeUntil)
+            {
                 _profile = AiDifficultyProfile.ForTime(now);
+            }
             _memory.Sample(target, now);
             bool observed = _memory.TryObserve(now, _profile.ObservationDelay, out var observation, out var observedAt);
             if (combat.HitSequence != _seenHit)
@@ -165,14 +216,26 @@ namespace DogfightThreatAI.Core.AI
                 _deadline += ChargeSeconds;
             }
             if (Phase == AttackRunPhase.Charge && now >= _deadline - 0.0001f)
+            {
                 BeginRecover(self.Flight, observed ? observation : self, now);
+            }
             if (Phase == AttackRunPhase.Windup || Phase == AttackRunPhase.Charge)
             {
                 PhaseRemaining = MathF.Max(0f, _deadline - now);
                 BuildPreview(self.Flight);
-                if (Phase == AttackRunPhase.Windup) return _motion.WindupInput(self.Flight, LockedHeading, WarningSpeed, deltaTime);
+                if (Phase == AttackRunPhase.Windup)
+                {
+                    return _motion.WindupInput(
+                    self.Flight,
+                    LockedHeading,
+                    WarningSpeed,
+                    deltaTime);
+                }
                 float end = MathF.Min(1f, PhaseRemaining / deltaTime);
-                if (end > 0f) AttackWindow = new AttackWindow(AttackId, true, 0f, end);
+                if (end > 0f)
+                {
+                    AttackWindow = new AttackWindow(AttackId, true, 0f, end);
+                }
                 return new FlightInput(1f, 0f);
             }
             if (Phase == AttackRunPhase.Recover)
@@ -184,7 +247,10 @@ namespace DogfightThreatAI.Core.AI
                 {
                     Vec2 delta = observation.Flight.Position - _observedAtCommit;
                     float side = LockedDirection.X * delta.Y - LockedDirection.Y * delta.X;
-                    if (MathF.Abs(side) > 0.25f) _tactics.RecordDodge(side);
+                    if (MathF.Abs(side) > 0.25f)
+                    {
+                        _tactics.RecordDodge(side);
+                    }
                     _dodgeRecorded = true;
                 }
                 if (now >= _deadline - 0.0001f && _separated && combat.InvulnerabilityRemaining <= 0f)
@@ -216,7 +282,10 @@ namespace DogfightThreatAI.Core.AI
                 }
             }
             PhaseRemaining = 0f;
-            if (!observed) return new FlightInput(-1f, 0f);
+            if (!observed)
+            {
+                return new FlightInput(-1f, 0f);
+            }
             if (now >= _nextPlan)
             {
                 _plan = _tactics.Select(self.Flight, observation, _profile, _arena, now, observedAt);
@@ -225,7 +294,8 @@ namespace DogfightThreatAI.Core.AI
             _plan = RefreshAim(_plan, self.Flight, observation, now, observedAt);
             Tactic = _plan.Tactic;
             ManeuverPoint = _plan.Position;
-            if (now < _repositionUntil && AttackFlightPilot.Distance(self.Flight.Position, _plan.Position) > .18d)
+            if (now < _repositionUntil &&
+                AttackFlightPilot.Distance(self.Flight.Position, _plan.Position) > .18d)
             {
                 Phase = AttackRunPhase.Positioning;
                 return _pilot.Move(self.Flight, _plan.Position, _profile.CruiseSpeed, deltaTime);
@@ -234,8 +304,14 @@ namespace DogfightThreatAI.Core.AI
             Vec2 aim = _plan.AimPosition;
             double distance = AttackFlightPilot.Distance(self.Flight.Position, aim);
             // Hysteresis prevents tiny arrival steps around 4.5 from alternating opposite steering orders.
-            if (distance < 4.5d) _regainingDistance = true;
-            if (distance >= 4.8d) _regainingDistance = false;
+            if (distance < 4.5d)
+            {
+                _regainingDistance = true;
+            }
+            if (distance >= 4.8d)
+            {
+                _regainingDistance = false;
+            }
             bool inAttackBand = !_regainingDistance && distance >= 4.5d && distance <= 8.5d;
             bool atPreparation = AttackFlightPilot.Distance(self.Flight.Position, _plan.Position) < 1d;
             Phase = inAttackBand || atPreparation ? AttackRunPhase.Positioning : AttackRunPhase.Pursuit;
@@ -243,13 +319,19 @@ namespace DogfightThreatAI.Core.AI
             if (inAttackBand)
             {
                 FlightInput prepare = _pilot.AimWhileMoving(self.Flight, heading, WarningSpeed, deltaTime);
-                double error = System.Math.Abs(System.Math.IEEERemainder((double)heading - self.Flight.Heading, 2d * System.Math.PI));
+                double error = System.Math.Abs(System.Math.IEEERemainder(
+                        (double)heading - self.Flight.Heading,
+                        2d * System.Math.PI));
                 Vec2 forward = self.Flight.Forward;
                 float lateralSpeed = MathF.Abs(Vec2.Dot(self.Flight.Velocity, new Vec2(-forward.Y, forward.X)));
                 bool executable = error <= 0.07d && lateralSpeed <= 2.5f &&
                     _motion.CanReachAim(self.Flight, self.Flight.Heading, WarningSpeed, aim);
                 if (executable && combat.InvulnerabilityRemaining <= 0f &&
-                    CanStartVisibleAttack && _safety.CanStart(self.Flight, target.Flight, self.Flight.Heading, WarningSpeed))
+                    CanStartVisibleAttack && _safety.CanStart(
+                        self.Flight,
+                        target.Flight,
+                        self.Flight.Heading,
+                        WarningSpeed))
                 {
                     LockedHeading = self.Flight.Heading;
                     AttackId++;
@@ -264,12 +346,17 @@ namespace DogfightThreatAI.Core.AI
                     BuildPreview(self.Flight);
                     return _motion.WindupInput(self.Flight, LockedHeading, WarningSpeed, deltaTime);
                 }
-                if (executable) prepare = _pilot.AimAndBrake(self.Flight, heading, deltaTime);
-                // A denied start must trigger another approach, not a permanent stop at the rejected point.
+                if (executable)
+                {
+                    prepare = _pilot.AimAndBrake(self.Flight, heading, deltaTime);
+                }                // A denied start must trigger another approach, not a permanent stop at the rejected point.
                 // The veto carries no direction; the alternative comes only from the delayed observation.
                 if (combat.InvulnerabilityRemaining <= 0f && error <= 0.07d)
                 {
-                    if (_blockedSince < 0f) _blockedSince = now;
+                    if (_blockedSince < 0f)
+                    {
+                        _blockedSince = now;
+                    }
                     if (now - _blockedSince >= 0.6f)
                     {
                         _plan = new TacticalPlan(AlternatePreparation(self.Flight, aim), AttackTactic.Pursuit);
@@ -290,17 +377,24 @@ namespace DogfightThreatAI.Core.AI
         void PreserveCancelledRecovery(float now)
         {
             if (Phase == AttackRunPhase.Windup || Phase == AttackRunPhase.Charge)
+            {
                 _cancelRecoverUntil = MathF.Max(_cancelRecoverUntil, now + _profile.RecoverySeconds);
+            }
             else if (Phase == AttackRunPhase.Recover)
+            {
                 _cancelRecoverUntil = MathF.Max(_cancelRecoverUntil, _deadline);
+            }
         }
 
+        // 根据当前可用观察更新攻击瞄准信息。
         TacticalPlan RefreshAim(in TacticalPlan plan, in FlightState self, in AircraftSnapshot observation,
-            float now, float observedAt)
+                    float now, float observedAt)
         {
             TacticalPlan updated = _tactics.UpdateAim(plan, observation, _profile, _arena, now, observedAt);
-            if (_profile.Level < 3) return updated;
-            // Forecast to actual flight time, not a fixed guess that misses fast circles.
+            if (_profile.Level < 3)
+            {
+                return updated;
+            }            // Forecast to actual flight time, not a fixed guess that misses fast circles.
             for (int iteration = 0; iteration < 3; iteration++)
             {
                 float course = AttackFlightPilot.HeadingTo(self.Position, updated.AimPosition);
@@ -321,18 +415,25 @@ namespace DogfightThreatAI.Core.AI
                 {
                     Vec2 lateral = observedAim + Vec2.FromAngle(angle + side * MathF.PI * .5f) * 5.1f;
                     Vec2 legal = InsideArena(lateral, 0.7f);
-                    if (AttackFlightPilot.Distance(lateral, legal) < 0.01d) return lateral;
+                    if (AttackFlightPilot.Distance(lateral, legal) < 0.01d)
+                    {
+                        return lateral;
+                    }
                 }
             }
             for (int i = 1; i <= 32; i++)
             {
                 Vec2 candidate = observedAim + Vec2.FromAngle(angle + i * MathF.PI / 16f) * 5.1f;
                 Vec2 inside = InsideArena(candidate, 0.7f);
-                if (AttackFlightPilot.Distance(candidate, inside) < 0.01d) return candidate;
+                if (AttackFlightPilot.Distance(candidate, inside) < 0.01d)
+                {
+                    return candidate;
+                }
             }
             return _plan.Position;
         }
 
+        // 进入攻击后的恢复阶段，清理本轮攻击状态。
         void BeginRecover(in FlightState self, in AircraftSnapshot observed, float now)
         {
             _repositionUntil = 0f;
@@ -343,6 +444,7 @@ namespace DogfightThreatAI.Core.AI
             _separated = false;
             ManeuverPoint = EscapePoint(self, observed);
         }
+
         Vec2 EscapePoint(in FlightState self, in AircraftSnapshot observed)
         {
             Vec2 direction = self.Speed > 0.5f ? self.Velocity.Normalized : self.Forward;
@@ -354,54 +456,110 @@ namespace DogfightThreatAI.Core.AI
                 Vec2 radial = candidate - observed.Flight.Position;
                 double score = AttackFlightPilot.Distance(candidate, observed.Flight.Position) +
                     2d * Vec2.Dot(radial.Normalized, direction);
-                if (score > bestScore) { bestScore = score; best = candidate; }
+                if (score > bestScore)
+                {
+                    bestScore = score;
+                    best = candidate;
+                }
             }
             return best;
         }
+
+        // 生成旧攻击轨迹的预览数据，供外层显示。
         void BuildPreview(in FlightState self)
         {
             float windup = Phase == AttackRunPhase.Windup ? PhaseRemaining : 0f;
             float charge = Phase == AttackRunPhase.Windup ? ChargeSeconds : PhaseRemaining;
             PreviewPointCount = _motion.Build(self, LockedHeading, windup, charge, WarningSpeed, _preview);
         }
+
         Vec2 InsideArena(Vec2 point, float margin)
         {
-            if (!_arena.HasValue) return point;
+            if (!_arena.HasValue)
+            {
+                return point;
+            }
             Bounds2D b = _arena.Value;
-            return new Vec2(Clamp(point.X, b.Min.X + margin, b.Max.X - margin), Clamp(point.Y, b.Min.Y + margin, b.Max.Y - margin));
+            return new Vec2(
+                Clamp(point.X, b.Min.X + margin, b.Max.X - margin),
+                Clamp(
+                    point.Y,
+                    b.Min.Y + margin,
+                    b.Max.Y - margin));
         }
+
         bool TryFindAircraft(out AircraftSnapshot self, out AircraftSnapshot target)
         {
-            self = default; target = default;
+            self = default;
+            target = default;
             bool haveSelf = false, haveTarget = false;
             for (int i = 0; i < _world.AircraftCount; i++)
             {
                 var candidate = _world.GetAircraft(i);
-                if (candidate.EntityId != _selfId) continue;
+                if (candidate.EntityId != _selfId)
+                {
+                    continue;
+                }
                 self = candidate;
                 haveSelf = candidate.IsAlive && Valid(candidate.Flight);
                 break;
             }
-            if (!haveSelf) return false;
+            if (!haveSelf)
+            {
+                return false;
+            }
             double nearest = double.PositiveInfinity;
             for (int i = 0; i < _world.AircraftCount; i++)
             {
                 var candidate = _world.GetAircraft(i);
                 if (candidate.EntityId == _selfId || candidate.TeamId == self.TeamId || !candidate.IsAlive ||
-                    !candidate.IsPlayerControlled || !Valid(candidate.Flight)) continue;
+                    !candidate.IsPlayerControlled || !Valid(candidate.Flight))
+                {
+                    continue;
+                }
                 double distance = AttackFlightPilot.Distance(candidate.Flight.Position, self.Flight.Position);
-                if (!haveTarget || distance < nearest || (distance == nearest && candidate.EntityId < target.EntityId))
-                { target = candidate; nearest = distance; haveTarget = true; }
+                if (!haveTarget ||
+                    distance < nearest ||
+                    (distance == nearest && candidate.EntityId < target.EntityId))
+                {
+                    target = candidate;
+                    nearest = distance;
+                    haveTarget = true;
+                }
             }
             return haveTarget;
         }
-        static bool Valid(in FlightState flight) => Finite(flight.Position) && Finite(flight.Velocity) && Finite(flight.Heading);
-        static bool SameFlight(in FlightState a, in FlightState b) => a.Position.Equals(b.Position) && a.Velocity.Equals(b.Velocity) && a.Heading == b.Heading;
-        static bool SameCombat(in CombatStatus a, in CombatStatus b) => a.ElapsedTime == b.ElapsedTime &&
+
+        static bool Valid(in FlightState flight)
+        {
+            return Finite(flight.Position) && Finite(flight.Velocity) && Finite(flight.Heading);
+        }
+
+        static bool SameFlight(in FlightState a, in FlightState b)
+        {
+            return a.Position.Equals(b.Position) && a.Velocity.Equals(b.Velocity) && a.Heading == b.Heading;
+        }
+
+        static bool SameCombat(in CombatStatus a, in CombatStatus b)
+        {
+            return a.ElapsedTime == b.ElapsedTime &&
             a.PlayerHealth == b.PlayerHealth && a.MaxPlayerHealth == b.MaxPlayerHealth &&
             a.HitSequence == b.HitSequence && a.InvulnerabilityRemaining == b.InvulnerabilityRemaining;
-        static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
-        static bool Finite(Vec2 value) => Finite(value.X) && Finite(value.Y);
-        static float Clamp(float value, float min, float max) => MathF.Max(min, MathF.Min(max, value));
+        }
+
+        static bool Finite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
+        }
+
+        static bool Finite(Vec2 value)
+        {
+            return Finite(value.X) && Finite(value.Y);
+        }
+
+        static float Clamp(float value, float min, float max)
+        {
+            return MathF.Max(min, MathF.Min(max, value));
+        }
     }
 }

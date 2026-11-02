@@ -36,11 +36,23 @@ namespace DogfightThreatAI.Tests.PlayMode
             var input = _player.gameObject.AddComponent<BattleTestInputSource>();
             input.DesiredInput = new FlightInput(1f, 0f);
             typeof(PlayerController).GetField("inputSource", Private).SetValue(_player, input);
-            SetState(_player, new FlightState { Position = Vec2.Zero, Heading = Mathf.PI * .5f, Velocity = new Vec2(0f, 9f) });
+            SetState(
+                _player,
+                new FlightState
+                {
+                    Position = Vec2.Zero,
+                    Heading = Mathf.PI * .5f,
+                    Velocity = new Vec2(
+                    0f,
+                    9f)
+                });
             SetState(_enemy, FlightState.At(new Vec2(3f, 0f), Mathf.PI));
             Camera.main.transform.position = new Vector3(0f, 0f, -10f);
             // Isolate visual timing from legitimate contacts, which can now cancel any aiming phase.
-            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>()) hitbox.Collider.enabled = false;
+            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>())
+            {
+                hitbox.Collider.enabled = false;
+            }
             _ai.ReadInput(Time.fixedDeltaTime);
             Assert.AreEqual(AttackRunPhase.Windup, _ai.Phase);
             yield return null;
@@ -62,7 +74,15 @@ namespace DogfightThreatAI.Tests.PlayMode
             Assert.Greater(PathLength(streak), streak.widthMultiplier * 20f);
             AssertNoRepeatedKnots(streak);
             foreach (var line in _enemy.GetComponentsInChildren<LineRenderer>())
-                if (line.enabled) Assert.LessOrEqual(line.widthMultiplier, .18f, "A live yellow aim must not retain the old broad charge marker.");
+            {
+                if (line.enabled)
+                {
+                    Assert.LessOrEqual(
+                                line.widthMultiplier,
+                                .18f,
+                                "A live yellow aim must not retain the old broad charge marker.");
+                }
+            }
             LogAssert.NoUnexpectedReceived();
             yield return null;
         }
@@ -78,9 +98,15 @@ namespace DogfightThreatAI.Tests.PlayMode
                 "The warning should converge into a narrow lane, not retain a blunt full-width end.");
             foreach (var line in _enemy.GetComponentsInChildren<LineRenderer>())
             {
-                if (!line.enabled || line.loop || line.positionCount < 2) continue;
+                if (!line.enabled || line.loop || line.positionCount < 2)
+                {
+                    continue;
+                }
                 Vector3 axis = line.GetPosition(line.positionCount - 1) - line.GetPosition(0);
-                if (axis.sqrMagnitude < .0001f) continue;
+                if (axis.sqrMagnitude < .0001f)
+                {
+                    continue;
+                }
                 for (int i = 1; i < line.positionCount; i++)
                 {
                     Vector3 segment = line.GetPosition(i) - line.GetPosition(i - 1);
@@ -121,7 +147,10 @@ namespace DogfightThreatAI.Tests.PlayMode
                 "The warning must stay attached to the interpolated aircraft nose.");
             Assert.IsFalse(_ai.IsAimLocked);
             Time.timeScale = 1f;
-            for (int i = 0; i < 45 && !_ai.IsAimLocked; i++) yield return new WaitForFixedUpdate();
+            for (int i = 0; i < 45 && !_ai.IsAimLocked; i++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
             Time.timeScale = 0f;
             yield return null;
             Assert.AreEqual(AttackRunPhase.Windup, _ai.Phase);
@@ -160,7 +189,10 @@ namespace DogfightThreatAI.Tests.PlayMode
                 Assert.Less(Vector3.Distance(line.GetPosition(line.positionCount - 1), committedEnd), .0001f);
             }
             Time.timeScale = 1f;
-            for (int i = 0; i < 50 && _ai.Phase == AttackRunPhase.Windup; i++) yield return new WaitForFixedUpdate();
+            for (int i = 0; i < 50 && _ai.Phase == AttackRunPhase.Windup; i++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
             Time.timeScale = 0f;
             Assert.AreEqual(AttackRunPhase.Charge, _ai.Phase);
             Assert.IsTrue(_ai.IsAimLocked);
@@ -174,8 +206,12 @@ namespace DogfightThreatAI.Tests.PlayMode
             Assert.IsFalse(_enemy.GetComponent<AttackCueView>().IsShowingCue);
             Assert.AreEqual(0, _ai.PreviewPointCount);
             foreach (var marker in _enemy.GetComponentsInChildren<LineRenderer>())
+            {
                 if (marker.name.StartsWith("AttackCue_"))
+                {
                     Assert.IsFalse(marker.enabled, "Charge must hide all forward warning geometry.");
+                }
+            }
             var wake = _enemy.transform.Find("EnemyChargeWake").GetComponent<LineRenderer>();
             Assert.IsTrue(wake.enabled, "Charge should be readable through a restrained rear wake.");
             Vector3 enemyPosition = _enemy.GetComponentInChildren<PlayerView>().RenderPosition;
@@ -195,14 +231,22 @@ namespace DogfightThreatAI.Tests.PlayMode
             _ai.enabled = false;
             yield return null;
             Assert.IsFalse(_enemy.GetComponent<AttackCueView>().IsShowingCue);
-            foreach (var line in _enemy.GetComponentsInChildren<LineRenderer>()) Assert.IsFalse(line.enabled);
+            foreach (var line in _enemy.GetComponentsInChildren<LineRenderer>())
+            {
+                Assert.IsFalse(line.enabled);
+            }
             LogAssert.NoUnexpectedReceived();
         }
 
         LineRenderer VisibleStreak()
         {
             foreach (var line in _enemy.GetComponentsInChildren<LineRenderer>())
-                if (line.enabled && line.widthMultiplier >= .10f && line.widthMultiplier <= .18f) return line;
+            {
+                if (line.enabled && line.widthMultiplier >= .10f && line.widthMultiplier <= .18f)
+                {
+                    return line;
+                }
+            }
             return null;
         }
 
@@ -215,7 +259,12 @@ namespace DogfightThreatAI.Tests.PlayMode
         static float PathLength(LineRenderer line)
         {
             float length = 0f;
-            for (int i = 1; i < line.positionCount; i++) length += Vector3.Distance(line.GetPosition(i - 1), line.GetPosition(i));
+            for (int i = 1; i < line.positionCount; i++)
+            {
+                length += Vector3.Distance(
+                line.GetPosition(i - 1),
+                line.GetPosition(i));
+            }
             return length;
         }
 
@@ -223,7 +272,9 @@ namespace DogfightThreatAI.Tests.PlayMode
         {
             Assert.GreaterOrEqual(line.positionCount, 2);
             for (int i = 1; i < line.positionCount; i++)
+            {
                 Assert.Greater(Vector3.Distance(line.GetPosition(i - 1), line.GetPosition(i)), .0001f);
+            }
         }
 
         static void SetState(PlayerController controller, FlightState state)

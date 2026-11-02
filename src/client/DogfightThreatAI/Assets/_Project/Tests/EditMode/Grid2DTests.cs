@@ -10,14 +10,17 @@ namespace DogfightThreatAI.Tests.EditMode
     /// </summary>
     public sealed class Grid2DTests
     {
-        static Grid2D NewGrid() => Grid2D.Centered(new Vec2(400f, 300f), 4f);  // 100 × 75
+        static Grid2D NewGrid()
+        {
+            return Grid2D.Centered(new Vec2(400f, 300f), 4f);
+        }  // 100 × 75
 
         [Test]
         public void 尺寸换算_400x300除以4_应该是100x75()
         {
             var g = NewGrid();
             Assert.AreEqual(100, g.Width);
-            Assert.AreEqual(75,  g.Height);
+            Assert.AreEqual(75, g.Height);
             Assert.AreEqual(7500, g.CellCount);
         }
 
@@ -74,7 +77,7 @@ namespace DogfightThreatAI.Tests.EditMode
             var g = NewGrid();
             g.WorldToCellClamped(new Vec2(9999f, -9999f), out int x, out int y);
             Assert.AreEqual(99, x);
-            Assert.AreEqual(0,  y);
+            Assert.AreEqual(0, y);
         }
 
         [Test]
@@ -107,7 +110,12 @@ namespace DogfightThreatAI.Tests.EditMode
             // 内部格：8 邻居全在界内
             int valid = 0;
             for (int d = 0; d < Grid2D.Neighbors8.Length; d++)
-                if (g.TryNeighbor8(10, 10, d, out _, out _)) valid++;
+            {
+                if (g.TryNeighbor8(10, 10, d, out _, out _))
+                {
+                    valid++;
+                }
+            }
             Assert.AreEqual(8, valid);
         }
     }

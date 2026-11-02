@@ -9,17 +9,26 @@ namespace DogfightThreatAI.Core.AI
     {
         Vec2 _center;
         float _side;
-        public bool Active { get; private set; }
 
+        public bool Active
+        {
+            get; private set;
+        }
+
+        // 记录恢复后重新切入追踪所需的路径起点信息。
         public void Begin(in FlightState observed, float turnRate, float confidence, bool enabled)
         {
             Active = enabled && confidence > .6f && MathF.Abs(turnRate) > .5f && observed.Speed > 1f;
-            if (!Active) return;
+            if (!Active)
+            {
+                return;
+            }
             Vec2 travel = observed.Velocity.Normalized;
             _center = observed.Position + new Vec2(-travel.Y, travel.X) * (observed.Speed / turnRate);
             _side = MathF.Sign(turnRate);
         }
 
+        // 计算当前重新切入路径的目标点。
         public Vec2 Goal(in FlightState self)
         {
             Vec2 radial = self.Position - _center;

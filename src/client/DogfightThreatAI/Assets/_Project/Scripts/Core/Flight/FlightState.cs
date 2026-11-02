@@ -25,7 +25,10 @@ namespace DogfightThreatAI.Core.Flight
         /// <summary>机头单位向量</summary>
         public Vec2 Forward => Vec2.FromAngle(Heading);
 
+        // 按给定位置和朝向创建静止的出生状态。
         public static FlightState At(Vec2 position, float heading = 0f)
-            => new FlightState { Position = position, Velocity = Vec2.Zero, Heading = heading };
+        {
+            return new FlightState { Position = position, Velocity = Vec2.Zero, Heading = heading };
+        }
     }
 }

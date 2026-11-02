@@ -20,14 +20,19 @@ namespace DogfightThreatAI.Core.World
 
         public Grid2D(Bounds2D bounds, float cellSize)
         {
-            if (cellSize <= 0f) throw new ArgumentOutOfRangeException(nameof(cellSize), "cellSize 必须 > 0");
+            if (cellSize <= 0f)
+            {
+                throw new ArgumentOutOfRangeException(nameof(cellSize), "cellSize 必须 > 0");
+            }
             Bounds = bounds;
             CellSize = cellSize;
         }
 
         /// <summary>以原点为中心、给定世界尺寸构造。 size = (400,300)、cell = 4 → 100×75 格。</summary>
         public static Grid2D Centered(Vec2 worldSize, float cellSize)
-            => new Grid2D(Bounds2D.Centered(worldSize * 0.5f), cellSize);
+        {
+            return new Grid2D(Bounds2D.Centered(worldSize * 0.5f), cellSize);
+        }
 
         /// <summary>
         /// 横向格数（向上取整，保证覆盖整个 Bounds）。
@@ -58,7 +63,10 @@ namespace DogfightThreatAI.Core.World
         {
             cellX = (int)MathF.Floor((world.X - Bounds.Min.X) / CellSize);
             cellY = (int)MathF.Floor((world.Y - Bounds.Min.Y) / CellSize);
-            if (InRange(cellX, cellY)) return true;
+            if (InRange(cellX, cellY))
+            {
+                return true;
+            }
             cellX = -1;
             cellY = -1;
             return false;
@@ -73,8 +81,10 @@ namespace DogfightThreatAI.Core.World
 
         /// <summary>格子坐标 → 该格中心的世界坐标（AI 的目标点一般用格中心，不要用格角）。</summary>
         public Vec2 CellCenter(int cellX, int cellY)
-            => new Vec2(Bounds.Min.X + (cellX + 0.5f) * CellSize,
-                        Bounds.Min.Y + (cellY + 0.5f) * CellSize);
+        {
+            return new Vec2(Bounds.Min.X + (cellX + 0.5f) * CellSize,
+                    Bounds.Min.Y + (cellY + 0.5f) * CellSize);
+        }
 
         /// <summary>格子坐标 → 该格覆盖的世界矩形。</summary>
         public Bounds2D CellBounds(int cellX, int cellY)
@@ -83,8 +93,11 @@ namespace DogfightThreatAI.Core.World
             return new Bounds2D(min, new Vec2(min.X + CellSize, min.Y + CellSize));
         }
 
+        // 判断格子坐标是否处于网格有效范围内。
         public bool InRange(int cellX, int cellY)
-            => cellX >= 0 && cellX < Width && cellY >= 0 && cellY < Height;
+        {
+            return cellX >= 0 && cellX < Width && cellY >= 0 && cellY < Height;
+        }
 
         // ───────────────────────── 索引换算（行优先）─────────────────────────
 
@@ -92,8 +105,12 @@ namespace DogfightThreatAI.Core.World
         /// (x, y) → 一维索引。行优先：index = y * Width + x。
         /// 同一行在内存里连续，扫行/扫邻居时缓存友好。
         /// </summary>
-        public int ToIndex(int cellX, int cellY) => cellY * Width + cellX;
+        public int ToIndex(int cellX, int cellY)
+        {
+            return cellY * Width + cellX;
+        }
 
+        // 把一维格索引转换为二维格坐标。
         public void FromIndex(int index, out int cellX, out int cellY)
         {
             cellY = index / Width;
@@ -129,6 +146,8 @@ namespace DogfightThreatAI.Core.World
 
         /// <summary>枚举四邻居的合法格子（不分配内存，用 for 循环调用）。</summary>
         public int NeighborCount4 => 4;
+
+        // 读取四邻域中的指定相邻格，并检查边界。
         public bool TryNeighbor4(int cellX, int cellY, int dir, out int nx, out int ny)
         {
             var (dx, dy) = Neighbors4[dir];
@@ -137,6 +156,7 @@ namespace DogfightThreatAI.Core.World
             return InRange(nx, ny);
         }
 
+        // 读取八邻域中的指定相邻格，并检查边界。
         public bool TryNeighbor8(int cellX, int cellY, int dir, out int nx, out int ny)
         {
             var (dx, dy) = Neighbors8[dir];
@@ -145,9 +165,14 @@ namespace DogfightThreatAI.Core.World
             return InRange(nx, ny);
         }
 
-        static int ClampInt(int v, int lo, int hi) => v < lo ? lo : (v > hi ? hi : v);
+        static int ClampInt(int v, int lo, int hi)
+        {
+            return v < lo ? lo : (v > hi ? hi : v);
+        }
 
         public override string ToString()
-            => $"Grid2D {Width}×{Height} cell={CellSize} bounds={Bounds}";
+        {
+            return $"Grid2D {Width}×{Height} cell={CellSize} bounds={Bounds}";
+        }
     }
 }

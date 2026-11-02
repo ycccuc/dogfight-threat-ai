@@ -9,7 +9,16 @@ namespace DogfightThreatAI.Gameplay.Adapters
     /// </summary>
     public static class Vec2UnityExtensions
     {
-        public static Vector2 ToUnity(this Vec2 v) => new Vector2(v.X, v.Y);
-        public static Vec2 ToCore(this Vector2 v) => new Vec2(v.x, v.y);
+        // 把 Core 向量转换为 Unity 表现层向量。
+        public static Vector2 ToUnity(this Vec2 v)
+        {
+            return new Vector2(v.X, v.Y);
+        }
+
+        // 把 Unity 输入或配置坐标转换为 Core 向量。
+        public static Vec2 ToCore(this Vector2 v)
+        {
+            return new Vec2(v.x, v.y);
+        }
     }
 }

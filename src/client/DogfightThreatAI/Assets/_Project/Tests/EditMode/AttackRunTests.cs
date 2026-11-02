@@ -38,7 +38,10 @@ namespace DogfightThreatAI.Tests.EditMode
                     Assert.IsTrue(separated, "Rearming requires an actual separation after the last hit.");
                     warnedId = run.Ai.AttackId;
                 }
-                if (Vec2.Distance(run.Enemy.Position, run.Player.Position) >= 3.5f) separated = true;
+                if (Vec2.Distance(run.Enemy.Position, run.Player.Position) >= 3.5f)
+                {
+                    separated = true;
+                }
                 if (run.Combat.Status.HitSequence > previousHits)
                 {
                     Assert.AreEqual(AttackRunPhase.Charge, run.Ai.Phase);
@@ -68,7 +71,10 @@ namespace DogfightThreatAI.Tests.EditMode
             for (int i = 0; i < 90; i++)
             {
                 run.Tick(new FlightInput(1f, i < 30 ? 1f : -1f));
-                if (run.Ai.Phase == AttackRunPhase.Recover) break;
+                if (run.Ai.Phase == AttackRunPhase.Recover)
+                {
+                    break;
+                }
                 Assert.AreEqual(id, run.Ai.AttackId);
                 Assert.AreEqual(heading, run.Ai.LockedHeading);
                 if (run.Ai.Phase == AttackRunPhase.Windup)
@@ -97,7 +103,10 @@ namespace DogfightThreatAI.Tests.EditMode
         public void EachLevelStillThreatensIdlePlayerAndAllowsAReaction(float timeOffset)
         {
             var idle = new Run(new Vec2(4f, -2.5f), Vec2.Zero, timeOffset);
-            for (int i = 0; i < 1800 && idle.Combat.Status.HitSequence == 0; i++) idle.Tick(FlightInput.Neutral);
+            for (int i = 0; i < 1800 && idle.Combat.Status.HitSequence == 0; i++)
+            {
+                idle.Tick(FlightInput.Neutral);
+            }
             Assert.Greater(idle.Combat.Status.HitSequence, 0, "Fairness cannot pass by never attacking.");
             bool escaped = false;
             // Responses depend only on the public warning; no future target or private waypoint is read.
@@ -110,7 +119,10 @@ namespace DogfightThreatAI.Tests.EditMode
                     FlightInput input = frame < 15 ? FlightInput.Neutral :
                         new FlightInput(1f, frame < 35 ? turn : 0f);
                     run.Tick(input);
-                    if (run.Ai.Phase == AttackRunPhase.Recover) break;
+                    if (run.Ai.Phase == AttackRunPhase.Recover)
+                    {
+                        break;
+                    }
                 }
                 escaped |= run.Combat.Status.HitSequence == 0;
             }
@@ -134,7 +146,10 @@ namespace DogfightThreatAI.Tests.EditMode
                 run.Tick(FlightInput.Neutral);
                 Assert.AreEqual(1, run.Ai.Level);
             }
-            for (int i = 0; i < 400 && run.Ai.Level == 1; i++) run.Tick(FlightInput.Neutral);
+            for (int i = 0; i < 400 && run.Ai.Level == 1; i++)
+            {
+                run.Tick(FlightInput.Neutral);
+            }
             Assert.AreEqual(2, run.Ai.Level);
         }
 
@@ -154,7 +169,10 @@ namespace DogfightThreatAI.Tests.EditMode
             run.UntilWarning();
             int id = run.Ai.AttackId;
             run.Ai.CanStartVisibleAttack = false;
-            for (int i = 0; i < 45 && run.Ai.Phase != AttackRunPhase.Charge; i++) run.Tick(FlightInput.Neutral);
+            for (int i = 0; i < 45 && run.Ai.Phase != AttackRunPhase.Charge; i++)
+            {
+                run.Tick(FlightInput.Neutral);
+            }
             Assert.AreEqual(AttackRunPhase.Charge, run.Ai.Phase);
             Assert.AreEqual(id, run.Ai.AttackId);
         }
@@ -165,10 +183,19 @@ namespace DogfightThreatAI.Tests.EditMode
         public void MovingThenStoppedPlayerIsAttackedAgain(float steer)
         {
             var run = new Run(new Vec2(4f, -2.5f), Vec2.Zero);
-            for (int i = 0; i < 250; i++) run.Tick(new FlightInput(1f, steer));
-            for (int i = 0; i < 100; i++) run.Tick(new FlightInput(-1f, 0f));
+            for (int i = 0; i < 250; i++)
+            {
+                run.Tick(new FlightInput(1f, steer));
+            }
+            for (int i = 0; i < 100; i++)
+            {
+                run.Tick(new FlightInput(-1f, 0f));
+            }
             int before = run.Combat.Status.HitSequence;
-            for (int i = 0; i < 2500 && run.Combat.Status.HitSequence == before; i++) run.Tick(FlightInput.Neutral);
+            for (int i = 0; i < 2500 && run.Combat.Status.HitSequence == before; i++)
+            {
+                run.Tick(FlightInput.Neutral);
+            }
             Assert.Greater(run.Combat.Status.HitSequence, before);
         }
 
@@ -184,9 +211,15 @@ namespace DogfightThreatAI.Tests.EditMode
                 run.Tick(new FlightInput(1f, MathF.Max(-1f, MathF.Min(1f, angle / (240f * MathF.PI / 180f * Dt)))));
             }
             Assert.GreaterOrEqual(run.Ai.Level, 2);
-            for (int i = 0; i < 100; i++) run.Tick(new FlightInput(-1f, 0f));
+            for (int i = 0; i < 100; i++)
+            {
+                run.Tick(new FlightInput(-1f, 0f));
+            }
             int hits = run.Combat.Status.HitSequence;
-            for (int i = 0; i < 3000 && run.Combat.Status.HitSequence == hits; i++) run.Tick(FlightInput.Neutral);
+            for (int i = 0; i < 3000 && run.Combat.Status.HitSequence == hits; i++)
+            {
+                run.Tick(FlightInput.Neutral);
+            }
             Assert.Greater(run.Combat.Status.HitSequence, hits, "After pressure stops the enemy must regain an attack.");
         }
 
@@ -201,7 +234,12 @@ namespace DogfightThreatAI.Tests.EditMode
             Assert.That(count, Is.InRange(85, 87));
             for (int i = 1; i < count; i++)
             {
-                model.Step(ref predicted, i <= 40 ? new FlightInput(run.Ai.WarningSpeed / EnemySpec.MaxSpeed, 0f) : new FlightInput(1f, 0f), Dt);
+                model.Step(
+                    ref predicted,
+                    i <= 40 ? new FlightInput(run.Ai.WarningSpeed / EnemySpec.MaxSpeed, 0f) : new FlightInput(
+                        1f,
+                        0f),
+                    Dt);
                 Assert.Less(Vec2.Distance(predicted.Position, run.Ai.GetPreviewPoint(i)), .001f);
             }
         }
@@ -284,6 +322,7 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             CollectionAssert.AreEqual(Replay(), Replay());
         }
+
         static List<string> Replay()
         {
             var run = new Run(new Vec2(4f, -2.5f), Vec2.Zero);
@@ -295,27 +334,37 @@ namespace DogfightThreatAI.Tests.EditMode
             }
             return result;
         }
+
         static void AssertLegal(FlightInput input)
         {
             Assert.That(input.Throttle, Is.InRange(-1f, 1f));
             Assert.That(input.Steer, Is.InRange(-1f, 1f));
         }
+
         sealed class ClockView : ICombatStatusView
         {
             public ContactCombatModel Model;
             public float Offset;
+
             public CombatStatus Status => new CombatStatus(Model.Status.PlayerHealth, Model.Status.MaxPlayerHealth,
                 Model.Status.HitSequence, Model.Status.InvulnerabilityRemaining, Model.Status.ElapsedTime + Offset);
         }
+
         sealed class TestWorld : IWorldView
         {
             public FlightState Enemy, Player;
             public bool Alive = true;
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0
                 ? new AircraftSnapshot(2, 2, Enemy)
                 : new AircraftSnapshot(1, 1, Player, Alive, true);
+            }
         }
+
         sealed class Run
         {
             public FlightState Enemy, Player;
@@ -326,30 +375,39 @@ namespace DogfightThreatAI.Tests.EditMode
             public FlightInput LastInput;
             readonly FlightModel _enemy = FlightModel.From(EnemySpec, Arena);
             readonly FlightModel _player = FlightModel.From(PlayerSpec, Arena);
+
             public Run(Vec2 enemy, Vec2 player, float offset = 0f)
             {
                 Enemy = FlightState.At(enemy, MathF.PI * .5f);
                 Player = FlightState.At(player);
-                World.Enemy = Enemy; World.Player = Player;
+                World.Enemy = Enemy;
+                World.Player = Player;
                 Clock = new ClockView { Model = Combat, Offset = offset };
                 Ai = new AttackRunInputSource(World, 2, EnemySpec, Clock, Arena, PlayerSpec);
             }
+
             public void Tick(FlightInput playerInput)
             {
-                World.Enemy = Enemy; World.Player = Player;
+                World.Enemy = Enemy;
+                World.Player = Player;
                 LastInput = Ai.ReadInput(Dt);
                 AssertLegal(LastInput);
-                var beforeEnemy = Enemy; var beforePlayer = Player;
+                var beforeEnemy = Enemy;
+                var beforePlayer = Player;
                 _enemy.Step(ref Enemy, LastInput, Dt);
                 _player.Step(ref Player, playerInput, Dt);
                 Combat.Step(beforePlayer, Player, beforeEnemy, Enemy, Dt, Ai.AttackWindow);
             }
+
             public void UntilWarning()
             {
                 for (int i = 0; i < 2500; i++)
                 {
                     Tick(FlightInput.Neutral);
-                    if (Ai.Phase == AttackRunPhase.Windup) return;
+                    if (Ai.Phase == AttackRunPhase.Windup)
+                    {
+                        return;
+                    }
                 }
                 Assert.Fail($"No warning: {Ai.Phase}, enemy={Enemy.Position}, goal={Ai.ManeuverPoint}, level={Ai.Level}");
             }

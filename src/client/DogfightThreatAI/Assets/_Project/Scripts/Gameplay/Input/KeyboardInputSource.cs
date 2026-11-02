@@ -42,12 +42,14 @@ namespace DogfightThreatAI.Gameplay.InputSource
         public PropulsionCue VisiblePropulsionCue => IsOverheated ? PropulsionCue.Overheat :
             IsDashing ? PropulsionCue.Dash : IsAccelerating ? PropulsionCue.Hold : PropulsionCue.None;
 
+        // 缓存飞机控制器，并按当前持键情况初始化推进输入。
         void Awake()
         {
             _controller = GetComponent<PlayerController>();
             ResetAbilityState(Input.GetKey(KeyCode.Space), ShiftHeld());
         }
 
+        // 缓存短冲与长推的按键边沿，供固定步消费。
         void Update()
         {
             bool wasHoldHeld = _holdHeld;
@@ -58,9 +60,13 @@ namespace DogfightThreatAI.Gameplay.InputSource
                 ? Input.GetKey(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.DownArrow)
                 : Input.GetKey(KeyCode.S) || Input.GetKeyDown(KeyCode.S));
             // A dead/disabled controller stops calling ReadInput, so cancel from the render loop too.
-            if (!CanUseBoost) CancelInput();
+            if (!CanUseBoost)
+            {
+                CancelInput();
+            }
         }
 
+        // 读取油门和转向，并推进一次玩家能力模型。
         public FlightInput ReadInput(float deltaTime)
         {
             float throttle, steer;
@@ -86,19 +92,33 @@ namespace DogfightThreatAI.Gameplay.InputSource
             return new FlightInput(braking ? -1f : CanUseBoost && _boost.RequestsForwardThrust ? 1f : throttle, steer);
         }
 
+        // 记录推进键的持续状态，识别本帧新按下的操作。
         void CaptureAbilityFrame(bool dashHeld, bool holdHeld)
         {
             if (_hasFocus)
             {
-                if (!dashHeld) _dashLocked = false;
-                if (!holdHeld) _holdLocked = false;
-                if (dashHeld && !_dashHeld && !_dashLocked) _dashPressPending = true;
-                if (holdHeld && !_holdHeld && !_holdLocked) _holdPressPending = true;
+                if (!dashHeld)
+                {
+                    _dashLocked = false;
+                }
+                if (!holdHeld)
+                {
+                    _holdLocked = false;
+                }
+                if (dashHeld && !_dashHeld && !_dashLocked)
+                {
+                    _dashPressPending = true;
+                }
+                if (holdHeld && !_holdHeld && !_holdLocked)
+                {
+                    _holdPressPending = true;
+                }
             }
             _dashHeld = dashHeld;
             _holdHeld = holdHeld;
         }
 
+        // 消费一次能力输入，处理失焦、刹车与推进门控。
         void ConsumeAbilityFrame(float deltaTime, bool canBoost, bool braking, float currentForwardSpeed)
         {
             if (!canBoost || !_hasFocus || braking)
@@ -114,18 +134,33 @@ namespace DogfightThreatAI.Gameplay.InputSource
                 true, false, holdPressed);
         }
 
+        // 刹车时取消尚未消费的推进请求。
         void CaptureBrakeFrame(bool braking)
         {
-            if (braking) CancelInput();
+            if (braking)
+            {
+                CancelInput();
+            }
         }
 
+        // 缓存尚未被固定步消费的短按边沿。
         void CaptureAbilityEdges(bool dashPressed, bool holdPressed)
         {
-            if (!_hasFocus) return;
-            if (dashPressed && !_dashLocked) _dashPressPending = true;
-            if (holdPressed && !_holdLocked) _holdPressPending = true;
+            if (!_hasFocus)
+            {
+                return;
+            }
+            if (dashPressed && !_dashLocked)
+            {
+                _dashPressPending = true;
+            }
+            if (holdPressed && !_holdLocked)
+            {
+                _holdPressPending = true;
+            }
         }
 
+        // 重置能力输入与资源模型，并锁住当前仍按下的键。
         void ResetAbilityState(bool dashHeld, bool holdHeld)
         {
             _dashHeld = dashHeld;
@@ -136,6 +171,7 @@ namespace DogfightThreatAI.Gameplay.InputSource
             _boost.Reset(holdHeld);
         }
 
+        // 清空待消费操作，并要求持有的推进键先松开。
         void CancelInput()
         {
             _dashPressPending = _holdPressPending = false;
@@ -144,16 +180,29 @@ namespace DogfightThreatAI.Gameplay.InputSource
             _boost.CancelAbilities(_holdHeld);
         }
 
+        // 失去焦点时取消推进，避免返回窗口后误触发能力。
         void OnApplicationFocus(bool focused)
         {
             _hasFocus = focused;
-            if (focused) return;
+            if (focused)
+            {
+                return;
+            }
             CancelInput();
             // Inputs sampled while unfocused cannot count as the required physical release.
             _dashLocked = _holdLocked = true;
         }
 
-        void OnDisable() => CancelInput();
-        static bool ShiftHeld() => Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        // 停止输入时清理尚未消费的推进请求。
+        void OnDisable()
+        {
+            CancelInput();
+        }
+
+        // 统一读取左右 Shift 的持续按下状态。
+        static bool ShiftHeld()
+        {
+            return Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift);
+        }
     }
 }

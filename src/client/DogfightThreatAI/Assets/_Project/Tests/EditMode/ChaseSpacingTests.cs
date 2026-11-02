@@ -198,8 +198,10 @@ namespace DogfightThreatAI.Tests.EditMode
             var before = (AircraftSnapshot[])world.Aircraft.Clone();
             var source = new ChaseInputSource(world, 1, DefaultSpec());
 
-            for (int i = 0; i < 100; i++) AssertLegal(source.ReadInput(Dt));
-
+            for (int i = 0; i < 100; i++)
+            {
+                AssertLegal(source.ReadInput(Dt));
+            }
             CollectionAssert.AreEqual(before, world.Aircraft,
                 "Any prediction must advance local state copies, never the published aircraft state.");
         }
@@ -255,12 +257,19 @@ namespace DogfightThreatAI.Tests.EditMode
             Assert.That(input.Steer, Is.InRange(-1f, 1f));
         }
 
-        static AircraftSpec DefaultSpec() => new AircraftSpec(2f, 9f, 18f, 240f, 0.1f, 8f, 0.35f);
-        static SimulationSummary NewSummary() => new SimulationSummary
+        static AircraftSpec DefaultSpec()
         {
-            MinimumDistance = float.PositiveInfinity,
-            TailMinimumDistance = float.PositiveInfinity
-        };
+            return new AircraftSpec(2f, 9f, 18f, 240f, 0.1f, 8f, 0.35f);
+        }
+
+        static SimulationSummary NewSummary()
+        {
+            return new SimulationSummary
+            {
+                MinimumDistance = float.PositiveInfinity,
+                TailMinimumDistance = float.PositiveInfinity
+            };
+        }
 
         struct SimulationSummary
         {
@@ -274,9 +283,19 @@ namespace DogfightThreatAI.Tests.EditMode
         sealed class FakeWorld : IWorldView
         {
             internal readonly AircraftSnapshot[] Aircraft = new AircraftSnapshot[2];
-            public FakeWorld(FlightState self, FlightState player) { Publish(self, player); }
+
+            public FakeWorld(FlightState self, FlightState player)
+            {
+                Publish(self, player);
+            }
+
             public int AircraftCount => Aircraft.Length;
-            public AircraftSnapshot GetAircraft(int index) => Aircraft[index];
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return Aircraft[index];
+            }
+
             public void Publish(FlightState self, FlightState player)
             {
                 Aircraft[0] = new AircraftSnapshot(1, 1, self);

@@ -97,7 +97,9 @@ namespace DogfightThreatAI.Tests.PlayMode
         {
             Assert.IsNotNull(aircraft);
             var hitbox = aircraft.GetComponent<AircraftHitbox>();
-            Assert.IsNotNull(hitbox, "The saved Battle aircraft must contain its actual contact volume, not only a damage radius in code.");
+            Assert.IsNotNull(
+                hitbox,
+                "The saved Battle aircraft must contain its actual contact volume, not only a damage radius in code.");
             Assert.IsNotNull(hitbox.Collider);
             return hitbox;
         }

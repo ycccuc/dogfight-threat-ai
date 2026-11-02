@@ -34,8 +34,9 @@ namespace DogfightThreatAI.Tests.PlayMode
             _ai = _combat.Enemy.GetComponent<ChaseAiInputSource>();
             Assert.IsNotNull(_ai);
             foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>())
+            {
                 hitbox.Collider.enabled = false;
-
+            }
             // Begin at full speed with a real 90-degree turn to make: full throttle alone loses speed here.
             SetState(_combat.Player, FlightState.At(Vec2.Zero, Mathf.PI * .5f));
             SetState(_combat.Enemy, new FlightState

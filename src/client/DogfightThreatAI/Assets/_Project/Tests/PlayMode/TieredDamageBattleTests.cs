@@ -70,7 +70,10 @@ namespace DogfightThreatAI.Tests.PlayMode
                 _ai.SetDifficulty(level);
                 _ai.ReadInput(Time.fixedDeltaTime);
                 Assert.AreEqual(level, _ai.Level);
-                Assert.AreEqual(1, _ai.CollisionDamage, "All four scene difficulty levels must deal exactly one hull point per contact.");
+                Assert.AreEqual(
+                    1,
+                    _ai.CollisionDamage,
+                    "All four scene difficulty levels must deal exactly one hull point per contact.");
                 Assert.AreEqual(PursuitDifficultyProfile.ForLevel(level).CollisionDamage, _ai.CollisionDamage);
                 SetState(_combat.Enemy, FlightState.At(Vec2.Zero));
                 TickCombat();
@@ -100,7 +103,10 @@ namespace DogfightThreatAI.Tests.PlayMode
             float recovery = _ai.PhaseRemaining;
             AdvanceWithoutContact(recovery + .02f);
             float remainingProtection = _combat.Status.InvulnerabilityRemaining;
-            Assert.Greater(remainingProtection, 0f, "The shortened recovery must not clear the existing 0.7-second protection.");
+            Assert.Greater(
+                remainingProtection,
+                0f,
+                "The shortened recovery must not clear the existing 0.7-second protection.");
             _ai.ReadInput(Time.fixedDeltaTime);
             Assert.AreEqual(4, _ai.Level);
             Assert.AreEqual(AttackRunPhase.Windup, _ai.Phase);
@@ -129,8 +135,15 @@ namespace DogfightThreatAI.Tests.PlayMode
             Model().Step(player, player, far, far, seconds);
         }
 
-        ContactCombatModel Model() => (ContactCombatModel)typeof(BattleCombatController).GetField("_model", Private).GetValue(_combat);
-        void TickCombat() => typeof(BattleCombatController).GetMethod("FixedUpdate", Private).Invoke(_combat, null);
+        ContactCombatModel Model()
+        {
+            return (ContactCombatModel)typeof(BattleCombatController).GetField("_model", Private).GetValue(_combat);
+        }
+
+        void TickCombat()
+        {
+            typeof(BattleCombatController).GetMethod("FixedUpdate", Private).Invoke(_combat, null);
+        }
 
         static void SetState(PlayerController controller, FlightState state)
         {

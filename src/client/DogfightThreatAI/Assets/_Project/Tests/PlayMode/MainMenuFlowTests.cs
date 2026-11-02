@@ -26,7 +26,10 @@ namespace DogfightThreatAI.Tests.Menu
         [UnityTearDown]
         public IEnumerator TearDown()
         {
-            if (EventSystem.current != null) EventSystem.current.SetSelectedGameObject(_previousSelection);
+            if (EventSystem.current != null)
+            {
+                EventSystem.current.SetSelectedGameObject(_previousSelection);
+            }
             Object.Destroy(_root);
             yield return null;
         }

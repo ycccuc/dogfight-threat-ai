@@ -11,6 +11,7 @@ namespace DogfightThreatAI.Tests.EditMode
     public sealed class AttackApproachTests
     {
         static readonly AircraftSpec Spec = new AircraftSpec(2f, 9f, 18f, 210f, .1f, 8f, .35f);
+
         static AircraftSnapshot Target(Vec2 position, float heading, float speed = 3f, int id = 1)
         {
             var state = FlightState.At(position, heading);
@@ -28,7 +29,12 @@ namespace DogfightThreatAI.Tests.EditMode
             var first = selector.Select(self, Target(Vec2.Zero, 0f), profile, null, clock);
             for (int i = 1; i <= 3; i++)
             {
-                var next = selector.Select(self, Target(new Vec2(.15f * i, .1f * i), i * .6f), profile, null, clock + i * .25f);
+                var next = selector.Select(
+                    self,
+                    Target(new Vec2(.15f * i, .1f * i), i * .6f),
+                    profile,
+                    null,
+                    clock + i * .25f);
                 Assert.Less(Vec2.Distance(first.Position, next.Position), .001f,
                     "A committed approach is a world-space destination; a new movement-axis angle must not move it away every quarter second.");
             }
@@ -45,9 +51,11 @@ namespace DogfightThreatAI.Tests.EditMode
             selector.Select(self, target, profile, null, clock);
             TacticalPlan last = default;
             for (int i = 1; i <= 12; i++)
+            {
                 last = selector.Select(self, target, profile, null, clock + i * .25f);
+            }
             Assert.AreEqual(AttackTactic.Intercept, last.Tactic,
-                "Repeatedly timing out at the same flank destination must change the approach, not restart the same plan forever.");
+                            "Repeatedly timing out at the same flank destination must change the approach, not restart the same plan forever.");
             Assert.Less(MathF.Abs(last.Position.Y), .001f);
         }
 
@@ -77,7 +85,10 @@ namespace DogfightThreatAI.Tests.EditMode
         public void Forecast_UsesObservedCurvatureRatherThanProjectingACircleAlongItsTangent()
         {
             var forecast = new TargetMotionForecast();
-            for (int i = 0; i <= 5; i++) forecast.Sample(Circle(i * .1f), i * .1f);
+            for (int i = 0; i <= 5; i++)
+            {
+                forecast.Sample(Circle(i * .1f), i * .1f);
+            }
             var observed = Circle(.5f);
             Vec2 future = forecast.Predict(observed, 1.1f);
             Vec2 actual = Circle(1.6f).Flight.Position;

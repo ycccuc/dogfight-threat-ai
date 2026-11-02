@@ -19,9 +19,15 @@ namespace DogfightThreatAI.Gameplay.Config
         [SerializeField, Min(1)] float turnRate = 220f;
         [SerializeField, Min(1)] float retreatDistance = 3f;
         [SerializeField, Min(2)] float engageDistance = 7f;
+
         public string DisplayName => displayName;
         public string Description => description;
-        public GunnerProfile ToSpec() => new GunnerProfile(useAStar, observationInterval, prediction,
-            aimToleranceDegrees * Mathf.Deg2Rad, fireDelay, cruiseSpeed, turnRate, retreatDistance, engageDistance, shotSpacing);
+
+        // 将难度资产转为纯 AI 配置，并统一角度单位。
+        public GunnerProfile ToSpec()
+        {
+            return new GunnerProfile(useAStar, observationInterval, prediction,
+                    aimToleranceDegrees * Mathf.Deg2Rad, fireDelay, cruiseSpeed, turnRate, retreatDistance, engageDistance, shotSpacing);
+        }
     }
 }

@@ -142,7 +142,11 @@ namespace DogfightThreatAI.Tests.EditMode
             boost.Step(false, true, Dt, 21.6f);
             var state = new FlightState { Velocity = new Vec2(21.6f, 0f) };
             NewFlight().Step(ref state, new FlightInput(1f, 0f), Dt, boost.MotionCommand);
-            Assert.AreEqual(21f, state.Speed, .0001f, "Resuming Hold decelerates the real dash tail instead of clamping it to 18.");
+            Assert.AreEqual(
+                21f,
+                state.Speed,
+                .0001f,
+                "Resuming Hold decelerates the real dash tail instead of clamping it to 18.");
         }
 
         [Test]
@@ -223,7 +227,10 @@ namespace DogfightThreatAI.Tests.EditMode
         public void RepeatedEmptyRequestsAndBrakeCannotClearOrExtendOverheat()
         {
             var boost = Exhaust();
-            for (int i = 0; i < 20; i++) boost.Step(true, true, .02f, 18f, true, true);
+            for (int i = 0; i < 20; i++)
+            {
+                boost.Step(true, true, .02f, 18f, true, true);
+            }
             Assert.AreEqual(.5f, boost.OverheatRemaining, .0001f);
             Assert.AreEqual(0f, boost.Energy);
             Assert.AreEqual(7.2f, boost.MotionCommand.MaxSpeed);
@@ -338,10 +345,13 @@ namespace DogfightThreatAI.Tests.EditMode
             var boost = new PlayerBoostModel();
             boost.Step(false, true, 1f);
             boost.Step(false, true, .02f, holdPressed: true);
-            Assert.IsFalse(boost.IsSustaining, "A new captured press implies a real release even if both happened between fixed steps.");
+            Assert.IsFalse(
+                boost.IsSustaining,
+                "A new captured press implies a real release even if both happened between fixed steps.");
             Assert.AreEqual(20f, boost.Energy, .0001f);
             Assert.IsTrue(boost.RequiresRelease);
         }
+
         static PlayerBoostModel Exhaust()
         {
             var boost = new PlayerBoostModel();
@@ -350,6 +360,9 @@ namespace DogfightThreatAI.Tests.EditMode
             return boost;
         }
 
-        static FlightModel NewFlight() => new FlightModel(2f, 9f, 18f, 240f, .1f, 8f, .35f);
+        static FlightModel NewFlight()
+        {
+            return new FlightModel(2f, 9f, 18f, 240f, .1f, 8f, .35f);
+        }
     }
 }

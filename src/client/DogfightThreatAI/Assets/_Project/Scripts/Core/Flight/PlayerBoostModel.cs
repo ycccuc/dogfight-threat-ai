@@ -18,7 +18,10 @@ namespace DogfightThreatAI.Core.Flight
         public const float RechargePerSecond = 20f;
         public const float OverheatSeconds = .9f;
         const double Epsilon = .00001d;
-        enum Stage { Idle, Dash, Hold, Tail }
+        enum Stage
+        {
+            Idle, Dash, Hold, Tail
+        }
         Stage _stage;
         double _energy = MaximumEnergy, _dashRemaining, _cooldownRemaining, _overheatRemaining, _idleSeconds;
         bool _wasHoldHeld, _overheatDebt;
@@ -38,16 +41,27 @@ namespace DogfightThreatAI.Core.Flight
             _cooldownRemaining <= Epsilon && _energy + Epsilon >= BurstEnergyCost;
         public bool IsCoolingDown => !IsBoosting && !IsOverheated && _energy < MaximumEnergy - Epsilon &&
             _idleSeconds + Epsilon < RechargeDelaySeconds;
-        public bool RequiresRelease { get; private set; }
-        public bool RequestsForwardThrust { get; private set; }
-        public float PoweredSecondsThisStep { get; private set; }
+        public bool RequiresRelease
+        {
+            get; private set;
+        }
+        public bool RequestsForwardThrust
+        {
+            get; private set;
+        }
+        public float PoweredSecondsThisStep
+        {
+            get; private set;
+        }
         public FlightMotionCommand MotionCommand { get; private set; } = FlightMotionCommand.Ordinary();
         // Legacy presentation code may still use this ratio; motion uses MotionCommand.
         public float SpeedMultiplier => IsDashing ? DefaultSpeedMultiplier : IsSustaining ? MaximumSpeedMultiplier : 1f;
 
         /// <summary>Compatibility: the old held button now means Shift thrust, never a dash.</summary>
         public void Step(bool held, float deltaTime, bool canBoost = true, bool braking = false)
-            => Step(false, held, deltaTime, 9f, canBoost, braking);
+        {
+            Step(false, held, deltaTime, 9f, canBoost, braking);
+        }
 
         /// <summary>
         /// dashPressed is a consumed edge, not a held request. holdPressed preserves a tap sampled
@@ -56,20 +70,31 @@ namespace DogfightThreatAI.Core.Flight
         public void Step(bool dashPressed, bool holdHeld, float deltaTime, float currentForwardSpeed = 9f,
             bool canBoost = true, bool braking = false, bool holdPressed = false)
         {
-            if (float.IsNaN(deltaTime) || float.IsInfinity(deltaTime) || deltaTime <= 0f) return;
-            if (float.IsNaN(currentForwardSpeed) || float.IsInfinity(currentForwardSpeed)) currentForwardSpeed = 0f;
+            if (float.IsNaN(deltaTime) || float.IsInfinity(deltaTime) || deltaTime <= 0f)
+            {
+                return;
+            }
+            if (float.IsNaN(currentForwardSpeed) || float.IsInfinity(currentForwardSpeed))
+            {
+                currentForwardSpeed = 0f;
+            }
             PoweredSecondsThisStep = 0f;
             RequestsForwardThrust = false;
             // An explicit Update edge is a fresh press, including release/repress within one fixed step.
             if (holdPressed)
             {
                 RequiresRelease = false;
-                if (_stage == Stage.Hold && _wasHoldHeld) BeginTail(180f);
+                if (_stage == Stage.Hold && _wasHoldHeld)
+                {
+                    BeginTail(180f);
+                }
             }
             bool pressed = holdPressed || (holdHeld && !_wasHoldHeld);
             _wasHoldHeld = holdHeld;
-            if (!holdHeld && !holdPressed) RequiresRelease = false;
-
+            if (!holdHeld && !holdPressed)
+            {
+                RequiresRelease = false;
+            }
             if (!canBoost)
             {
                 CancelAbilities(holdHeld);
@@ -83,8 +108,14 @@ namespace DogfightThreatAI.Core.Flight
             }
             else
             {
-                if (_stage == Stage.Hold && (!holdHeld && !holdPressed || RequiresRelease)) BeginTail(180f);
-                if (_stage == Stage.Tail && currentForwardSpeed <= 9f + Epsilon) _stage = Stage.Idle;
+                if (_stage == Stage.Hold && (!holdHeld && !holdPressed || RequiresRelease))
+                {
+                    BeginTail(180f);
+                }
+                if (_stage == Stage.Tail && currentForwardSpeed <= 9f + Epsilon)
+                {
+                    _stage = Stage.Idle;
+                }
                 if (dashPressed && CanDash)
                 {
                     _energy = System.Math.Max(0d, _energy - BurstEnergyCost);
@@ -95,7 +126,9 @@ namespace DogfightThreatAI.Core.Flight
                     _idleSeconds = 0d;
                 }
                 else if (pressed && !RequiresRelease && _stage != Stage.Dash && _stage != Stage.Hold)
+                {
                     TryBeginHold();
+                }
             }
 
             Stage initialStage = _stage;
@@ -113,7 +146,10 @@ namespace DogfightThreatAI.Core.Flight
                     _dashRemaining = System.Math.Max(0d, _dashRemaining - elapsed);
                     PoweredSecondsThisStep += (float)elapsed;
                     _idleSeconds = 0d;
-                    if (!firstEnded) firstDuration += elapsed;
+                    if (!firstEnded)
+                    {
+                        firstDuration += elapsed;
+                    }
                     if (_dashRemaining <= Epsilon)
                     {
                         FinishDash(holdHeld && !braking);
@@ -128,7 +164,10 @@ namespace DogfightThreatAI.Core.Flight
                     _energy = System.Math.Max(0d, _energy - elapsed * SustainDrainPerSecond);
                     PoweredSecondsThisStep += (float)elapsed;
                     _idleSeconds = 0d;
-                    if (!firstEnded) firstDuration += elapsed;
+                    if (!firstEnded)
+                    {
+                        firstDuration += elapsed;
+                    }
                     if (_energy <= Epsilon)
                     {
                         _energy = 0d;
@@ -166,7 +205,9 @@ namespace DogfightThreatAI.Core.Flight
                 MotionCommand = first.WithActiveSeconds((float)firstDuration, exitSpeed, exitTurn, 30f);
             }
             else if (initialHeat > Epsilon && initialHeat < deltaTime - Epsilon)
+            {
                 MotionCommand = first.WithActiveSeconds((float)initialHeat, 9f, 240f, 30f);
+            }
         }
 
         /// <summary>Focus loss, death or braking cancels already paid movement without clearing resource debt.</summary>
@@ -179,10 +220,14 @@ namespace DogfightThreatAI.Core.Flight
             _wasHoldHeld = holdHeld;
             RequestsForwardThrust = false;
             PoweredSecondsThisStep = 0f;
-            if (_overheatDebt) BeginOverheat();
+            if (_overheatDebt)
+            {
+                BeginOverheat();
+            }
             SetPassiveMotion(9f, false);
         }
 
+        // 恢复玩家推进资源、冷却与动作阶段。
         public void Reset(bool holdHeld = false)
         {
             _stage = Stage.Idle;
@@ -197,6 +242,7 @@ namespace DogfightThreatAI.Core.Flight
             MotionCommand = FlightMotionCommand.Ordinary();
         }
 
+        // 检查资源和门控后尝试开始长推。
         void TryBeginHold()
         {
             if (IsOverheated || _overheatDebt || _energy + Epsilon < BurstEnergyCost)
@@ -208,6 +254,7 @@ namespace DogfightThreatAI.Core.Flight
             _idleSeconds = 0d;
         }
 
+        // 结束短冲并按规则安排后续推进状态。
         void FinishDash(bool holdHeld)
         {
             if (_overheatDebt)
@@ -217,15 +264,20 @@ namespace DogfightThreatAI.Core.Flight
                 return;
             }
             BeginTail(240f);
-            if (holdHeld && !RequiresRelease) TryBeginHold();
+            if (holdHeld && !RequiresRelease)
+            {
+                TryBeginHold();
+            }
         }
 
+        // 进入推进结束后的有限减速阶段。
         void BeginTail(float turnRate)
         {
             _stage = Stage.Tail;
             _tailTurnRate = turnRate;
         }
 
+        // 进入资源耗尽后的过热阶段。
         void BeginOverheat()
         {
             _overheatDebt = false;
@@ -234,28 +286,43 @@ namespace DogfightThreatAI.Core.Flight
             _stage = Stage.Idle;
         }
 
+        // 根据当前能力阶段生成明确的飞行推进命令。
         FlightMotionCommand CommandForStage(float speed)
         {
-            if (IsOverheated) return FlightMotionCommand.FiniteAcceleration(7.2f, 18f, 30f, 240f);
-            if (_stage == Stage.Dash) return FlightMotionCommand.SpeedOverride(21.6f);
-            if (_stage == Stage.Hold) return FlightMotionCommand.FiniteAcceleration(18f, 7.5f, 30f, 180f);
+            if (IsOverheated)
+            {
+                return FlightMotionCommand.FiniteAcceleration(7.2f, 18f, 30f, 240f);
+            }
+            if (_stage == Stage.Dash)
+            {
+                return FlightMotionCommand.SpeedOverride(21.6f);
+            }
+            if (_stage == Stage.Hold)
+            {
+                return FlightMotionCommand.FiniteAcceleration(18f, 7.5f, 30f, 180f);
+            }
             if (_stage == Stage.Tail && speed > 9f + Epsilon)
+            {
                 return FlightMotionCommand.FiniteAcceleration(9f, 18f, 30f, _tailTurnRate);
+            }
             return FlightMotionCommand.Ordinary();
         }
 
+        // 为非主动推进阶段设置合适的运动命令。
         void SetPassiveMotion(float speed, bool thrust)
         {
             MotionCommand = CommandForStage(speed);
             RequestsForwardThrust = thrust;
         }
 
+        // 消费当前阶段允许使用的模拟时间。
         void SpendTime(double elapsed, ref double remaining)
         {
             _cooldownRemaining = System.Math.Max(0d, _cooldownRemaining - elapsed);
             remaining = System.Math.Max(0d, remaining - elapsed);
         }
 
+        // 根据回充规则恢复玩家推进能量。
         void Recharge(double elapsed)
         {
             double before = System.Math.Max(0d, _idleSeconds - RechargeDelaySeconds);

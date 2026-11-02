@@ -35,25 +35,48 @@ namespace DogfightThreatAI.Gameplay.World
         /// <summary>供其他系统读取（ThreatGrid 会复用同一份配置）。</summary>
         public Grid2D Grid => _grid;
 
-        void OnValidate() => Rebuild();
+        // 编辑网格配置后更新调试用逻辑网格。
+        void OnValidate()
+        {
+            Rebuild();
+        }
 
-        void Awake() => Rebuild();
+        // 根据场景配置初始化调试网格。
+        void Awake()
+        {
+            Rebuild();
+        }
 
+        // 限制格子尺寸并重建居中的逻辑网格数据。
         void Rebuild()
         {
-            if (cellSize <= 0f) cellSize = 0.01f;
+            if (cellSize <= 0f)
+            {
+                cellSize = 0.01f;
+            }
             _grid = Grid2D.Centered(new Vec2(worldSize.x, worldSize.y), cellSize);
         }
 
+        // 在 Scene 视图中绘制细格、主线和战场边界。
         void OnDrawGizmos()
         {
-            if (Application.isPlaying && !drawInPlayMode) return;
-            if (cellSize <= 0f) return;
-
+            if (Application.isPlaying && !drawInPlayMode)
+            {
+                return;
+            }
+            if (cellSize <= 0f)
+            {
+                return;
+            }
             // OnDrawGizmos 可能在 Awake 之前被调用，所以这里也重建一次
-            if (_grid.CellSize <= 0f || Mathf.Abs(_grid.CellSize - cellSize) > 1e-4f) Rebuild();
-            if (_grid.CellCount <= 0) return;
-
+            if (_grid.CellSize <= 0f || Mathf.Abs(_grid.CellSize - cellSize) > 1e-4f)
+            {
+                Rebuild();
+            }
+            if (_grid.CellCount <= 0)
+            {
+                return;
+            }
             float halfW = _grid.Bounds.Width * 0.5f;
             float halfH = _grid.Bounds.Height * 0.5f;
 

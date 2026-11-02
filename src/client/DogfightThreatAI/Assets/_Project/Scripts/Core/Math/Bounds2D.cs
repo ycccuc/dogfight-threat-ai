@@ -21,19 +21,30 @@ namespace DogfightThreatAI.Core.Math
 
         /// <summary>以原点为中心、给定半尺寸的矩形。</summary>
         public static Bounds2D Centered(Vec2 halfSize)
-            => new Bounds2D(halfSize * -1f, halfSize);
+        {
+            return new Bounds2D(halfSize * -1f, halfSize);
+        }
 
-        public float Width  => Max.X - Min.X;
+        public float Width => Max.X - Min.X;
         public float Height => Max.Y - Min.Y;
-        public Vec2  Center => (Min + Max) * 0.5f;
+        public Vec2 Center => (Min + Max) * 0.5f;
 
+        // 把世界位置限制到矩形边界内。
         public Vec2 Clamp(Vec2 p)
-            => new Vec2(MathF.Max(Min.X, MathF.Min(p.X, Max.X)),
-                        MathF.Max(Min.Y, MathF.Min(p.Y, Max.Y)));
+        {
+            return new Vec2(MathF.Max(Min.X, MathF.Min(p.X, Max.X)),
+                    MathF.Max(Min.Y, MathF.Min(p.Y, Max.Y)));
+        }
 
+        // 判断世界位置是否落在当前矩形范围内。
         public bool Contains(Vec2 p)
-            => p.X >= Min.X && p.X <= Max.X && p.Y >= Min.Y && p.Y <= Max.Y;
+        {
+            return p.X >= Min.X && p.X <= Max.X && p.Y >= Min.Y && p.Y <= Max.Y;
+        }
 
-        public override string ToString() => $"[{Min} → {Max}]";
+        public override string ToString()
+        {
+            return $"[{Min} → {Max}]";
+        }
     }
 }

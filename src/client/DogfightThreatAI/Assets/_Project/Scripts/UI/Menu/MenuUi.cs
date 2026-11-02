@@ -14,14 +14,18 @@ namespace DogfightThreatAI.UI.Menu
         internal readonly Font Body;
         internal readonly Font Display;
 
+        // 加载菜单正文和标题字体，提前检查资源是否缺失。
         internal MenuUi()
         {
             Body = Resources.Load<Font>("Menu/Fonts/MenuChinese");
             Display = Resources.Load<Font>("Menu/Fonts/BebasNeue");
             if (Body == null || Display == null)
+            {
                 throw new InvalidOperationException("Menu fonts are missing from Resources/Menu/Fonts.");
+            }
         }
 
+        // 按统一坐标约定创建并定位 UI 矩形节点。
         internal static RectTransform Rect(string name, Transform parent, float x, float y, float w, float h)
         {
             var rect = new GameObject(name, typeof(RectTransform)).GetComponent<RectTransform>();
@@ -33,6 +37,7 @@ namespace DogfightThreatAI.UI.Menu
             return rect;
         }
 
+        // 让矩形铺满父级区域，清除多余边距。
         internal static void Fill(RectTransform rect)
         {
             rect.anchorMin = Vector2.zero;
@@ -40,8 +45,9 @@ namespace DogfightThreatAI.UI.Menu
             rect.offsetMin = rect.offsetMax = Vector2.zero;
         }
 
+        // 创建指定颜色与尺寸的 UI 图片。
         internal static Image Image(string name, Transform parent, Color color, float x, float y, float w, float h,
-                                    bool raycast = false)
+                                            bool raycast = false)
         {
             var image = Rect(name, parent, x, y, w, h).gameObject.AddComponent<Image>();
             image.color = color;
@@ -49,8 +55,9 @@ namespace DogfightThreatAI.UI.Menu
             return image;
         }
 
+        // 创建使用统一字体和颜色约定的 UI 文字。
         internal Text Text(string name, Transform parent, string value, int size,
-                           float x, float y, float w, float h, Color? color = null, bool display = false)
+                                   float x, float y, float w, float h, Color? color = null, bool display = false)
         {
             var text = Rect(name, parent, x, y, w, h).gameObject.AddComponent<Text>();
             text.font = display ? Display : Body;
@@ -65,8 +72,9 @@ namespace DogfightThreatAI.UI.Menu
             return text;
         }
 
+        // 创建按钮、焦点反馈和操作回调。
         internal Button Button(string name, Transform parent, string value, int size,
-                               float x, float y, float w, float h, UnityAction click, Action focus = null)
+                                       float x, float y, float w, float h, UnityAction click, Action focus = null)
         {
             var background = Image(name, parent, Color.clear, x, y, w, h, true);
             var button = background.gameObject.AddComponent<Button>();
@@ -87,6 +95,7 @@ namespace DogfightThreatAI.UI.Menu
             return button;
         }
 
+        // 创建滑动条，并绑定数值变化回调。
         internal Slider Slider(Transform parent, float x, float y, float w, float value, UnityAction<float> change)
         {
             var rect = Rect("MasterVolume", parent, x, y, w, 54);
@@ -118,6 +127,7 @@ namespace DogfightThreatAI.UI.Menu
             return slider;
         }
 
+        // 按给定顺序建立上下循环的显式键盘导航。
         internal static void Navigation(params Selectable[] items)
         {
             for (int i = 0; i < items.Length; i++)

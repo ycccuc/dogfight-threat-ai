@@ -22,8 +22,16 @@ namespace DogfightThreatAI.Tests.EditMode
             var input = ai.ReadInput(Dt);
             var cruise = (object)ai as IFlightCruiseSource;
             var state = world.Enemy;
-            FlightModel.From(Spec).Step(ref state, input, Dt, ai.SpeedMultiplier, cruise != null && cruise.MaintainCruiseSpeed);
-            Assert.That(state.Speed, Is.InRange(8.9f, 9.01f), "An enemy born inside aiming range must move, rather than spend the warning accelerating from rest.");
+            FlightModel.From(Spec).Step(
+                ref state,
+                input,
+                Dt,
+                ai.SpeedMultiplier,
+                cruise != null && cruise.MaintainCruiseSpeed);
+            Assert.That(
+                state.Speed,
+                Is.InRange(8.9f, 9.01f),
+                "An enemy born inside aiming range must move, rather than spend the warning accelerating from rest.");
         }
 
         [Test]
@@ -122,15 +130,21 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             public FlightState Enemy = FlightState.At(new Vec2(-6f, 0f));
             public FlightState Player = FlightState.At(Vec2.Zero, System.MathF.PI * .5f);
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0
                 ? new AircraftSnapshot(2, 2, Enemy)
                 : new AircraftSnapshot(1, 1, Player, true, true);
+            }
         }
 
         sealed class Clock : ICombatStatusView
         {
             public float Now;
+
             public CombatStatus Status => new CombatStatus(5, 5, 0, 0f, Now);
         }
     }

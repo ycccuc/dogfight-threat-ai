@@ -47,7 +47,10 @@ namespace DogfightThreatAI.Tests.PlayMode
             FindSceneAircraft();
             Assert.IsTrue(_player.IsInitialized);
             Assert.IsTrue(_enemy.IsInitialized);
-            if (elapsed > 0f) SeedBattleClock(elapsed);
+            if (elapsed > 0f)
+            {
+                SeedBattleClock(elapsed);
+            }
             SetPlayerInput(FlightInput.Neutral);
             Time.timeScale = 5f;
             yield return new WaitForFixedUpdate();
@@ -96,12 +99,17 @@ namespace DogfightThreatAI.Tests.PlayMode
             var input = SetPlayerInput(new FlightInput(1f, 0f));
             SetAircraftState(_player, new FlightState
             {
-                Position = Vec2.Zero, Heading = Mathf.PI * .5f, Velocity = new Vec2(0f, 9f)
+                Position = Vec2.Zero,
+                Heading = Mathf.PI * .5f,
+                Velocity = new Vec2(0f, 9f)
             });
             SetAircraftState(_enemy, FlightState.At(new Vec2(3f, 0f), Mathf.PI));
             Camera.main.transform.position = new Vector3(0f, 0f, -10f);
             // This scenario verifies tracking and commitment timing; contact cancellation has separate coverage.
-            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>()) hitbox.Collider.enabled = false;
+            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>())
+            {
+                hitbox.Collider.enabled = false;
+            }
             BeginFreshAim();
             Vec2 initialPrediction = _ai.PredictionPoint;
             float aimStarted = _combat.Status.ElapsedTime;
@@ -164,12 +172,21 @@ namespace DogfightThreatAI.Tests.PlayMode
             foreach (float elapsed in new[] { 0f, 20f, 40f, 60f, 80f })
             {
                 yield return LoadFreshBattle(elapsed);
-                for (int tick = 0; tick < 3; tick++) yield return new WaitForFixedUpdate();
+                for (int tick = 0; tick < 3; tick++)
+                {
+                    yield return new WaitForFixedUpdate();
+                }
                 int expectedLevel = Mathf.Min(4, 1 + Mathf.FloorToInt(elapsed / 20f));
                 Assert.AreEqual(expectedLevel, _ai.Level);
                 Assert.AreEqual((expectedLevel - 1) / 3f, _ai.Aggression01, .001f);
-                if (expectedLevel == 1) Assert.AreEqual(AttackTactic.Pursuit, _ai.Tactic);
-                else Assert.AreNotEqual(AttackTactic.Pursuit, _ai.Tactic);
+                if (expectedLevel == 1)
+                {
+                    Assert.AreEqual(AttackTactic.Pursuit, _ai.Tactic);
+                }
+                else
+                {
+                    Assert.AreNotEqual(AttackTactic.Pursuit, _ai.Tactic);
+                }
             }
             LogAssert.NoUnexpectedReceived();
         }
@@ -179,8 +196,10 @@ namespace DogfightThreatAI.Tests.PlayMode
         {
             Time.timeScale = 0f;
             SetPlayerInput(new FlightInput(-1f, 0f));
-            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>()) hitbox.Collider.enabled = false;
-            // This countdown fixture needs a known visible entry; setup frames are not
+            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>())
+            {
+                hitbox.Collider.enabled = false;
+            }            // This countdown fixture needs a known visible entry; setup frames are not
             // part of its clock and the stronger enemy can already have left its spawn.
             SetAircraftState(_player, FlightState.At(Vec2.Zero, Mathf.PI * .5f));
             SetAircraftState(_enemy, FlightState.At(new Vec2(-4f, 0f), Mathf.PI * .5f));
@@ -228,7 +247,11 @@ namespace DogfightThreatAI.Tests.PlayMode
             }
             Assert.AreNotEqual(AttackRunPhase.Recover, _ai.Phase,
                 "Recovery must finish on its fixed timer rather than wait forever for a positioning gate.");
-            Assert.That(_combat.Status.ElapsedTime - recoveryStarted, Is.InRange(recoverySeconds - .06f, recoverySeconds + .06f));
+            Assert.That(
+                _combat.Status.ElapsedTime - recoveryStarted,
+                Is.InRange(
+                    recoverySeconds - .06f,
+                    recoverySeconds + .06f));
             LogAssert.NoUnexpectedReceived();
         }
 
@@ -242,7 +265,10 @@ namespace DogfightThreatAI.Tests.PlayMode
             {
                 yield return new WaitForFixedUpdate();
                 Assert.AreNotEqual(AttackRunPhase.Charge, _ai.Phase);
-                Assert.AreEqual(5 - _ai.CollisionDamage, _combat.Status.PlayerHealth, "Aircraft contact is harmful during aiming and recovery, with protection preventing repeated damage.");
+                Assert.AreEqual(
+                    5 - _ai.CollisionDamage,
+                    _combat.Status.PlayerHealth,
+                    "Aircraft contact is harmful during aiming and recovery, with protection preventing repeated damage.");
             }
             Assert.AreEqual(1, _combat.Status.HitSequence);
             LogAssert.NoUnexpectedReceived();
@@ -260,8 +286,14 @@ namespace DogfightThreatAI.Tests.PlayMode
             {
                 yield return new WaitForFixedUpdate();
                 var status = _combat.Status;
-                if (lastHit > 0 && DistanceBetweenAircraft() >= 3.5f) separated = true;
-                if (lastHit > 0 && _ai.Phase == AttackRunPhase.Recover) recovered = true;
+                if (lastHit > 0 && DistanceBetweenAircraft() >= 3.5f)
+                {
+                    separated = true;
+                }
+                if (lastHit > 0 && _ai.Phase == AttackRunPhase.Recover)
+                {
+                    recovered = true;
+                }
                 if (status.HitSequence == lastHit)
                 {
                     Assert.AreEqual(lastHealth, status.PlayerHealth);
@@ -275,13 +307,22 @@ namespace DogfightThreatAI.Tests.PlayMode
                 lastHealth = status.PlayerHealth;
                 lastHitTime = status.ElapsedTime;
             }
-            Assert.AreEqual(0, _combat.Status.PlayerHealth, "A non-responsive player must not be protected by an AI that never rearms. " + FlightDiagnostic());
-            Assert.AreEqual(5, _combat.Status.HitSequence, "Five hull points require five real contacts at the requested one-point damage.");
+            Assert.AreEqual(
+                0,
+                _combat.Status.PlayerHealth,
+                "A non-responsive player must not be protected by an AI that never rearms. " + FlightDiagnostic());
+            Assert.AreEqual(
+                5,
+                _combat.Status.HitSequence,
+                "Five hull points require five real contacts at the requested one-point damage.");
             Assert.IsTrue(separated, "The attack cycle must include actual flight away from the player.");
             Assert.IsTrue(recovered);
             Assert.Less(Vec2.Distance(playerPosition, _player.State.Position), 1e-3f);
             Assert.IsFalse(_player.enabled);
-            for (int tick = 0; tick < 50; tick++) yield return new WaitForFixedUpdate();
+            for (int tick = 0; tick < 50; tick++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
             Assert.Less(_enemy.State.Speed, 0.1f);
             AssertBrake(_ai.ReadInput(Time.fixedDeltaTime));
             LogAssert.NoUnexpectedReceived();
@@ -292,7 +333,9 @@ namespace DogfightThreatAI.Tests.PlayMode
         {
             SetPlayerInput(new FlightInput(-1f, 0f));
             for (int tick = 0; tick < 3000 && _combat.Status.HitSequence == 0; tick++)
+            {
                 yield return new WaitForFixedUpdate();
+            }
             Assert.AreEqual(1, _combat.Status.HitSequence);
             int firstAttack = _ai.AttackId;
             yield return WaitForPhase(AttackRunPhase.Recover, 20);
@@ -302,16 +345,25 @@ namespace DogfightThreatAI.Tests.PlayMode
             float protectionAtStart = _combat.Status.InvulnerabilityRemaining;
             int hitsAtStart = _combat.Status.HitSequence;
             for (int tick = 0; tick < Mathf.CeilToInt(frozenRecoverySeconds / Time.fixedDeltaTime) + 8 && _ai.Phase == AttackRunPhase.Recover; tick++)
+            {
                 yield return new WaitForFixedUpdate();
+            }
             Assert.AreNotEqual(AttackRunPhase.Recover, _ai.Phase);
-            Assert.That(_combat.Status.ElapsedTime - recoveryStarted, Is.InRange(frozenRecoverySeconds - .1f, frozenRecoverySeconds + .08f));
+            Assert.That(
+                _combat.Status.ElapsedTime - recoveryStarted,
+                Is.InRange(
+                    frozenRecoverySeconds - .1f,
+                    frozenRecoverySeconds + .08f));
             Assert.AreEqual(hitsAtStart, _combat.Status.HitSequence);
             float expectedProtection = Mathf.Max(0f, protectionAtStart - (_combat.Status.ElapsedTime - recoveryStarted));
             Assert.AreEqual(expectedProtection, _combat.Status.InvulnerabilityRemaining, .025f,
                 "Recovery uses its own timer and must neither extend nor clear contact protection.");
             Time.timeScale = 5f;
             yield return WaitForPhase(AttackRunPhase.Windup, 1000);
-            Assert.Greater(_ai.AttackId, firstAttack, "The next complete aiming cycle must resume after recovery, including while contact protection remains.");
+            Assert.Greater(
+                _ai.AttackId,
+                firstAttack,
+                "The next complete aiming cycle must resume after recovery, including while contact protection remains.");
             LogAssert.NoUnexpectedReceived();
         }
 
@@ -330,7 +382,10 @@ namespace DogfightThreatAI.Tests.PlayMode
             for (int tick = 0; tick < 500 && _ai.Phase != AttackRunPhase.Windup; tick++)
             {
                 yield return new WaitForFixedUpdate();
-                if (_ai.Phase == AttackRunPhase.Windup) break;
+                if (_ai.Phase == AttackRunPhase.Windup)
+                {
+                    break;
+                }
                 observedPursuit |= _ai.Phase == AttackRunPhase.Pursuit;
                 Assert.AreNotEqual(AttackRunPhase.Positioning, _ai.Phase,
                     "This baseline follows the player directly, without looking for preparation points.");
@@ -352,16 +407,30 @@ namespace DogfightThreatAI.Tests.PlayMode
         {
             var input = SetPlayerInput(new FlightInput(1f, 0f));
             Vec2 initialPosition = _player.State.Position;
-            for (int tick = 0; tick < 80; tick++) yield return new WaitForFixedUpdate();
+            for (int tick = 0; tick < 80; tick++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
             input.DesiredInput = new FlightInput(1f, 0.5f);
-            for (int tick = 0; tick < 20; tick++) yield return new WaitForFixedUpdate();
+            for (int tick = 0; tick < 20; tick++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
             input.DesiredInput = new FlightInput(-1f, 0f);
-            for (int tick = 0; tick < 40; tick++) yield return new WaitForFixedUpdate();
+            for (int tick = 0; tick < 40; tick++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
             Assert.Greater(Vec2.Distance(initialPosition, _player.State.Position), 5f);
             int hits = _combat.Status.HitSequence;
             for (int tick = 0; tick < 3000 && _combat.Status.HitSequence == hits; tick++)
+            {
                 yield return new WaitForFixedUpdate();
-            Assert.Greater(_combat.Status.HitSequence, hits, "Stopping after moving must allow the enemy to re-establish an attack. " + FlightDiagnostic());
+            }
+            Assert.Greater(
+                            _combat.Status.HitSequence,
+                            hits,
+                            "Stopping after moving must allow the enemy to re-establish an attack. " + FlightDiagnostic());
             LogAssert.NoUnexpectedReceived();
         }
 
@@ -378,7 +447,10 @@ namespace DogfightThreatAI.Tests.PlayMode
                 Assert.IsTrue(_enemy.ArenaBounds.Value.Contains(_enemy.State.Position));
                 Assert.IsTrue(_player.ArenaBounds.Value.Contains(_player.State.Position));
             }
-            Assert.GreaterOrEqual(_combat.Status.HitSequence, 2, "Boundary checks must reposition for another fair attack, not abandon a stationary corner target.");
+            Assert.GreaterOrEqual(
+                _combat.Status.HitSequence,
+                2,
+                "Boundary checks must reposition for another fair attack, not abandon a stationary corner target.");
             LogAssert.NoUnexpectedReceived();
         }
 
@@ -386,10 +458,16 @@ namespace DogfightThreatAI.Tests.PlayMode
         public IEnumerator DisabledThenDestroyedTarget_EnemyBrakesSafely()
         {
             SetPlayerInput(FlightInput.Neutral);
-            for (int tick = 0; tick < 20; tick++) yield return new WaitForFixedUpdate();
+            for (int tick = 0; tick < 20; tick++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
             _player.enabled = false;
             AssertBrake(_ai.ReadInput(Time.fixedDeltaTime));
-            for (int tick = 0; tick < 40; tick++) yield return new WaitForFixedUpdate();
+            for (int tick = 0; tick < 40; tick++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
             Assert.Less(_enemy.State.Speed, 0.1f);
             Object.Destroy(_player.gameObject);
             yield return null;
@@ -402,8 +480,13 @@ namespace DogfightThreatAI.Tests.PlayMode
         {
             SetPlayerInput(FlightInput.Neutral);
             for (int tick = 0; tick < 3000 && (_ai.AttackId < 2 || _combat.Status.HitSequence == 0); tick++)
+            {
                 yield return new WaitForFixedUpdate();
-            Assert.GreaterOrEqual(_ai.AttackId, 2, "First establish an old attack sequence before verifying restart resets it.");
+            }
+            Assert.GreaterOrEqual(
+                            _ai.AttackId,
+                            2,
+                            "First establish an old attack sequence before verifying restart resets it.");
             Assert.Less(_combat.Status.PlayerHealth, 5);
             _combat.RestartBattle();
             yield return null;
@@ -416,7 +499,12 @@ namespace DogfightThreatAI.Tests.PlayMode
             Assert.LessOrEqual(_ai.AttackId, 1,
                 "The in-range spawn may begin its first aim immediately, but may not retain an old attack number.");
             if (_ai.Phase == AttackRunPhase.Windup)
-                Assert.Greater(_ai.PhaseRemaining, .3f, "Restarting must start a new countdown rather than resume a previous charge.");
+            {
+                Assert.Greater(
+                                _ai.PhaseRemaining,
+                                .3f,
+                                "Restarting must start a new countdown rather than resume a previous charge.");
+            }
             LogAssert.NoUnexpectedReceived();
         }
 
@@ -440,8 +528,14 @@ namespace DogfightThreatAI.Tests.PlayMode
 
         IEnumerator WaitForPhase(AttackRunPhase phase, int ticks)
         {
-            for (int tick = 0; tick < ticks && _ai.Phase != phase; tick++) yield return new WaitForFixedUpdate();
-            Assert.AreEqual(phase, _ai.Phase, $"AI failed to enter {phase}; enemy={_enemy.State.Position}, player={_player.State.Position}.");
+            for (int tick = 0; tick < ticks && _ai.Phase != phase; tick++)
+            {
+                yield return new WaitForFixedUpdate();
+            }
+            Assert.AreEqual(
+                            phase,
+                            _ai.Phase,
+                            $"AI failed to enter {phase}; enemy={_enemy.State.Position}, player={_player.State.Position}.");
         }
 
         void SeedBattleClock(float elapsed)
@@ -476,7 +570,10 @@ namespace DogfightThreatAI.Tests.PlayMode
         BattleTestInputSource SetPlayerInput(FlightInput desiredInput)
         {
             var input = _player.GetComponent<BattleTestInputSource>();
-            if (input == null) input = _player.gameObject.AddComponent<BattleTestInputSource>();
+            if (input == null)
+            {
+                input = _player.gameObject.AddComponent<BattleTestInputSource>();
+            }
             input.DesiredInput = desiredInput;
             typeof(PlayerController).GetField("inputSource", PrivateInstance).SetValue(_player, input);
             return input;
@@ -492,11 +589,17 @@ namespace DogfightThreatAI.Tests.PlayMode
                 "Capture the actual beginning of a fresh countdown, not an aiming phase already advanced by setup frames.");
         }
 
-        float DistanceBetweenAircraft() => Vec2.Distance(_enemy.State.Position, _player.State.Position);
+        float DistanceBetweenAircraft()
+        {
+            return Vec2.Distance(_enemy.State.Position, _player.State.Position);
+        }
 
-        string FlightDiagnostic() => $"t={_combat.Status.ElapsedTime:0.00}, level={_ai.Level}, phase={_ai.Phase}, attacks={_ai.AttackId}, " +
+        string FlightDiagnostic()
+        {
+            return $"t={_combat.Status.ElapsedTime:0.00}, level={_ai.Level}, phase={_ai.Phase}, attacks={_ai.AttackId}, " +
             $"player=({_player.State.Position.X:0.00},{_player.State.Position.Y:0.00}), enemy=({_enemy.State.Position.X:0.00},{_enemy.State.Position.Y:0.00}), " +
             $"enemySpeed={_enemy.State.Speed:0.00}, aspect={Camera.main.aspect:0.000}, screen={Screen.width}x{Screen.height}";
+        }
 
         static void AssertInCamera(Vector3 position)
         {

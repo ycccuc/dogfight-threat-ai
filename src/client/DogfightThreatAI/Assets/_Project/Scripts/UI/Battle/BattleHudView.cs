@@ -9,26 +9,46 @@ namespace DogfightThreatAI.UI.Battle
     {
         SegmentedHealthRing _ring;
         Image _cooldown;
+        Text _enemyHealth;
+        int _lastEnemyHealth = -1;
+        int _lastMaxHealth = -1;
         RectTransform _safe;
+
         public SegmentedHealthRing Ring => _ring;
+
+        // 创建生命圆环、机炮冷却与敌机血量显示。
         void Awake()
         {
             var canvas = gameObject.AddComponent<Canvas>();
-            canvas.renderMode = RenderMode.ScreenSpaceOverlay; canvas.sortingOrder = 25;
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 25;
             var scaler = gameObject.AddComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            scaler.referenceResolution = new Vector2(1920, 1080); scaler.matchWidthOrHeight = .5f;
+            scaler.referenceResolution = new Vector2(1920, 1080);
+            scaler.matchWidthOrHeight = .5f;
             _safe = MenuUi.Rect("Safe area", transform, 0, 0, 0, 0);
             var cluster = MenuUi.Rect("Cannon HUD", _safe, 0, 0, 210, 210);
-            cluster.anchorMin = cluster.anchorMax = new Vector2(1, 0); cluster.pivot = Vector2.zero;
+            cluster.anchorMin = cluster.anchorMax = new Vector2(1, 0);
+            cluster.pivot = Vector2.zero;
             cluster.anchoredPosition = new Vector2(-280, 62);
             var shadow = MenuUi.Rect("Ring shadow", cluster, 0, 0, 210, 210).gameObject.AddComponent<SegmentedHealthRing>();
-            shadow.color = new Color(0, 0, 0, .65f); shadow.raycastTarget = false;
+            shadow.color = new Color(0, 0, 0, .65f);
+            shadow.raycastTarget = false;
             _ring = MenuUi.Rect("Health ring", cluster, 3, 3, 204, 204).gameObject.AddComponent<SegmentedHealthRing>();
-            _ring.color = MenuUi.Ivory; _ring.raycastTarget = false;
+            _ring.color = MenuUi.Ivory;
+            _ring.raycastTarget = false;
             var icon = MenuUi.Rect("Cannon", cluster, 81, 49, 48, 64).gameObject.AddComponent<CannonIcon>();
-            icon.color = MenuUi.Ivory; icon.raycastTarget = false;
+            icon.color = MenuUi.Ivory;
+            icon.raycastTarget = false;
             var ui = new MenuUi();
+            _enemyHealth = ui.Text("Enemy health", _safe, "", 24, 0, 0, 260, 40, MenuUi.Ivory);
+            _enemyHealth.alignment = TextAnchor.MiddleCenter;
+            _enemyHealth.raycastTarget = false;
+            _enemyHealth.rectTransform.anchorMin = _enemyHealth.rectTransform.anchorMax = new Vector2(.5f, 1f);
+            _enemyHealth.rectTransform.pivot = new Vector2(.5f, 1f);
+            _enemyHealth.rectTransform.anchoredPosition = new Vector2(0, -32);
+            var enemyShadow = _enemyHealth.gameObject.AddComponent<Shadow>();
+            enemyShadow.effectColor = new Color(0, 0, 0, .9f);
             var nameText = ui.Text("Weapon", cluster, "机炮", 18, 55, 120, 100, 30);
             nameText.alignment = TextAnchor.MiddleCenter;
             MenuUi.Image("Cooldown track", cluster, new Color(1, 1, 1, .18f), 83, 159, 44, 3);
@@ -39,11 +59,27 @@ namespace DogfightThreatAI.UI.Battle
             var textShadow = hint.gameObject.AddComponent<Shadow>();
             textShadow.effectColor = new Color(0, 0, 0, .9f);
         }
+
+        // 根据玩家生命与武器冷却更新 HUD。
         public void Present(int health, float cooldown01)
         {
             _ring.SetHealth(health);
             _cooldown.rectTransform.sizeDelta = new Vector2(44 * (1 - Mathf.Clamp01(cooldown01)), 3);
         }
+
+        // 敌机生命变化时刷新当前值与最大值。
+        public void PresentEnemyHealth(int health, int maxHealth)
+        {
+            if (health == _lastEnemyHealth && maxHealth == _lastMaxHealth)
+            {
+                return;
+            }
+            _lastEnemyHealth = health;
+            _lastMaxHealth = maxHealth;
+            _enemyHealth.text = $"敌机  {health} / {maxHealth}";
+        }
+
+        // 把战斗 HUD 限制在屏幕安全区域内。
         void LateUpdate()
         {
             var safe = Screen.safeArea;

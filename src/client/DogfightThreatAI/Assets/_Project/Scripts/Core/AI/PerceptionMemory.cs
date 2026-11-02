@@ -17,11 +17,20 @@ namespace DogfightThreatAI.Core.AI
         public void Sample(in AircraftSnapshot target, float time)
         {
             if (!Finite(time) || time < 0f || !Finite(target.Flight.Position) ||
-                !Finite(target.Flight.Velocity) || !Finite(target.Flight.Heading)) return;
-            if ((_count > 0 && target.EntityId != _targetId) || time < _lastTime) Reset();
+                !Finite(target.Flight.Velocity) || !Finite(target.Flight.Heading))
+            {
+                return;
+            }
+            if ((_count > 0 && target.EntityId != _targetId) || time < _lastTime)
+            {
+                Reset();
+            }
             _lastTime = time;
             double bucket = System.Math.Floor((double)time * 10d + 1e-6d);
-            if (bucket <= _lastBucket) return;
+            if (bucket <= _lastBucket)
+            {
+                return;
+            }
             _lastBucket = bucket;
             _targetId = target.EntityId;
             _samples[_next] = target;
@@ -35,12 +44,18 @@ namespace DogfightThreatAI.Core.AI
         {
             observation = default;
             observedAt = 0f;
-            if (!Finite(now) || !Finite(delay) || now < 0f || delay < 0f) return false;
+            if (!Finite(now) || !Finite(delay) || now < 0f || delay < 0f)
+            {
+                return false;
+            }
             double cutoff = (double)now - delay;
             for (int i = 0; i < _count; i++)
             {
                 int index = (_next - 1 - i + Capacity) % Capacity;
-                if (_times[index] > cutoff) continue;
+                if (_times[index] > cutoff)
+                {
+                    continue;
+                }
                 observation = _samples[index];
                 observedAt = _times[index];
                 return true;
@@ -48,6 +63,7 @@ namespace DogfightThreatAI.Core.AI
             return false;
         }
 
+        // 清空感知历史和已有观察标记。
         public void Reset()
         {
             _next = _count = _targetId = 0;
@@ -55,7 +71,14 @@ namespace DogfightThreatAI.Core.AI
             _lastTime = -1f;
         }
 
-        static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
-        static bool Finite(Vec2 value) => Finite(value.X) && Finite(value.Y);
+        static bool Finite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
+        }
+
+        static bool Finite(Vec2 value)
+        {
+            return Finite(value.X) && Finite(value.Y);
+        }
     }
 }

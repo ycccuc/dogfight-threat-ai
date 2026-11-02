@@ -14,6 +14,7 @@ namespace DogfightThreatAI.Gameplay.Combat
         readonly Material _material;
         readonly PlayerView _playerView, _enemyView;
 
+        // 连接双方飞机与公开推进线索，创建本表现对象使用的尾迹。
         public BattlePropulsionView(PlayerController player, PlayerController enemy)
         {
             _player = player;
@@ -22,20 +23,39 @@ namespace DogfightThreatAI.Gameplay.Combat
             _playerView = player != null ? player.GetComponentInChildren<PlayerView>() : null;
             _enemyView = enemy != null ? enemy.GetComponentInChildren<PlayerView>() : null;
             Shader shader = Shader.Find("Sprites/Default");
-            if (shader == null) return;
+            if (shader == null)
+            {
+                return;
+            }
             _material = new Material(shader);
             _playerTrail = CreateTrail(player, "PlayerPropulsionTrail");
             _enemyTrail = CreateTrail(enemy, "EnemyPursuitTrail");
             _enemyCore = CreateTrail(enemy, "EnemyPursuitTrailCore");
             _chargeWake = CreateTrail(enemy, "EnemyChargeWake");
-            if (_enemyTrail != null) { _enemyTrail.startWidth = .24f; _enemyTrail.endWidth = .008f; }
-            if (_enemyCore != null) { _enemyCore.startWidth = .06f; _enemyCore.endWidth = .002f; }
-            if (_chargeWake != null) { _chargeWake.startWidth = .12f; _chargeWake.endWidth = .003f; }
+            if (_enemyTrail != null)
+            {
+                _enemyTrail.startWidth = .24f;
+                _enemyTrail.endWidth = .008f;
+            }
+            if (_enemyCore != null)
+            {
+                _enemyCore.startWidth = .06f;
+                _enemyCore.endWidth = .002f;
+            }
+            if (_chargeWake != null)
+            {
+                _chargeWake.startWidth = .12f;
+                _chargeWake.endWidth = .003f;
+            }
         }
 
+        // 为指定飞机建立可复用的推进尾迹线条。
         LineRenderer CreateTrail(PlayerController aircraft, string name)
         {
-            if (aircraft == null) return null;
+            if (aircraft == null)
+            {
+                return null;
+            }
             var trail = new GameObject(name).AddComponent<LineRenderer>();
             trail.transform.SetParent(aircraft.transform, false);
             trail.useWorldSpace = true;
@@ -46,36 +66,80 @@ namespace DogfightThreatAI.Gameplay.Combat
             trail.startWidth = .17f;
             trail.endWidth = .025f;
             var sprite = aircraft.GetComponentInChildren<SpriteRenderer>();
-            if (sprite != null) { trail.sortingLayerID = sprite.sortingLayerID; trail.sortingOrder = sprite.sortingOrder - 1; }
+            if (sprite != null)
+            {
+                trail.sortingLayerID = sprite.sortingLayerID;
+                trail.sortingOrder = sprite.sortingOrder - 1;
+            }
             trail.enabled = false;
             return trail;
         }
 
+        // 根据公开的推进和过热状态更新双方尾迹。
         public void Update(bool alive, ChaseAiInputSource ai)
         {
             bool playerActive = alive && _keyboard != null && (_keyboard.IsBoosting || _keyboard.IsOverheated);
-            Color playerColor = _keyboard != null && _keyboard.IsOverheated ? new Color(1f, .48f, .15f, .7f) : new Color(.55f, .95f, 1f, .85f);
-            float playerLength = _keyboard != null && _keyboard.IsOverheated ? .65f : Mathf.Lerp(.8f, 2.5f, _player != null ? Mathf.InverseLerp(9f, 21.6f, _player.State.Speed) : 0f);
+            Color playerColor = _keyboard != null && _keyboard.IsOverheated ? new Color(1f, .48f, .15f, .7f) : new Color(
+                .55f,
+                .95f,
+                1f,
+                .85f);
+            float playerLength = _keyboard != null && _keyboard.IsOverheated ? .65f : Mathf.Lerp(
+                .8f,
+                2.5f,
+                _player != null ? Mathf.InverseLerp(
+                    9f,
+                    21.6f,
+                    _player.State.Speed) : 0f);
             SetTrail(_playerTrail, _player, _playerView, playerActive, playerLength, playerColor);
             bool enemyActive = alive && ai != null && (ai.IsPursuitBoosting || ai.IsBoostCoasting);
             float strength = ai != null ? Mathf.Lerp(.72f, 1f, ai.Aggression01) : 1f;
             float length = _enemy != null ? Mathf.Lerp(.8f, 2.1f, Mathf.InverseLerp(9f, 24f, _enemy.State.Speed)) : 1f;
             float alpha = ai != null && ai.IsBoostCoasting ? .20f : .46f;
             SetTrail(_enemyTrail, _enemy, _enemyView, enemyActive, length, new Color(.18f, .62f, 1f, alpha * strength));
-            SetTrail(_enemyCore, _enemy, _enemyView, enemyActive, length * .73f, new Color(.76f, .95f, 1f, .95f * strength));
+            SetTrail(
+                _enemyCore,
+                _enemy,
+                _enemyView,
+                enemyActive,
+                length * .73f,
+                new Color(
+                    .76f,
+                    .95f,
+                    1f,
+                    .95f * strength));
             // This is a rear wake, not another attack corridor or an impact marker.
             bool charging = alive && ai != null && ai.isActiveAndEnabled && ai.Phase == AttackRunPhase.Charge;
             SetTrail(_chargeWake, _enemy, _enemyView, charging, 2.1f, new Color(1f, .85f, .61f, .92f));
         }
 
+        // 优先读取插值后的视图位置，缺失视图时使用模拟位置。
         static Vector3 Position(PlayerController aircraft, PlayerView view)
-            => view != null ? view.RenderPosition : new Vector3(aircraft.State.Position.X, aircraft.State.Position.Y, aircraft.transform.position.z);
-
-        static void SetTrail(LineRenderer trail, PlayerController aircraft, PlayerView view, bool active, float length, Color color)
         {
-            if (trail == null || aircraft == null) return;
+            return view != null ? view.RenderPosition : new Vector3(
+            aircraft.State.Position.X,
+            aircraft.State.Position.Y,
+            aircraft.transform.position.z);
+        }
+
+        // 根据机头方向、长度与颜色定位并显示尾迹。
+        static void SetTrail(
+                    LineRenderer trail,
+                    PlayerController aircraft,
+                    PlayerView view,
+                    bool active,
+                    float length,
+                    Color color)
+        {
+            if (trail == null || aircraft == null)
+            {
+                return;
+            }
             trail.enabled = active;
-            if (!active) return;
+            if (!active)
+            {
+                return;
+            }
             Vector3 position = Position(aircraft, view);
             var heading = aircraft.State.Forward;
             Vector3 forward = new Vector3(heading.X, heading.Y);
@@ -86,9 +150,13 @@ namespace DogfightThreatAI.Gameplay.Combat
             trail.endColor = color;
         }
 
+        // 绘制旧追赶 AI 的推进状态指示。
         public void DrawEnemyIndicator(ChaseAiInputSource ai, float scale, GUIStyle style, bool alive)
         {
-            if (!alive || _enemy == null || ai == null || Camera.main == null) return;
+            if (!alive || _enemy == null || ai == null || Camera.main == null)
+            {
+                return;
+            }
             Camera camera = Camera.main;
             Vector3 screen = camera.WorldToScreenPoint(Position(_enemy, _enemyView));
             float width = Screen.width / scale, height = Screen.height / scale;
@@ -99,13 +167,18 @@ namespace DogfightThreatAI.Gameplay.Combat
                 GUI.color = new Color(.08f, .12f, .16f, .9f);
                 GUI.DrawTexture(new Rect(x - 24f, y - 31f, 48f, 5f), Texture2D.whiteTexture);
                 GUI.color = ai.IsPursuitBoosting ? new Color(.7f, .96f, 1f) : new Color(.35f, .7f, 1f);
-                GUI.DrawTexture(new Rect(x - 24f, y - 31f, 48f * Mathf.Clamp01(ai.BoostEnergy / 60f), 5f), Texture2D.whiteTexture);
+                GUI.DrawTexture(
+                    new Rect(x - 24f, y - 31f, 48f * Mathf.Clamp01(ai.BoostEnergy / 60f), 5f),
+                    Texture2D.whiteTexture);
             }
             else if (ai.Phase == DogfightThreatAI.Core.AI.AttackRunPhase.Pursuit)
             {
                 Vector2 center = new Vector2(width * .5f, height * .5f);
                 Vector2 delta = new Vector2(x, y) - center;
-                if (screen.z <= 0f) delta = -delta;
+                if (screen.z <= 0f)
+                {
+                    delta = -delta;
+                }
                 float tx = Mathf.Abs(delta.x) > .001f ? (width * .5f - 28f) / Mathf.Abs(delta.x) : float.PositiveInfinity;
                 float ty = Mathf.Abs(delta.y) > .001f ? (height * .5f - 28f) / Mathf.Abs(delta.y) : float.PositiveInfinity;
                 Vector2 point = center + delta * Mathf.Min(tx, ty);
@@ -118,13 +191,29 @@ namespace DogfightThreatAI.Gameplay.Combat
             GUI.color = previous;
         }
 
+        // 释放尾迹和共享材质等本对象持有的运行资源。
         public void Dispose()
         {
-            if (_playerTrail != null) UnityEngine.Object.Destroy(_playerTrail.gameObject);
-            if (_enemyTrail != null) UnityEngine.Object.Destroy(_enemyTrail.gameObject);
-            if (_enemyCore != null) UnityEngine.Object.Destroy(_enemyCore.gameObject);
-            if (_chargeWake != null) UnityEngine.Object.Destroy(_chargeWake.gameObject);
-            if (_material != null) UnityEngine.Object.Destroy(_material);
+            if (_playerTrail != null)
+            {
+                UnityEngine.Object.Destroy(_playerTrail.gameObject);
+            }
+            if (_enemyTrail != null)
+            {
+                UnityEngine.Object.Destroy(_enemyTrail.gameObject);
+            }
+            if (_enemyCore != null)
+            {
+                UnityEngine.Object.Destroy(_enemyCore.gameObject);
+            }
+            if (_chargeWake != null)
+            {
+                UnityEngine.Object.Destroy(_chargeWake.gameObject);
+            }
+            if (_material != null)
+            {
+                UnityEngine.Object.Destroy(_material);
+            }
         }
     }
 }

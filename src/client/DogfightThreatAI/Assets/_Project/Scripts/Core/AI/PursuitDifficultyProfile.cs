@@ -9,7 +9,14 @@ namespace DogfightThreatAI.Core.AI
         public readonly float ObservationDelay, ObservationInterval, PredictionLead, LeadScale, SideOffset, RecoverySeconds;
         public readonly float CruiseSpeed, TurnRateDegPerSec, BoostSpeed, BoostDuration, BoostCooldown;
 
-        PursuitDifficultyProfile(int level, float delay, float interval, float lead, float scale, float side, float recovery)
+        PursuitDifficultyProfile(
+            int level,
+            float delay,
+            float interval,
+            float lead,
+            float scale,
+            float side,
+            float recovery)
         {
             Level = level;
             CollisionDamage = 1;
@@ -27,17 +34,24 @@ namespace DogfightThreatAI.Core.AI
         }
 
         public static PursuitDifficultyProfile ForTime(float seconds)
-            => ForLevel(seconds >= 60f ? 4 : seconds >= 40f ? 3 : seconds >= 20f ? 2 : 1);
+        {
+            return ForLevel(seconds >= 60f ? 4 : seconds >= 40f ? 3 : seconds >= 20f ? 2 : 1);
+        }
 
         public static PursuitDifficultyProfile ForLevel(int level)
         {
             switch (level)
             {
-                case 1: return new PursuitDifficultyProfile(1, .06f, .08f, 0f, 0f, 0f, 1.4f);
-                case 2: return new PursuitDifficultyProfile(2, .04f, .06f, .22f, .55f, 0f, .65f);
-                case 3: return new PursuitDifficultyProfile(3, .04f, .06f, .4f, .9f, 2.2f, .6f);
-                case 4: return new PursuitDifficultyProfile(4, .02f, .04f, .52f, 1.1f, 1.7f, .2f);
-                default: throw new ArgumentOutOfRangeException(nameof(level));
+                case 1:
+                    return new PursuitDifficultyProfile(1, .06f, .08f, 0f, 0f, 0f, 1.4f);
+                case 2:
+                    return new PursuitDifficultyProfile(2, .04f, .06f, .22f, .55f, 0f, .65f);
+                case 3:
+                    return new PursuitDifficultyProfile(3, .04f, .06f, .4f, .9f, 2.2f, .6f);
+                case 4:
+                    return new PursuitDifficultyProfile(4, .02f, .04f, .52f, 1.1f, 1.7f, .2f);
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(level));
             }
         }
     }

@@ -58,27 +58,46 @@ namespace DogfightThreatAI.Gameplay.Config
         // ────────── 只读访问器 ──────────
         public string DisplayName => displayName;
         public string Description => description;
-        public Sprite BodySprite  => bodySprite != null ? bodySprite : icon;
-        public Sprite Icon        => icon != null ? icon : bodySprite;
+        public Sprite BodySprite => bodySprite != null ? bodySprite : icon;
+        public Sprite Icon => icon != null ? icon : bodySprite;
         public GameObject ThrusterPrefab => thrusterPrefab;
 
-        public float MinSpeed            => minSpeed;
-        public float MaxSpeed            => maxSpeed;
-        public float Acceleration        => acceleration;
-        public float TurnRateDegPerSec   => turnRateDegPerSec;
-        public float Drag                => drag;
-        public float LateralGrip         => lateralGrip;
-        public float DriftScrub          => driftScrub;
+        public float MinSpeed => minSpeed;
+        public float MaxSpeed => maxSpeed;
+        public float Acceleration => acceleration;
+        public float TurnRateDegPerSec => turnRateDegPerSec;
+        public float Drag => drag;
+        public float LateralGrip => lateralGrip;
+        public float DriftScrub => driftScrub;
         public float VisualForwardOffsetDeg => visualForwardOffsetDeg;
 
+        // 在编辑配置时约束飞行参数，避免明显无效的数值组合。
         void OnValidate()
         {
-            if (maxSpeed < minSpeed) maxSpeed = minSpeed;
-            if (minSpeed < 0f)       minSpeed = 0f;
-            if (acceleration < 0f)   acceleration = 0f;
-            if (turnRateDegPerSec < 0f) turnRateDegPerSec = 0f;
-            if (drag < 0f)           drag = 0f;
-            if (lateralGrip < 0f)    lateralGrip = 0f;
+            if (maxSpeed < minSpeed)
+            {
+                maxSpeed = minSpeed;
+            }
+            if (minSpeed < 0f)
+            {
+                minSpeed = 0f;
+            }
+            if (acceleration < 0f)
+            {
+                acceleration = 0f;
+            }
+            if (turnRateDegPerSec < 0f)
+            {
+                turnRateDegPerSec = 0f;
+            }
+            if (drag < 0f)
+            {
+                drag = 0f;
+            }
+            if (lateralGrip < 0f)
+            {
+                lateralGrip = 0f;
+            }
             driftScrub = Mathf.Clamp01(driftScrub);
         }
     }

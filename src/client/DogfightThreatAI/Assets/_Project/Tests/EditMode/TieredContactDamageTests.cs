@@ -10,7 +10,10 @@ namespace DogfightThreatAI.Tests.EditMode
 {
     public sealed class TieredContactDamageTests
     {
-        static FlightState At(float x) => FlightState.At(new Vec2(x, 0f));
+        static FlightState At(float x)
+        {
+            return FlightState.At(new Vec2(x, 0f));
+        }
 
         [Test]
         public void PerContactDamageChangesWithoutResettingHealthClockOrSequence()
@@ -140,14 +143,19 @@ namespace DogfightThreatAI.Tests.EditMode
         sealed class World : IWorldView
         {
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0
                 ? new AircraftSnapshot(1, 1, FlightState.At(Vec2.Zero), true, true)
                 : new AircraftSnapshot(2, 2, FlightState.At(new Vec2(-6f, 0f)));
+            }
         }
 
         sealed class Clock : ICombatStatusView
         {
             public float Now;
+
             public CombatStatus Status => new CombatStatus(5, 5, 0, 0f, Now);
         }
     }

@@ -44,6 +44,7 @@ namespace DogfightThreatAI.Gameplay.World
         Material _sharedMaterial;
         Texture2D _texture;
 
+        // 按固定种子创建共享显示资源及星点分布。
         void Start()
         {
             CreateSharedResources();
@@ -79,13 +80,18 @@ namespace DogfightThreatAI.Gameplay.World
             }
         }
 
+        // 根据相机和视差系数平移星点，并保持重复区域无缝循环。
         void LateUpdate()
         {
-            if (_stars == null || _stars.Length == 0) return;
-
+            if (_stars == null || _stars.Length == 0)
+            {
+                return;
+            }
             var cam = targetCamera != null ? targetCamera : Camera.main;
-            if (cam == null) return;
-
+            if (cam == null)
+            {
+                return;
+            }
             Vector3 camPos = cam.transform.position;
             float spanX = Mathf.Max(1f, tileSize.x);
             float spanY = Mathf.Max(1f, tileSize.y);
@@ -104,8 +110,11 @@ namespace DogfightThreatAI.Gameplay.World
 
         /// <summary>把值折到 [-span/2, span/2)，实现无缝循环。</summary>
         static float Wrap(float v, float span)
-            => Mathf.Repeat(v + span * 0.5f, span) - span * 0.5f;
+        {
+            return Mathf.Repeat(v + span * 0.5f, span) - span * 0.5f;
+        }
 
+        // 创建星点共用的纹理、精灵和材质。
         void CreateSharedResources()
         {
             _texture = new Texture2D(4, 4, TextureFormat.RGBA32, false)
@@ -114,7 +123,10 @@ namespace DogfightThreatAI.Gameplay.World
                 wrapMode = TextureWrapMode.Clamp
             };
             var pixels = new Color32[16];
-            for (int i = 0; i < pixels.Length; i++) pixels[i] = new Color32(255, 255, 255, 255);
+            for (int i = 0; i < pixels.Length; i++)
+            {
+                pixels[i] = new Color32(255, 255, 255, 255);
+            }
             _texture.SetPixels32(pixels);
             _texture.Apply();
 
@@ -123,11 +135,21 @@ namespace DogfightThreatAI.Gameplay.World
             _sharedMaterial = new Material(Shader.Find("Sprites/Default"));
         }
 
+        // 销毁开发背景创建的共享运行时资源。
         void OnDestroy()
         {
-            if (_sharedMaterial != null) Destroy(_sharedMaterial);
-            if (_sharedSprite != null) Destroy(_sharedSprite);
-            if (_texture != null) Destroy(_texture);
+            if (_sharedMaterial != null)
+            {
+                Destroy(_sharedMaterial);
+            }
+            if (_sharedSprite != null)
+            {
+                Destroy(_sharedSprite);
+            }
+            if (_texture != null)
+            {
+                Destroy(_texture);
+            }
         }
     }
 }

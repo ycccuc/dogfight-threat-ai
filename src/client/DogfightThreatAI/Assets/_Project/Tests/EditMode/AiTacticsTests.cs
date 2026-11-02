@@ -11,6 +11,7 @@ namespace DogfightThreatAI.Tests.EditMode
     public sealed class AiTacticsTests
     {
         static readonly AircraftSpec Spec = new AircraftSpec(2f, 9f, 18f, 210f, .1f, 8f, .35f);
+
         static AircraftSnapshot Target(float x, float y = 0f, float vx = 0f, float vy = 0f, int id = 2)
         {
             var state = FlightState.At(new Vec2(x, y));
@@ -24,7 +25,13 @@ namespace DogfightThreatAI.Tests.EditMode
         [TestCase(40f, 3, .2f, .4f, 8f, 1.4f)]
         [TestCase(60f, 4, .15f, .45f, 8f, 1.2f)]
         [TestCase(600f, 4, .15f, .45f, 8f, 1.2f)]
-        public void Difficulty_UsesTheApprovedTimeBands(float time, int level, float delay, float lead, float cruise, float recovery)
+        public void Difficulty_UsesTheApprovedTimeBands(
+            float time,
+            int level,
+            float delay,
+            float lead,
+            float cruise,
+            float recovery)
         {
             var profile = AiDifficultyProfile.ForTime(time);
             Assert.AreEqual(level, profile.Level);
@@ -38,7 +45,9 @@ namespace DogfightThreatAI.Tests.EditMode
         [TestCase(float.NaN)]
         [TestCase(float.NegativeInfinity)]
         public void Difficulty_InvalidEarlyTimeUsesFirstBand(float time)
-            => Assert.AreEqual(1, AiDifficultyProfile.ForTime(time).Level);
+        {
+            Assert.AreEqual(1, AiDifficultyProfile.ForTime(time).Level);
+        }
 
         [Test]
         public void Memory_DoesNotRevealASampleBeforeItsDelayHasElapsed()
@@ -127,7 +136,10 @@ namespace DogfightThreatAI.Tests.EditMode
         public void Memory_RetainsTheApprovedMaximumDelayAcrossLongBattles()
         {
             var memory = new PerceptionMemory();
-            for (int i = 0; i <= 1000; i++) memory.Sample(Target(i), i * .1f);
+            for (int i = 0; i <= 1000; i++)
+            {
+                memory.Sample(Target(i), i * .1f);
+            }
             Assert.IsTrue(memory.TryObserve(100f, .35f, out var observed, out float at));
             Assert.LessOrEqual(at, 99.65f);
             Assert.GreaterOrEqual(at, 99.5f);
@@ -138,7 +150,12 @@ namespace DogfightThreatAI.Tests.EditMode
         public void LevelOne_PreparesFivePointOneUnitsFromTheObservedTarget()
         {
             var selector = new TacticalPositionSelector(Spec);
-            var plan = selector.Select(FlightState.At(new Vec2(-15, 0)), Target(0), AiDifficultyProfile.ForTime(0), null, 0);
+            var plan = selector.Select(
+                FlightState.At(new Vec2(-15, 0)),
+                Target(0),
+                AiDifficultyProfile.ForTime(0),
+                null,
+                0);
             Assert.AreEqual(AttackTactic.Pursuit, plan.Tactic);
             Assert.AreEqual(-5.1f, plan.Position.X, .001f);
             Assert.AreEqual(0f, plan.Position.Y, .001f);
@@ -164,7 +181,12 @@ namespace DogfightThreatAI.Tests.EditMode
             var profile = AiDifficultyProfile.ForTime(40);
             var plan = selector.Select(FlightState.At(new Vec2(-15, 0)), target, profile, null, 40);
             Assert.That(plan.Tactic, Is.EqualTo(AttackTactic.FlankLeft).Or.EqualTo(AttackTactic.FlankRight));
-            Assert.AreEqual(5.1f, Vec2.Distance(plan.Position, target.Flight.Position + target.Flight.Velocity * profile.PredictionLead), .001f);
+            Assert.AreEqual(
+                5.1f,
+                Vec2.Distance(
+                    plan.Position,
+                    target.Flight.Position + target.Flight.Velocity * profile.PredictionLead),
+                .001f);
             Assert.Greater(MathF.Abs(plan.Position.Y), 3f);
         }
 
@@ -190,7 +212,12 @@ namespace DogfightThreatAI.Tests.EditMode
             var bounds = Bounds2D.Centered(new Vec2(10, 7));
             var selector = new TacticalPositionSelector(Spec);
             var target = Target(8, 5);
-            var plan = selector.Select(FlightState.At(new Vec2(-6, 0)), target, AiDifficultyProfile.ForTime(40), bounds, 40);
+            var plan = selector.Select(
+                FlightState.At(new Vec2(-6, 0)),
+                target,
+                AiDifficultyProfile.ForTime(40),
+                bounds,
+                40);
             Assert.IsTrue(bounds.Contains(plan.Position));
             Assert.Greater(Vec2.Distance(plan.Position, target.Flight.Position), 3f);
             Assert.AreEqual(5.1f, Vec2.Distance(plan.Position, target.Flight.Position), .001f);
@@ -205,7 +232,11 @@ namespace DogfightThreatAI.Tests.EditMode
             var plan = selector.Select(self, target, AiDifficultyProfile.ForTime(40), null, 40);
             Assert.That(plan.Tactic, Is.EqualTo(AttackTactic.FlankLeft).Or.EqualTo(AttackTactic.FlankRight));
             var delta = plan.Position - self.Position;
-            float fraction = MathF.Max(0f, MathF.Min(1f, Vec2.Dot(target.Flight.Position - self.Position, delta) / delta.SqrMagnitude));
+            float fraction = MathF.Max(
+                0f,
+                MathF.Min(
+                    1f,
+                    Vec2.Dot(target.Flight.Position - self.Position, delta) / delta.SqrMagnitude));
             Assert.Greater(Vec2.Distance(self.Position + delta * fraction, target.Flight.Position), 1.5f);
         }
 
@@ -216,11 +247,17 @@ namespace DogfightThreatAI.Tests.EditMode
             var target = Target(0, vx: 3);
             var selector = new TacticalPositionSelector(Spec);
             var profile = AiDifficultyProfile.ForTime(60);
-            for (int i = 0; i < 4; i++) selector.RecordDodge(1f);
+            for (int i = 0; i < 4; i++)
+            {
+                selector.RecordDodge(1f);
+            }
             var first = selector.Select(self, target, profile, null, 60);
             Assert.AreEqual(AttackTactic.FlankLeft, first.Tactic);
             var saved = first.Position;
-            for (int i = 0; i < 4; i++) selector.RecordDodge(-1f);
+            for (int i = 0; i < 4; i++)
+            {
+                selector.RecordDodge(-1f);
+            }
             var second = selector.Select(self, target, profile, null, 61);
             Assert.AreEqual(AttackTactic.FlankRight, second.Tactic);
             Assert.AreEqual(saved, first.Position);
@@ -233,7 +270,11 @@ namespace DogfightThreatAI.Tests.EditMode
             var target = Target(0);
             var a = new TacticalPositionSelector(Spec);
             var b = new TacticalPositionSelector(Spec);
-            for (int i = 0; i < 4; i++) { a.RecordDodge(1f); b.RecordDodge(-1f); }
+            for (int i = 0; i < 4; i++)
+            {
+                a.RecordDodge(1f);
+                b.RecordDodge(-1f);
+            }
             var pa = a.Select(self, target, AiDifficultyProfile.ForTime(40), null, 40);
             var pb = b.Select(self, target, AiDifficultyProfile.ForTime(40), null, 40);
             Assert.That(pa.Tactic, Is.EqualTo(AttackTactic.FlankLeft).Or.EqualTo(AttackTactic.FlankRight));

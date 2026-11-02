@@ -7,8 +7,15 @@ namespace DogfightThreatAI.Tests.EditMode
 {
     public sealed class ContactVolumeCombatTests
     {
-        static FlightState At(float x, float y = 0f) => FlightState.At(new Vec2(x, y));
-        static ContactCombatModel Model() => new ContactCombatModel(invulnerabilitySeconds: .7f);
+        static FlightState At(float x, float y = 0f)
+        {
+            return FlightState.At(new Vec2(x, y));
+        }
+
+        static ContactCombatModel Model()
+        {
+            return new ContactCombatModel(invulnerabilitySeconds: .7f);
+        }
 
         [Test]
         public void TouchNeedsNoAttackWindowAndGrantsPointSevenSecondsProtection()
@@ -27,7 +34,9 @@ namespace DogfightThreatAI.Tests.EditMode
             var point = At(0f);
             Assert.IsTrue(model.StepContact(point, point, point, point, .02f, 1f));
             for (int i = 0; i < 33; i++)
+            {
                 Assert.IsFalse(model.StepContact(point, point, point, point, .02f, 1f));
+            }
             Assert.IsFalse(model.StepContact(point, point, point, point, .01f, 1f));
             Assert.AreEqual(4, model.Status.PlayerHealth);
             Assert.IsTrue(model.StepContact(point, point, point, point, .02f, 1f));
@@ -72,7 +81,9 @@ namespace DogfightThreatAI.Tests.EditMode
             var model = Model();
             var p = At(0f);
             for (int i = 0; i < 200 && model.Status.IsPlayerAlive; i++)
+            {
                 model.StepContact(p, p, p, p, .02f, 1f);
+            }
             Assert.AreEqual(0, model.Status.PlayerHealth);
             Assert.AreEqual(5, model.Status.HitSequence);
             Assert.IsFalse(model.StepContact(p, p, p, p, .02f, 1f));

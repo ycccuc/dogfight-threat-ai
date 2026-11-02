@@ -2,7 +2,10 @@ using DogfightThreatAI.Core.Flight;
 
 namespace DogfightThreatAI.Core.World
 {
-    public enum VisiblePropulsionCue { None, Hold, Dash, Overheat }
+    public enum VisiblePropulsionCue
+    {
+        None, Hold, Dash, Overheat
+    }
     /// <summary>AI 读取的飞机值快照，不持有模拟对象或 Unity 对象的引用。</summary>
     public readonly struct AircraftSnapshot
     {

@@ -14,7 +14,10 @@ namespace DogfightThreatAI.Tests.EditMode
     {
         static readonly AircraftSpec Spec = new AircraftSpec(2f, 9f, 18f, 210f, .1f, 8f, .35f);
 
-        [TestCase(1)] [TestCase(2)] [TestCase(3)] [TestCase(4)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
         public void StraightRecoveryDoesNotOvershootItsEscapePointAndTurnBackBeforeItsDeadline(int level)
         {
             float speed = PursuitDifficultyProfile.ForLevel(level).CruiseSpeed;
@@ -41,14 +44,20 @@ namespace DogfightThreatAI.Tests.EditMode
             }
         }
 
-        [TestCase(1)] [TestCase(2)] [TestCase(3)] [TestCase(4)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        [TestCase(4)]
         public void ProtectedPlayerCanReceiveAFullNewWarningWithoutRemovingProtection(int level)
         {
             var world = new World();
             var clock = new Clock { Protection = .6f };
             var ai = new PursuitChargeInputSource(world, 2, Spec, clock, null, level);
             ai.ReadInput(.02f);
-            Assert.AreEqual(AttackRunPhase.Windup, ai.Phase, "protection should not make the enemy idle before its next full warning");
+            Assert.AreEqual(
+                AttackRunPhase.Windup,
+                ai.Phase,
+                "protection should not make the enemy idle before its next full warning");
             Assert.AreEqual(.8f, ai.PhaseRemaining, .0001f);
             Assert.AreEqual(.6f, clock.Status.InvulnerabilityRemaining, "AI cannot change the combat protection clock");
             clock.Now = .78f;
@@ -59,7 +68,9 @@ namespace DogfightThreatAI.Tests.EditMode
             Assert.AreEqual(AttackRunPhase.Charge, ai.Phase);
         }
 
-        [TestCase(1)] [TestCase(2)] [TestCase(3)]
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
         public void LowerTiersCanReenterUsingActuallyObservedCurvature(int level)
         {
             var world = new World { Enemy = FlightState.At(new Vec2(-20f, 0f)) };
@@ -82,23 +93,31 @@ namespace DogfightThreatAI.Tests.EditMode
             Assert.AreEqual(AttackRunPhase.Recover, ai.Phase);
             var path = (PursuitReentryPath)typeof(PursuitChargeInputSource)
                 .GetField("_reentryPath", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(ai);
-            Assert.IsTrue(path.Active, "all strengthened tiers must use reliable observed turning history instead of blindly following a circle");
+            Assert.IsTrue(
+                path.Active,
+                "all strengthened tiers must use reliable observed turning history instead of blindly following a circle");
         }
 
         sealed class World : IWorldView
         {
             public FlightState Player = FlightState.At(Vec2.Zero);
             public FlightState Enemy = FlightState.At(new Vec2(-6f, 0f));
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0
                 ? new AircraftSnapshot(1, 1, Player, true, true)
                 : new AircraftSnapshot(2, 2, Enemy);
+            }
         }
 
         sealed class Clock : ICombatStatusView
         {
             public float Now, Protection;
             public int Hits;
+
             public CombatStatus Status => new CombatStatus(5, 5, Hits, Protection, Now);
         }
     }

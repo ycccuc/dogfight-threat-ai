@@ -11,12 +11,21 @@ namespace DogfightThreatAI.EditorTools
     public static class CannonCombatSetup
     {
         const string Root = "Assets/_Project/Settings";
+
+        // 通过编辑器配置共用机炮、AI 难度和场景战斗接线。
         [MenuItem("Tools/Dogfight Threat AI/Apply Cannon Combat Setup")]
         public static void Apply()
         {
-            if (EditorApplication.isPlayingOrWillChangePlaymode) throw new InvalidOperationException("Stop Play first.");
-            if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
-            Folder(Root + "/Weapons"); Folder(Root + "/AI");
+            if (EditorApplication.isPlayingOrWillChangePlaymode)
+            {
+                throw new InvalidOperationException("Stop Play first.");
+            }
+            if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                return;
+            }
+            Folder(Root + "/Weapons");
+            Folder(Root + "/AI");
             var weapon = LoadOrCreate<WeaponData>(Root + "/Weapons/Cannon.asset");
             var names = new[] { "新兵", "标准", "老兵", "王牌" };
             var descriptions = new[] { "反应较慢，适合熟悉飞行与射击。", "会预判航向，保持距离并寻找机会。", "更快地调整航线，射击更果断。", "反应敏捷，预判充分，需要灵活变向。" };
@@ -29,40 +38,71 @@ namespace DogfightThreatAI.EditorTools
                 string path = Root + "/AI/Gunner" + (i + 1) + ".asset";
                 bool exists = AssetDatabase.LoadAssetAtPath<GunnerProfileData>(path) != null;
                 profiles[i] = LoadOrCreate<GunnerProfileData>(path);
-                if (exists) continue; // 重复运行保留队员已调好的资产数值。
+                if (exists)
+                {
+                    continue; // 重复运行保留队员已调好的资产数值。
+                }
                 var settings = new SerializedObject(profiles[i]);
                 settings.FindProperty("displayName").stringValue = names[i];
                 settings.FindProperty("description").stringValue = descriptions[i];
                 settings.FindProperty("useAStar").boolValue = i > 0;
                 settings.FindProperty("shotSpacing").floatValue = new[] { 1.35f, .85f, .6f, .46f }[i];
                 var fields = new[] { "observationInterval", "prediction", "aimToleranceDegrees", "fireDelay", "cruiseSpeed", "turnRate" };
-                for (int j = 0; j < fields.Length; j++) settings.FindProperty(fields[j]).floatValue = values[i][j];
+                for (int j = 0; j < fields.Length; j++)
+                {
+                    settings.FindProperty(fields[j]).floatValue = values[i][j];
+                }
                 settings.ApplyModifiedPropertiesWithoutUndo();
             }
-            var scene = EditorSceneManager.OpenScene("Assets/_Project/Scenes/GameScene/GameScene.unity", OpenSceneMode.Single);
+            var scene = EditorSceneManager.OpenScene(
+                "Assets/_Project/Scenes/GameScene/GameScene.unity",
+                OpenSceneMode.Single);
             var combat = UnityEngine.Object.FindObjectOfType<BattleCombatController>();
-            if (combat == null) throw new InvalidOperationException("GameScene has no battle authority.");
+            if (combat == null)
+            {
+                throw new InvalidOperationException("GameScene has no battle authority.");
+            }
             var battle = new SerializedObject(combat);
             battle.FindProperty("useProjectileCombat").boolValue = true;
             battle.FindProperty("weapon").objectReferenceValue = weapon;
-            var entries = battle.FindProperty("difficulties"); entries.arraySize = profiles.Length;
-            for (int i = 0; i < profiles.Length; i++) entries.GetArrayElementAtIndex(i).objectReferenceValue = profiles[i];
+            var entries = battle.FindProperty("difficulties");
+            entries.arraySize = profiles.Length;
+            for (int i = 0; i < profiles.Length; i++)
+            {
+                entries.GetArrayElementAtIndex(i).objectReferenceValue = profiles[i];
+            }
             battle.ApplyModifiedPropertiesWithoutUndo();
             EditorSceneManager.MarkSceneDirty(scene);
-            if (!EditorSceneManager.SaveScene(scene)) throw new InvalidOperationException("Could not save GameScene.");
+            if (!EditorSceneManager.SaveScene(scene))
+            {
+                throw new InvalidOperationException("Could not save GameScene.");
+            }
             AssetDatabase.SaveAssets();
             Debug.Log("CANNON_SETUP_OK: GameScene, common cannon, four difficulty assets saved.");
         }
+
+        // 加载已有配置资产，缺失时创建对应资产。
         static T LoadOrCreate<T>(string path) where T : ScriptableObject
         {
             var asset = AssetDatabase.LoadAssetAtPath<T>(path);
-            if (asset != null) return asset;
-            asset = ScriptableObject.CreateInstance<T>(); AssetDatabase.CreateAsset(asset, path); return asset;
+            if (asset != null)
+            {
+                return asset;
+            }
+            asset = ScriptableObject.CreateInstance<T>();
+            AssetDatabase.CreateAsset(asset, path);
+            return asset;
         }
+
+        // 确保 Unity 资产目录存在。
         static void Folder(string path)
         {
-            if (AssetDatabase.IsValidFolder(path)) return;
-            int slash = path.LastIndexOf('/'); Folder(path.Substring(0, slash));
+            if (AssetDatabase.IsValidFolder(path))
+            {
+                return;
+            }
+            int slash = path.LastIndexOf('/');
+            Folder(path.Substring(0, slash));
             AssetDatabase.CreateFolder(path.Substring(0, slash), path.Substring(slash + 1));
         }
     }

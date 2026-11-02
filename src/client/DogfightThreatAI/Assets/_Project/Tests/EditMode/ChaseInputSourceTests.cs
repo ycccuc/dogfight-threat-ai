@@ -126,7 +126,10 @@ namespace DogfightThreatAI.Tests.EditMode
             var ai = NewAi(new FakeWorld(Self(), Player(2, -20f, 0f)));
             var first = ai.ReadInput(Dt);
             Assert.AreEqual(1f, MathF.Abs(first.Steer));
-            for (int i = 0; i < 20; i++) AssertInput(ai.ReadInput(Dt), first.Throttle, first.Steer);
+            for (int i = 0; i < 20; i++)
+            {
+                AssertInput(ai.ReadInput(Dt), first.Throttle, first.Steer);
+            }
         }
 
         [Test]
@@ -185,7 +188,10 @@ namespace DogfightThreatAI.Tests.EditMode
             var world = new FakeWorld(Self(0.3f), Player(2, 20f, 10f));
             var before = (AircraftSnapshot[])world.Aircraft.Clone();
             var ai = NewAi(world);
-            for (int i = 0; i < 100; i++) ai.ReadInput(Dt);
+            for (int i = 0; i < 100; i++)
+            {
+                ai.ReadInput(Dt);
+            }
             CollectionAssert.AreEqual(before, world.Aircraft);
         }
 
@@ -263,7 +269,10 @@ namespace DogfightThreatAI.Tests.EditMode
         [TestCase(float.PositiveInfinity)]
         public void Constructor_RejectsInvalidTurnRate(float rate)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(new FakeWorld(), 1, Spec(turnRate: rate)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(
+                    new FakeWorld(),
+                    1,
+                    Spec(turnRate: rate)));
         }
 
         [TestCase(0f)]
@@ -281,7 +290,12 @@ namespace DogfightThreatAI.Tests.EditMode
         [TestCase(float.PositiveInfinity)]
         public void Constructor_RejectsInvalidArrivalRadius(float radius)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(new FakeWorld(), 1, Spec(), 1f, radius));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(
+                    new FakeWorld(),
+                    1,
+                    Spec(),
+                    1f,
+                    radius));
         }
 
         [TestCase(float.NaN)]
@@ -290,7 +304,10 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             var invalidSelf = FlightState.At(Vec2.Zero);
             invalidSelf.Velocity = new Vec2(value, 0f);
-            AssertInput(NewAi(new FakeWorld(new AircraftSnapshot(1, 1, invalidSelf), Player(2, 10f, 0f))).ReadInput(Dt), -1f, 0f);
+            AssertInput(
+                NewAi(new FakeWorld(new AircraftSnapshot(1, 1, invalidSelf), Player(2, 10f, 0f))).ReadInput(Dt),
+                -1f,
+                0f);
 
             var invalidPlayer = FlightState.At(new Vec2(0f, 5f));
             invalidPlayer.Velocity = new Vec2(value, 0f);
@@ -305,7 +322,10 @@ namespace DogfightThreatAI.Tests.EditMode
         [TestCase(float.PositiveInfinity)]
         public void Constructor_RejectsInvalidMaxSpeed(float speed)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(new FakeWorld(), 1, Spec(maxSpeed: speed)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(
+                    new FakeWorld(),
+                    1,
+                    Spec(maxSpeed: speed)));
         }
 
         [TestCase(0f)]
@@ -314,7 +334,10 @@ namespace DogfightThreatAI.Tests.EditMode
         [TestCase(float.PositiveInfinity)]
         public void Constructor_RejectsInvalidAcceleration(float acceleration)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(new FakeWorld(), 1, Spec(acceleration: acceleration)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(
+                    new FakeWorld(),
+                    1,
+                    Spec(acceleration: acceleration)));
         }
 
         [TestCase(-1f)]
@@ -322,13 +345,21 @@ namespace DogfightThreatAI.Tests.EditMode
         [TestCase(float.PositiveInfinity)]
         public void Constructor_RejectsInvalidMinSpeed(float speed)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(new FakeWorld(), 1, Spec(minSpeed: speed)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(
+                    new FakeWorld(),
+                    1,
+                    Spec(minSpeed: speed)));
         }
 
         [Test]
         public void Constructor_RejectsMinSpeedAboveMaxSpeed()
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(new FakeWorld(), 1, Spec(minSpeed: 9f, maxSpeed: 8f)));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(
+                    new FakeWorld(),
+                    1,
+                    Spec(
+                        minSpeed: 9f,
+                        maxSpeed: 8f)));
         }
 
         [TestCase(-0.1f)]
@@ -336,18 +367,38 @@ namespace DogfightThreatAI.Tests.EditMode
         [TestCase(float.PositiveInfinity)]
         public void Constructor_RejectsInvalidDistanceTolerance(float tolerance)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(new FakeWorld(), 1, Spec(), distanceTolerance: tolerance));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new ChaseInputSource(
+                    new FakeWorld(),
+                    1,
+                    Spec(),
+                    distanceTolerance: tolerance));
         }
 
-        static ChaseInputSource NewAi(IWorldView world) => new ChaseInputSource(world, 1, Spec(), arrivalRadius: 0.5f);
+        static ChaseInputSource NewAi(IWorldView world)
+        {
+            return new ChaseInputSource(world, 1, Spec(), arrivalRadius: 0.5f);
+        }
+
         static AircraftSpec Spec(float minSpeed = 2f, float maxSpeed = 8f, float acceleration = 12f,
                                  float turnRate = 240f)
-            => new AircraftSpec(minSpeed, maxSpeed, acceleration, turnRate, 0f, 6f, 0.35f);
-        static FlightModel NewModel() => new FlightModel(2f, 8f, 12f, 240f, 0f);
+        {
+            return new AircraftSpec(minSpeed, maxSpeed, acceleration, turnRate, 0f, 6f, 0.35f);
+        }
+
+        static FlightModel NewModel()
+        {
+            return new FlightModel(2f, 8f, 12f, 240f, 0f);
+        }
+
         static AircraftSnapshot Self(float heading = 0f)
-            => new AircraftSnapshot(1, 1, FlightState.At(Vec2.Zero, heading));
+        {
+            return new AircraftSnapshot(1, 1, FlightState.At(Vec2.Zero, heading));
+        }
+
         static AircraftSnapshot Player(int id, float x, float y)
-            => new AircraftSnapshot(id, 2, FlightState.At(new Vec2(x, y)), isPlayerControlled: true);
+        {
+            return new AircraftSnapshot(id, 2, FlightState.At(new Vec2(x, y)), isPlayerControlled: true);
+        }
 
         static void AssertInput(FlightInput input, float throttle, float steer)
         {
@@ -367,9 +418,18 @@ namespace DogfightThreatAI.Tests.EditMode
         sealed class FakeWorld : IWorldView
         {
             internal AircraftSnapshot[] Aircraft;
-            public FakeWorld(params AircraftSnapshot[] aircraft) { Aircraft = aircraft; }
+
+            public FakeWorld(params AircraftSnapshot[] aircraft)
+            {
+                Aircraft = aircraft;
+            }
+
             public int AircraftCount => Aircraft.Length;
-            public AircraftSnapshot GetAircraft(int index) => Aircraft[index];
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return Aircraft[index];
+            }
         }
     }
 }

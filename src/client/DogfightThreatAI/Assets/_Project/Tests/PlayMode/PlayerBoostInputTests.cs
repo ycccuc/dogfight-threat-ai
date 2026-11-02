@@ -11,6 +11,7 @@ namespace DogfightThreatAI.Tests.PlayMode
         const BindingFlags Private = BindingFlags.Instance | BindingFlags.NonPublic;
         GameObject _object;
         KeyboardInputSource _input;
+
         PlayerBoostModel Boost => (PlayerBoostModel)typeof(KeyboardInputSource).GetField("_boost", Private).GetValue(_input);
 
         [SetUp]
@@ -22,7 +23,10 @@ namespace DogfightThreatAI.Tests.PlayMode
         }
 
         [TearDown]
-        public void TearDown() => Object.DestroyImmediate(_object);
+        public void TearDown()
+        {
+            Object.DestroyImmediate(_object);
+        }
 
         [Test]
         public void SpaceTapBetweenFixedStepsIsConsumedExactlyOnce()
@@ -178,10 +182,20 @@ namespace DogfightThreatAI.Tests.PlayMode
             Assert.IsTrue(Boost.IsDashing);
             Assert.AreEqual(35f, Boost.Energy);
         }
-        void Capture(bool dashHeld, bool holdHeld) => Invoke("CaptureAbilityFrame", dashHeld, holdHeld);
+
+        void Capture(bool dashHeld, bool holdHeld)
+        {
+            Invoke("CaptureAbilityFrame", dashHeld, holdHeld);
+        }
+
         void Consume(float dt, bool canBoost = true, bool braking = false)
-            => Invoke("ConsumeAbilityFrame", dt, canBoost, braking, 9f);
+        {
+            Invoke("ConsumeAbilityFrame", dt, canBoost, braking, 9f);
+        }
+
         void Invoke(string method, params object[] arguments)
-            => typeof(KeyboardInputSource).GetMethod(method, Private).Invoke(_input, arguments);
+        {
+            typeof(KeyboardInputSource).GetMethod(method, Private).Invoke(_input, arguments);
+        }
     }
 }

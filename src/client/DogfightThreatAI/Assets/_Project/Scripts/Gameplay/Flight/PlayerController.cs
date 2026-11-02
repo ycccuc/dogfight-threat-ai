@@ -47,15 +47,28 @@ namespace DogfightThreatAI.Gameplay
         public FlightState PreviousState => _hasPrevious ? _previous : _state;
         public Bounds2D? ArenaBounds => arenaHalfSize.x > 0f && arenaHalfSize.y > 0f
             ? Bounds2D.Centered(new Vec2(arenaHalfSize.x, arenaHalfSize.y)) : (Bounds2D?)null;
-        public bool IsInitialized { get; private set; }
+        public bool IsInitialized
+        {
+            get; private set;
+        }
 
-        void Reset() => body = GetComponent<Rigidbody2D>();
+        // 为编辑器新建组件补齐刚体引用。
+        void Reset()
+        {
+            body = GetComponent<Rigidbody2D>();
+        }
 
+        // 检查机型与输入源，创建飞行模型和出生状态。
         void Awake()
         {
-            if (body == null) body = GetComponent<Rigidbody2D>();
-            if (view == null) view = GetComponentInChildren<PlayerView>();
-
+            if (body == null)
+            {
+                body = GetComponent<Rigidbody2D>();
+            }
+            if (view == null)
+            {
+                view = GetComponentInChildren<PlayerView>();
+            }
             if (ship == null)
             {
                 Debug.LogError($"{name}: 没有指定 Ship Definition", this);
@@ -72,8 +85,9 @@ namespace DogfightThreatAI.Gameplay
             // 战场边界：半尺寸为正才启用，否则视为无限世界
             Bounds2D? arena = null;
             if (arenaHalfSize.x > 0f && arenaHalfSize.y > 0f)
+            {
                 arena = Bounds2D.Centered(new Vec2(arenaHalfSize.x, arenaHalfSize.y));
-
+            }
             _model = FlightModel.From(AircraftSpecAdapter.ToSpec(ship), arena);
 
             // 初始机头朝向 = 美术上机头的朝向。
@@ -82,33 +96,47 @@ namespace DogfightThreatAI.Gameplay
             _state = FlightState.At(new Vec2(transform.position.x, transform.position.y),
                                     ship.VisualForwardOffsetDeg * Mathf.Deg2Rad);
 
-            if (view != null) view.SetVisualForward(ship.VisualForwardOffsetDeg);
+            if (view != null)
+            {
+                view.SetVisualForward(ship.VisualForwardOffsetDeg);
+            }
             IsInitialized = true;
         }
 
+        // 读取本步操作意图，由飞行模型统一推进实际状态。
         void FixedUpdate()
         {
             var source = (IPlayerInputSource)inputSource;
-            var input  = source.ReadInput(Time.fixedDeltaTime);
+            var input = source.ReadInput(Time.fixedDeltaTime);
 
             _previous = _state;   // 首步也必须从出生状态插值，不能使用默认原点
+                                  // 优先使用输入源给出的明确推进命令，再兼容旧速度接口。
             if (source is IFlightMotionSource motionSource)
+            {
                 _model.Step(ref _state, input, Time.fixedDeltaTime, motionSource.MotionCommand);
+            }
             else if (source is IFlightSpeedSource speedSource)
+            {
                 _model.Step(ref _state, input, Time.fixedDeltaTime, speedSource.SpeedMultiplier,
-                    source is IFlightCruiseSource cruiseSource && cruiseSource.MaintainCruiseSpeed);
+                                source is IFlightCruiseSource cruiseSource && cruiseSource.MaintainCruiseSpeed);
+            }
             else
+            {
                 _model.Step(ref _state, input, Time.fixedDeltaTime);
+            }
             _hasPrevious = true;
 
             // 位置以物理引擎为落地方式（Kinematic 刚体不会自作主张改位置）
             body.MovePosition(_state.Position.ToUnity());
         }
 
+        // 把前后固定步的状态交给视图，平滑显示飞机。
         void Update()
         {
-            if (view == null) return;
-
+            if (view == null)
+            {
+                return;
+            }
             float alpha = Time.fixedDeltaTime > 0f
                 ? Mathf.Clamp01((Time.time - Time.fixedTime) / Time.fixedDeltaTime)
                 : 0f;

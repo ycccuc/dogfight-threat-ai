@@ -42,8 +42,13 @@ namespace DogfightThreatAI.Gameplay.View
         Vector3 _lookDirectionVelocity;
         bool _hasLastPosition;
 
-        void Awake() => _camera = GetComponent<Camera>();
+        // 初始化相机跟随时需要的引用和位置。
+        void Awake()
+        {
+            _camera = GetComponent<Camera>();
+        }
 
+        // 替换当前跟随目标。
         public void SetTarget(Transform t)
         {
             target = t;
@@ -51,11 +56,18 @@ namespace DogfightThreatAI.Gameplay.View
         }
 
         /// <summary>运行时设置世界半尺寸（例如从关卡配置读）。</summary>
-        public void SetWorldHalfSize(Vector2 half) => worldHalfSize = half;
+        public void SetWorldHalfSize(Vector2 half)
+        {
+            worldHalfSize = half;
+        }
 
+        // 在飞机更新后计算跟随、前瞻和地图边界限制。
         void LateUpdate()
         {
-            if (target == null) return;
+            if (target == null)
+            {
+                return;
+            }
             if (_trackedTarget != target)
             {
                 _trackedTarget = target;
@@ -79,8 +91,10 @@ namespace DogfightThreatAI.Gameplay.View
             Vector3 desired = targetPosition + offset + _lookDirection * lookAhead;
             desired.z = offset.z;                      // 2D：z 永远保持 -10
 
-            if (clampToWorld) desired = ClampInsideWorld(desired);
-
+            if (clampToWorld)
+            {
+                desired = ClampInsideWorld(desired);
+            }
             transform.position = Vector3.SmoothDamp(transform.position, desired, ref _velocity, smoothTime);
         }
 
@@ -90,10 +104,12 @@ namespace DogfightThreatAI.Gameplay.View
         /// </summary>
         Vector3 ClampInsideWorld(Vector3 p)
         {
-            if (_camera == null) _camera = GetComponent<Camera>();
-
+            if (_camera == null)
+            {
+                _camera = GetComponent<Camera>();
+            }
             float halfHeight = _camera != null ? _camera.orthographicSize : 5f;
-            float halfWidth  = _camera != null ? halfHeight * Mathf.Max(0.01f, _camera.aspect) : 9f;
+            float halfWidth = _camera != null ? halfHeight * Mathf.Max(0.01f, _camera.aspect) : 9f;
 
             float maxX = Mathf.Max(0f, worldHalfSize.x - halfWidth);
             float maxY = Mathf.Max(0f, worldHalfSize.y - halfHeight);

@@ -11,13 +11,19 @@ namespace DogfightThreatAI.Tests.EditMode
         static readonly FlightInput Forward = new FlightInput(1f, 0f);
 
         static FlightModel NewModel(Bounds2D? arena = null)
-            => new FlightModel(2f, 9f, 18f, 240f, .1f, 6f, .35f, arena);
+        {
+            return new FlightModel(2f, 9f, 18f, 240f, .1f, 6f, .35f, arena);
+        }
 
         static FlightState AtSpeed(float speed)
-            => new FlightState { Velocity = new Vec2(speed, 0f) };
+        {
+            return new FlightState { Velocity = new Vec2(speed, 0f) };
+        }
 
         static FlightMotionCommand Hold()
-            => FlightMotionCommand.FiniteAcceleration(18f, 7.5f, 30f, 180f);
+        {
+            return FlightMotionCommand.FiniteAcceleration(18f, 7.5f, 30f, 180f);
+        }
 
         [Test]
         public void HoldAddsPointOneFiveActualForwardSpeedEachStepUntilEighteen()
@@ -92,7 +98,9 @@ namespace DogfightThreatAI.Tests.EditMode
             var state = AtSpeed(9f);
             NewModel().Step(ref state, new FlightInput(1f, 1f), .02f, Hold());
             Assert.That(state.Heading, Is.EqualTo(180f * .01745329252f * .02f).Within(.00001f));
-            Assert.That(MathF.Abs(Vec2.Dot(state.Velocity, new Vec2(state.Forward.Y, -state.Forward.X))), Is.GreaterThan(.01f));
+            Assert.That(
+                MathF.Abs(Vec2.Dot(state.Velocity, new Vec2(state.Forward.Y, -state.Forward.X))),
+                Is.GreaterThan(.01f));
         }
 
         [TestCase(.5f)]

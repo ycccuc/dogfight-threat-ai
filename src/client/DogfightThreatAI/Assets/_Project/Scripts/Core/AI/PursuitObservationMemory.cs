@@ -18,18 +18,38 @@ namespace DogfightThreatAI.Core.AI
         int _next, _count;
         float _lastTime = -1f;
 
-        public void Reset() { _next = _count = 0; _lastTime = -1f; }
+        // 清空观察历史，避免新目标沿用旧记录。
+        public void Reset()
+        {
+            _next = _count = 0;
+            _lastTime = -1f;
+        }
 
+        // 把当前目标状态采样到观察历史中。
         public void Sample(in FlightState state, float time)
-            => Sample(new AircraftSnapshot(0, 0, state, propulsionCue: VisiblePropulsionCue.None, cueObservedAt: time), time);
+        {
+            Sample(
+            new AircraftSnapshot(0, 0, state, propulsionCue: VisiblePropulsionCue.None, cueObservedAt: time),
+            time);
+        }
 
+        // 把当前目标状态采样到观察历史中。
         public void Sample(in AircraftSnapshot snapshot, float time)
         {
-            if (!snapshot.IsVisible) return;
+            if (!snapshot.IsVisible)
+            {
+                return;
+            }
             FlightState state = snapshot.Flight;
             if (!Finite(time) || time < 0f || !Finite(state.Position.X) || !Finite(state.Position.Y) ||
-                !Finite(state.Velocity.X) || !Finite(state.Velocity.Y) || !Finite(state.Heading)) return;
-            if (_count > 0 && time <= _lastTime) return;
+                !Finite(state.Velocity.X) || !Finite(state.Velocity.Y) || !Finite(state.Heading))
+            {
+                return;
+            }
+            if (_count > 0 && time <= _lastTime)
+            {
+                return;
+            }
             _lastTime = time;
             _states[_next] = state;
             _times[_next] = time;
@@ -39,32 +59,53 @@ namespace DogfightThreatAI.Core.AI
             _count = System.Math.Min(Capacity, _count + 1);
         }
 
+        // 读取历史中允许感知的公开推进线索。
         public bool TryObserveCue(float now, float delay, out VisiblePropulsionCue cue, out float observedAt)
         {
-            cue = VisiblePropulsionCue.None; observedAt = 0f;
-            if (!Finite(now) || !Finite(delay) || delay < 0f) return false;
+            cue = VisiblePropulsionCue.None;
+            observedAt = 0f;
+            if (!Finite(now) || !Finite(delay) || delay < 0f)
+            {
+                return false;
+            }
             for (int i = 0; i < _count; i++)
             {
                 int index = Index(i);
-                if (_times[index] > now - delay + .000001f || _cueTimes[index] > now - delay + .000001f) continue;
-                cue = _cues[index]; observedAt = _cueTimes[index]; return true;
+                if (_times[index] > now - delay + .000001f || _cueTimes[index] > now - delay + .000001f)
+                {
+                    continue;
+                }
+                cue = _cues[index];
+                observedAt = _cueTimes[index];
+                return true;
             }
             return false;
         }
 
+        // 根据允许的观察时刻读取目标历史状态。
         public bool TryObserve(float now, float delay, out FlightState state, out float observedAt,
-            out float turnRate, out float confidence)
+                    out float turnRate, out float confidence)
         {
             state = default;
             observedAt = turnRate = confidence = 0f;
-            if (!Finite(now) || !Finite(delay) || now < 0f || delay < 0f) return false;
-            if (_count == 0) return false;
+            if (!Finite(now) || !Finite(delay) || now < 0f || delay < 0f)
+            {
+                return false;
+            }
+            if (_count == 0)
+            {
+                return false;
+            }
             int offset = _count - 1;
             // The first visible sample seeds tracking; later reads cannot substitute newer information.
             for (int i = 0; i < _count; i++)
             {
                 int index = Index(i);
-                if (_times[index] <= now - delay + .000001f) { offset = i; break; }
+                if (_times[index] <= now - delay + .000001f)
+                {
+                    offset = i;
+                    break;
+                }
             }
             int selected = Index(offset);
             state = _states[selected];
@@ -78,7 +119,13 @@ namespace DogfightThreatAI.Core.AI
             {
                 int current = Index(i), previous = Index(i + 1);
                 float duration = _times[current] - _times[previous];
-                if (duration <= 0f || duration > .12f || _states[current].Speed < 1f || _states[previous].Speed < 1f) break;
+                if (duration <= 0f ||
+                    duration > .12f ||
+                    _states[current].Speed < 1f ||
+                    _states[previous].Speed < 1f)
+                {
+                    break;
+                }
                 float angle = Vec2.NormalizeAngle(_states[current].Velocity.AngleRad - _states[previous].Velocity.AngleRad);
                 float rate = System.Math.Max(-4.5f, System.Math.Min(4.5f, angle / duration));
                 sum += rate * duration;
@@ -90,12 +137,23 @@ namespace DogfightThreatAI.Core.AI
             {
                 turnRate = sum / elapsed;
                 confidence = MathF.Min(1f, elapsed / .45f) * MathF.Abs(sum) / absolute;
-                if (MathF.Abs(turnRate) < .12f) turnRate = confidence = 0f;
+                if (MathF.Abs(turnRate) < .12f)
+                {
+                    turnRate = confidence = 0f;
+                }
             }
             return true;
         }
 
-        int Index(int newestOffset) => (_next - 1 - newestOffset + Capacity) % Capacity;
-        static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
+        // 把历史序号转换为循环缓冲索引。
+        int Index(int newestOffset)
+        {
+            return (_next - 1 - newestOffset + Capacity) % Capacity;
+        }
+
+        static bool Finite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
+        }
     }
 }

@@ -37,7 +37,10 @@ namespace DogfightThreatAI.Tests.PlayMode
         {
             _combat = Object.FindObjectOfType<BattleCombatController>();
             _ai = _combat.Enemy.GetComponent<ChaseAiInputSource>();
-            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>()) hitbox.Collider.enabled = false;
+            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>())
+            {
+                hitbox.Collider.enabled = false;
+            }
             SetState(_combat.Player, FlightState.At(Vec2.Zero, Mathf.PI * .5f));
             SetState(_combat.Enemy, FlightState.At(new Vec2(-20f, 0f)));
             Camera.main.transform.position = new Vector3(0f, 0f, -10f);
@@ -138,7 +141,9 @@ namespace DogfightThreatAI.Tests.PlayMode
                     Assert.AreEqual(AttackRunPhase.Windup, _ai.Phase);
                     Assert.AreEqual(level, _ai.Level);
                     Assert.AreEqual(_ai.CruiseSpeed, _combat.Enemy.State.Speed, .01f);
-                    Assert.Greater(Vec2.Distance(before.Position, _combat.Enemy.State.Position), _ai.CruiseSpeed * .019f);
+                    Assert.Greater(
+                        Vec2.Distance(before.Position, _combat.Enemy.State.Position),
+                        _ai.CruiseSpeed * .019f);
                     Clock(.02f);
                 }
                 _ai.ReadInput(.02f);
@@ -147,14 +152,23 @@ namespace DogfightThreatAI.Tests.PlayMode
                 Assert.IsTrue(_ai.IsAimLocked);
                 yield return null;
                 foreach (var line in _combat.Enemy.GetComponentsInChildren<LineRenderer>())
-                    if (line.name.StartsWith("AttackCue_")) Assert.IsFalse(line.enabled);
+                {
+                    if (line.name.StartsWith("AttackCue_"))
+                    {
+                        Assert.IsFalse(line.enabled);
+                    }
+                }
             }
         }
 
         void SelectLevel(int level)
         {
-            var method = typeof(ChaseAiInputSource).GetMethod("SetDifficulty", BindingFlags.Public | BindingFlags.Instance);
-            Assert.IsNotNull(method, "A runtime difficulty selector must drive the real source, so all four levels can be tried.");
+            var method = typeof(ChaseAiInputSource).GetMethod(
+                "SetDifficulty",
+                BindingFlags.Public | BindingFlags.Instance);
+            Assert.IsNotNull(
+                method,
+                "A runtime difficulty selector must drive the real source, so all four levels can be tried.");
             method.Invoke(_ai, new object[] { level });
         }
 

@@ -19,9 +19,18 @@ namespace DogfightThreatAI.Core.AI
         public void Sample(in AircraftSnapshot observed, float observedAt)
         {
             if (!Finite(observedAt) || observedAt < 0f || !Finite(observed.Flight.Position) ||
-                !Finite(observed.Flight.Velocity)) return;
-            if (_hasSample && (observed.EntityId != _targetId || observedAt < _sampledAt)) Reset();
-            if (_hasSample && observedAt <= _sampledAt) return;
+                !Finite(observed.Flight.Velocity))
+            {
+                return;
+            }
+            if (_hasSample && (observed.EntityId != _targetId || observedAt < _sampledAt))
+            {
+                Reset();
+            }
+            if (_hasSample && observedAt <= _sampledAt)
+            {
+                return;
+            }
             if (_hasSample)
             {
                 double dt = (double)observedAt - _sampledAt;
@@ -49,6 +58,7 @@ namespace DogfightThreatAI.Core.AI
             _hasSample = true;
         }
 
+        // 清空用于目标运动预测的历史记录。
         public void Reset()
         {
             _hasSample = _hasTurn = false;
@@ -81,8 +91,18 @@ namespace DogfightThreatAI.Core.AI
         }
 
         static float Saturate(double value)
-            => (float)System.Math.Max(-float.MaxValue, System.Math.Min(float.MaxValue, value));
-        static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
-        static bool Finite(Vec2 value) => Finite(value.X) && Finite(value.Y);
+        {
+            return (float)System.Math.Max(-float.MaxValue, System.Math.Min(float.MaxValue, value));
+        }
+
+        static bool Finite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
+        }
+
+        static bool Finite(Vec2 value)
+        {
+            return Finite(value.X) && Finite(value.Y);
+        }
     }
 }

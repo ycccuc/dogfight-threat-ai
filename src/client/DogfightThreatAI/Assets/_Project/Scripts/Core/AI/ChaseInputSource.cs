@@ -34,14 +34,21 @@ namespace DogfightThreatAI.Core.AI
                 !IsFinite(aircraft.Drag) || aircraft.Drag < 0f ||
                 !IsFinite(aircraft.LateralGrip) || aircraft.LateralGrip < 0f ||
                 !IsFinite(aircraft.DriftScrub) || aircraft.DriftScrub < 0f || aircraft.DriftScrub > 1f)
+            {
                 throw new ArgumentOutOfRangeException(nameof(aircraft));
+            }
             if (!IsFinite(cruiseThrottle) || cruiseThrottle <= 0f || cruiseThrottle > 1f)
+            {
                 throw new ArgumentOutOfRangeException(nameof(cruiseThrottle));
+            }
             if (!IsFinite(arrivalRadius) || arrivalRadius < 0f)
+            {
                 throw new ArgumentOutOfRangeException(nameof(arrivalRadius));
+            }
             if (!IsFinite(distanceTolerance) || distanceTolerance < 0f)
+            {
                 throw new ArgumentOutOfRangeException(nameof(distanceTolerance));
-
+            }
             _selfId = selfId;
             _aircraft = aircraft;
             _prediction = FlightModel.From(aircraft);
@@ -51,15 +58,19 @@ namespace DogfightThreatAI.Core.AI
             _distanceTolerance = distanceTolerance;
         }
 
+        // 从只读世界中寻找目标，并产生基础追踪操作。
         public FlightInput ReadInput(float deltaTime)
         {
-            if (!IsFinite(deltaTime) || deltaTime <= 0f) return FlightInput.Neutral;
-
+            if (!IsFinite(deltaTime) || deltaTime <= 0f)
+            {
+                return FlightInput.Neutral;
+            }
             int count = _world.AircraftCount;
             if (!TryGetSelf(count, out var self) ||
                 !TrySelectPlayer(count, self, out var target, out double distanceSquared))
+            {
                 return new FlightInput(-1f, 0f);
-
+            }
             // double 中计算位置差和距离，避免有限 float 坐标相减/平方溢出。
             double dx = (double)target.Flight.Position.X - self.Flight.Position.X;
             double dy = (double)target.Flight.Position.Y - self.Flight.Position.Y;
@@ -104,7 +115,10 @@ namespace DogfightThreatAI.Core.AI
             double desiredX = target.Flight.Velocity.X + nx * correction;
             double desiredY = target.Flight.Velocity.Y + ny * correction;
             double desiredSpeed = System.Math.Sqrt(desiredX * desiredX + desiredY * desiredY);
-            if (desiredSpeed < 1e-4d) return new FlightInput(-1f, 0f);
+            if (desiredSpeed < 1e-4d)
+            {
+                return new FlightInput(-1f, 0f);
+            }
             if (desiredSpeed > cruiseSpeed)
             {
                 desiredX *= cruiseSpeed / desiredSpeed;
@@ -115,17 +129,24 @@ namespace DogfightThreatAI.Core.AI
             double cross = forward.X * desiredY - forward.Y * desiredX;
             double dot = forward.X * desiredX + forward.Y * desiredY;
             double angle = System.Math.Atan2(cross, dot);
-            if (angle >= System.Math.PI) angle = -System.Math.PI;
+            if (angle >= System.Math.PI)
+            {
+                angle = -System.Math.PI;
+            }
             double desiredSteer = angle / (_turnRateRad * deltaTime);
             float steer = (float)Clamp(desiredSteer, -1d, 1d);
             // 大角度先刹车转头，不一边全速前进一边绕着目标打圈。
-            if (System.Math.Abs(angle) > System.Math.PI / 3d) return new FlightInput(-1f, steer);
+            if (System.Math.Abs(angle) > System.Math.PI / 3d)
+            {
+                return new FlightInput(-1f, steer);
+            }
             return ChooseThrottle(self, target, desiredX, desiredY, desiredSpeed, steer, deltaTime);
         }
 
+        // 根据追踪状态选择本步油门。
         FlightInput ChooseThrottle(AircraftSnapshot self, AircraftSnapshot target,
-                                   double desiredX, double desiredY, double desiredSpeed,
-                                   float steer, float dt)
+                                           double desiredX, double desiredY, double desiredSpeed,
+                                           float steer, float dt)
         {
             float accelerate = (float)Clamp(desiredSpeed * (1d + _aircraft.Drag * dt) /
                 _aircraft.MaxSpeed, System.Math.Min(0.0001d, _cruiseThrottle), _cruiseThrottle);
@@ -136,7 +157,10 @@ namespace DogfightThreatAI.Core.AI
                 var input = new FlightInput(candidate == 0 ? -1f : candidate == 1 ? 0f : accelerate, steer);
                 var predicted = self.Flight;
                 _prediction.Step(ref predicted, input, dt);
-                if (!IsFinite(predicted.Velocity) || !IsFinite(predicted.Position)) continue;
+                if (!IsFinite(predicted.Velocity) || !IsFinite(predicted.Position))
+                {
+                    continue;
+                }
                 double vx = predicted.Velocity.X - desiredX;
                 double vy = predicted.Velocity.Y - desiredY;
                 double score = vx * vx + vy * vy;
@@ -146,26 +170,34 @@ namespace DogfightThreatAI.Core.AI
                     _arrivalRadius - _distanceTolerance - System.Math.Sqrt(px * px + py * py));
                 score += 4d * shortage * shortage;
                 // 同分时保留先枚举的刹车/滑行；不引入随机性或热路径数组分配。
-                if (score < bestScore) { best = input; bestScore = score; }
+                if (score < bestScore)
+                {
+                    best = input;
+                    bestScore = score;
+                }
             }
             return best;
         }
 
+        // 从世界快照中定位自身飞机。
         bool TryGetSelf(int count, out AircraftSnapshot self)
         {
             for (int i = 0; i < count; i++)
             {
                 self = _world.GetAircraft(i);
                 if (self.EntityId == _selfId)
+                {
                     return self.IsAlive && IsFinite(self.Flight.Position) &&
-                        IsFinite(self.Flight.Velocity) && IsFinite(self.Flight.Heading);
+                                        IsFinite(self.Flight.Velocity) && IsFinite(self.Flight.Heading);
+                }
             }
             self = default;
             return false;
         }
 
+        // 从候选快照中选择可追踪的玩家目标。
         bool TrySelectPlayer(int count, AircraftSnapshot self,
-                             out AircraftSnapshot target, out double nearestDistanceSquared)
+                                     out AircraftSnapshot target, out double nearestDistanceSquared)
         {
             target = default;
             nearestDistanceSquared = double.PositiveInfinity;
@@ -176,8 +208,9 @@ namespace DogfightThreatAI.Core.AI
                 if (candidate.EntityId == _selfId || candidate.TeamId == self.TeamId ||
                     !candidate.IsAlive || !candidate.IsPlayerControlled ||
                     !IsFinite(candidate.Flight.Position) || !IsFinite(candidate.Flight.Velocity))
+                {
                     continue;
-
+                }
                 double dx = (double)candidate.Flight.Position.X - self.Flight.Position.X;
                 double dy = (double)candidate.Flight.Position.Y - self.Flight.Position.Y;
                 double distanceSquared = dx * dx + dy * dy;
@@ -192,8 +225,19 @@ namespace DogfightThreatAI.Core.AI
             return found;
         }
 
-        static bool IsFinite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
-        static bool IsFinite(Vec2 value) => IsFinite(value.X) && IsFinite(value.Y);
-        static double Clamp(double value, double min, double max) => System.Math.Max(min, System.Math.Min(max, value));
+        static bool IsFinite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
+        }
+
+        static bool IsFinite(Vec2 value)
+        {
+            return IsFinite(value.X) && IsFinite(value.Y);
+        }
+
+        static double Clamp(double value, double min, double max)
+        {
+            return System.Math.Max(min, System.Math.Min(max, value));
+        }
     }
 }

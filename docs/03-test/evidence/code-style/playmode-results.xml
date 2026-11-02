@@ -1,0 +1,411 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="69" result="Passed" total="69" passed="69" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-02 12:23:03Z" end-time="2026-11-02 12:23:46Z" duration="43.2415688">
+  <test-suite type="TestSuite" id="1000" name="dogfight-threat-ai" fullname="dogfight-threat-ai" runstate="Runnable" testcasecount="69" result="Passed" start-time="2026-11-02 12:23:03Z" end-time="2026-11-02 12:23:46Z" duration="43.241569" total="69" passed="69" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1085" name="DogfightThreatAI.Tests.PlayMode.dll" fullname="D:/Projects/Unity/dogfight-threat-ai/src/client/DogfightThreatAI/Library/ScriptAssemblies/DogfightThreatAI.Tests.PlayMode.dll" runstate="Runnable" testcasecount="69" result="Passed" start-time="2026-11-02 12:23:03Z" end-time="2026-11-02 12:23:46Z" duration="43.237143" total="69" passed="69" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="40804" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+      </properties>
+      <test-suite type="TestSuite" id="1086" name="DogfightThreatAI" fullname="DogfightThreatAI" runstate="Runnable" testcasecount="69" result="Passed" start-time="2026-11-02 12:23:03Z" end-time="2026-11-02 12:23:46Z" duration="43.236737" total="69" passed="69" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1087" name="Tests" fullname="DogfightThreatAI.Tests" runstate="Runnable" testcasecount="69" result="Passed" start-time="2026-11-02 12:23:03Z" end-time="2026-11-02 12:23:46Z" duration="43.236519" total="69" passed="69" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1088" name="Menu" fullname="DogfightThreatAI.Tests.Menu" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-02 12:23:03Z" end-time="2026-11-02 12:23:21Z" duration="18.527294" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1001" name="LobbyFlowTests" fullname="DogfightThreatAI.Tests.Menu.LobbyFlowTests" classname="DogfightThreatAI.Tests.Menu.LobbyFlowTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-11-02 12:23:03Z" end-time="2026-11-02 12:23:06Z" duration="2.686420" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1002" name="MenuLobbyAndReturnHaveValidLocalStateAndNoCombat" fullname="DogfightThreatAI.Tests.Menu.LobbyFlowTests.MenuLobbyAndReturnHaveValidLocalStateAndNoCombat" methodname="MenuLobbyAndReturnHaveValidLocalStateAndNoCombat" classname="DogfightThreatAI.Tests.Menu.LobbyFlowTests" runstate="Runnable" seed="1089622152" result="Passed" start-time="2026-11-02 12:23:03Z" end-time="2026-11-02 12:23:06Z" duration="2.679144" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1003" name="MainMenuFlowTests" fullname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" classname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-02 12:23:06Z" end-time="2026-11-02 12:23:13Z" duration="7.140555" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1006" name="ClosingSettingsDiscardsDraftWithoutChangingAudio" fullname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests.ClosingSettingsDiscardsDraftWithoutChangingAudio" methodname="ClosingSettingsDiscardsDraftWithoutChangingAudio" classname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" runstate="Runnable" seed="1481746593" result="Passed" start-time="2026-11-02 12:23:06Z" end-time="2026-11-02 12:23:08Z" duration="2.020595" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1007" name="ControlsAndCreditsHaveWorkingReturnPaths" fullname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests.ControlsAndCreditsHaveWorkingReturnPaths" methodname="ControlsAndCreditsHaveWorkingReturnPaths" classname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" runstate="Runnable" seed="1162373447" result="Passed" start-time="2026-11-02 12:23:08Z" end-time="2026-11-02 12:23:10Z" duration="2.257619" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="ModalBlocksMenuAndRestoresItsOriginFocus" fullname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests.ModalBlocksMenuAndRestoresItsOriginFocus" methodname="ModalBlocksMenuAndRestoresItsOriginFocus" classname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" runstate="Runnable" seed="1777821248" result="Passed" start-time="2026-11-02 12:23:10Z" end-time="2026-11-02 12:23:12Z" duration="1.707220" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1004" name="SplashAndTransitionCannotLaunchBattle" fullname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests.SplashAndTransitionCannotLaunchBattle" methodname="SplashAndTransitionCannotLaunchBattle" classname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" runstate="Runnable" seed="746276977" result="Passed" start-time="2026-11-02 12:23:12Z" end-time="2026-11-02 12:23:13Z" duration="1.154071" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1008" name="MenuToBattleTests" fullname="DogfightThreatAI.Tests.Menu.MenuToBattleTests" classname="DogfightThreatAI.Tests.Menu.MenuToBattleTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-02 12:23:13Z" end-time="2026-11-02 12:23:21Z" duration="8.699434" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1010" name="ReturningToMenuAndReenteringKeepsRiverValleyAndResetsDamagedBattle" fullname="DogfightThreatAI.Tests.Menu.MenuToBattleTests.ReturningToMenuAndReenteringKeepsRiverValleyAndResetsDamagedBattle" methodname="ReturningToMenuAndReenteringKeepsRiverValleyAndResetsDamagedBattle" classname="DogfightThreatAI.Tests.Menu.MenuToBattleTests" runstate="Runnable" seed="674374464" result="Passed" start-time="2026-11-02 12:23:13Z" end-time="2026-11-02 12:23:17Z" duration="3.775076" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1009" name="StartGameAndReturnMenuPreserveBothScenesAndResetAircraft" fullname="DogfightThreatAI.Tests.Menu.MenuToBattleTests.StartGameAndReturnMenuPreserveBothScenesAndResetAircraft" methodname="StartGameAndReturnMenuPreserveBothScenesAndResetAircraft" classname="DogfightThreatAI.Tests.Menu.MenuToBattleTests" runstate="Runnable" seed="156877492" result="Passed" start-time="2026-11-02 12:23:17Z" end-time="2026-11-02 12:23:21Z" duration="4.923692" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+          <test-suite type="TestSuite" id="1089" name="PlayMode" fullname="DogfightThreatAI.Tests.PlayMode" runstate="Runnable" testcasecount="62" result="Passed" start-time="2026-11-02 12:23:21Z" end-time="2026-11-02 12:23:46Z" duration="24.708996" total="62" passed="62" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1011" name="AimOrbitIntegrationTests" fullname="DogfightThreatAI.Tests.PlayMode.AimOrbitIntegrationTests" classname="DogfightThreatAI.Tests.PlayMode.AimOrbitIntegrationTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-11-02 12:23:21Z" end-time="2026-11-02 12:23:22Z" duration="0.190312" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties>
+                <property name="Category" value="LegacyRam" />
+              </properties>
+              <test-case id="1012" name="MovingAimMaintainsCruiseSpeedWhileTheRealControllerTurnsAndAdvances" fullname="DogfightThreatAI.Tests.PlayMode.AimOrbitIntegrationTests.MovingAimMaintainsCruiseSpeedWhileTheRealControllerTurnsAndAdvances" methodname="MovingAimMaintainsCruiseSpeedWhileTheRealControllerTurnsAndAdvances" classname="DogfightThreatAI.Tests.PlayMode.AimOrbitIntegrationTests" runstate="Runnable" seed="1451651714" result="Passed" start-time="2026-11-02 12:23:21Z" end-time="2026-11-02 12:23:22Z" duration="0.189783" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1013" name="AircraftHitboxSceneTests" fullname="DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests" classname="DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-11-02 12:23:22Z" end-time="2026-11-02 12:23:22Z" duration="0.406688" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties>
+                <property name="Category" value="LegacyRam" />
+              </properties>
+              <test-case id="1015" name="ArtMovementDoesNotMoveTheDamageVolume" fullname="DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests.ArtMovementDoesNotMoveTheDamageVolume" methodname="ArtMovementDoesNotMoveTheDamageVolume" classname="DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests" runstate="Runnable" seed="1945409470" result="Passed" start-time="2026-11-02 12:23:22Z" end-time="2026-11-02 12:23:22Z" duration="0.138419" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1016" name="DisabledVolumeOrSimulationCannotAuthorizeContact" fullname="DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests.DisabledVolumeOrSimulationCannotAuthorizeContact" methodname="DisabledVolumeOrSimulationCannotAuthorizeContact" classname="DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests" runstate="Runnable" seed="1174935820" result="Passed" start-time="2026-11-02 12:23:22Z" end-time="2026-11-02 12:23:22Z" duration="0.135118" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1014" name="SavedBattleHasTwoSimulationAnchoredContactVolumes" fullname="DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests.SavedBattleHasTwoSimulationAnchoredContactVolumes" methodname="SavedBattleHasTwoSimulationAnchoredContactVolumes" classname="DogfightThreatAI.Tests.PlayMode.AircraftHitboxSceneTests" runstate="Runnable" seed="1132461158" result="Passed" start-time="2026-11-02 12:23:22Z" end-time="2026-11-02 12:23:22Z" duration="0.132102" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1017" name="AttackCuePresentationTests" fullname="DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests" classname="DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-02 12:23:22Z" end-time="2026-11-02 12:23:23Z" duration="1.370307" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties>
+                <property name="Category" value="LegacyRam" />
+              </properties>
+              <test-case id="1021" name="DisablingAiAlsoHidesAnyYellowAimMarker" fullname="DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests.DisablingAiAlsoHidesAnyYellowAimMarker" methodname="DisablingAiAlsoHidesAnyYellowAimMarker" classname="DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests" runstate="Runnable" seed="379405198" result="Passed" start-time="2026-11-02 12:23:22Z" end-time="2026-11-02 12:23:22Z" duration="0.134518" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1020" name="MovingAimCommitsAFixedWorldLaunchLaneThenChargesAlongIt" fullname="DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests.MovingAimCommitsAFixedWorldLaunchLaneThenChargesAlongIt" methodname="MovingAimCommitsAFixedWorldLaunchLaneThenChargesAlongIt" classname="DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests" runstate="Runnable" seed="1193837619" result="Passed" start-time="2026-11-02 12:23:22Z" end-time="2026-11-02 12:23:23Z" duration="0.958449" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1019" name="WarningLaneFadesAndTapersWithoutAnEndpointArrow" fullname="DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests.WarningLaneFadesAndTapersWithoutAnEndpointArrow" methodname="WarningLaneFadesAndTapersWithoutAnEndpointArrow" classname="DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests" runstate="Runnable" seed="1896595471" result="Passed" start-time="2026-11-02 12:23:23Z" end-time="2026-11-02 12:23:23Z" duration="0.135533" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1018" name="YellowAimKeepsAThinLiveDirectionWithoutBroadDangerFill" fullname="DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests.YellowAimKeepsAThinLiveDirectionWithoutBroadDangerFill" methodname="YellowAimKeepsAThinLiveDirectionWithoutBroadDangerFill" classname="DogfightThreatAI.Tests.PlayMode.AttackCuePresentationTests" runstate="Runnable" seed="303712835" result="Passed" start-time="2026-11-02 12:23:23Z" end-time="2026-11-02 12:23:23Z" duration="0.137860" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1022" name="BattleChaseIntegrationTests" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" testcasecount="13" result="Passed" start-time="2026-11-02 12:23:23Z" end-time="2026-11-02 12:23:40Z" duration="16.692203" total="13" passed="13" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties>
+                <property name="Category" value="LegacyRam" />
+              </properties>
+              <test-case id="1026" name="AimCountdownAtNormalSpeedThenChargeCommitsAndRecovers" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.AimCountdownAtNormalSpeedThenChargeCommitsAndRecovers" methodname="AimCountdownAtNormalSpeedThenChargeCommitsAndRecovers" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="895193229" result="Passed" start-time="2026-11-02 12:23:23Z" end-time="2026-11-02 12:23:26Z" duration="2.554605" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1025" name="AutomaticDifficulty_ReflectsFourRealLevelsAcrossBattleClocks" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.AutomaticDifficulty_ReflectsFourRealLevelsAcrossBattleClocks" methodname="AutomaticDifficulty_ReflectsFourRealLevelsAcrossBattleClocks" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="1787846549" result="Passed" start-time="2026-11-02 12:23:26Z" end-time="2026-11-02 12:23:27Z" duration="0.878446" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1023" name="BattleScene_HasFairAircraftCombatAuthorityAndRuntimeCues" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.BattleScene_HasFairAircraftCombatAuthorityAndRuntimeCues" methodname="BattleScene_HasFairAircraftCombatAuthorityAndRuntimeCues" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="1213162443" result="Passed" start-time="2026-11-02 12:23:27Z" end-time="2026-11-02 12:23:27Z" duration="0.296926" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1032" name="CornerPlayer_EnemyFindsVisibleAttackAndCanRecoverInsideArena" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.CornerPlayer_EnemyFindsVisibleAttackAndCanRecoverInsideArena" methodname="CornerPlayer_EnemyFindsVisibleAttackAndCanRecoverInsideArena" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="1492458571" result="Passed" start-time="2026-11-02 12:23:27Z" end-time="2026-11-02 12:23:28Z" duration="1.029948" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1033" name="DisabledThenDestroyedTarget_EnemyBrakesSafely" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.DisabledThenDestroyedTarget_EnemyBrakesSafely" methodname="DisabledThenDestroyedTarget_EnemyBrakesSafely" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="1917634108" result="Passed" start-time="2026-11-02 12:23:28Z" end-time="2026-11-02 12:23:29Z" duration="0.389378" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1035" name="FirstSimulationStep_InterpolationUsesEnemySpawnState" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.FirstSimulationStep_InterpolationUsesEnemySpawnState" methodname="FirstSimulationStep_InterpolationUsesEnemySpawnState" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="1097443750" result="Passed" start-time="2026-11-02 12:23:29Z" end-time="2026-11-02 12:23:29Z" duration="0.290762" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1031" name="MovingAndTurningPlayerStops_EnemyAttacksTheNewPosition" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.MovingAndTurningPlayerStops_EnemyAttacksTheNewPosition" methodname="MovingAndTurningPlayerStops_EnemyAttacksTheNewPosition" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="1626137950" result="Passed" start-time="2026-11-02 12:23:29Z" end-time="2026-11-02 12:23:30Z" duration="1.204890" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="MovingWarningShowsTheNoseThenCommitsItsWorldLaunchLaneBeforeCharge" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.MovingWarningShowsTheNoseThenCommitsItsWorldLaunchLaneBeforeCharge" methodname="MovingWarningShowsTheNoseThenCommitsItsWorldLaunchLaneBeforeCharge" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="545049683" result="Passed" start-time="2026-11-02 12:23:30Z" end-time="2026-11-02 12:23:31Z" duration="1.237443" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1027" name="NonChargeOverlapDamagesOnceAndProtectionPreventsImmediateRepeats" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.NonChargeOverlapDamagesOnceAndProtectionPreventsImmediateRepeats" methodname="NonChargeOverlapDamagesOnceAndProtectionPreventsImmediateRepeats" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="1470400329" result="Passed" start-time="2026-11-02 12:23:31Z" end-time="2026-11-02 12:23:32Z" duration="0.211556" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1030" name="OutsideAimRange_EnemyKeepsApproachingUntilThePlayerIsVisibleAndInRange" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.OutsideAimRange_EnemyKeepsApproachingUntilThePlayerIsVisibleAndInRange" methodname="OutsideAimRange_EnemyKeepsApproachingUntilThePlayerIsVisibleAndInRange" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="1741544445" result="Passed" start-time="2026-11-02 12:23:32Z" end-time="2026-11-02 12:23:32Z" duration="0.323483" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1029" name="RecoveryFinishesOnTimeWithoutResettingProtectionAndEnemyCanReaim" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.RecoveryFinishesOnTimeWithoutResettingProtectionAndEnemyCanReaim" methodname="RecoveryFinishesOnTimeWithoutResettingProtectionAndEnemyCanReaim" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="133670020" result="Passed" start-time="2026-11-02 12:23:32Z" end-time="2026-11-02 12:23:34Z" duration="2.027616" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1034" name="RestartBattle_ResetsHealthAndRestartsTheFirstFullAim" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.RestartBattle_ResetsHealthAndRestartsTheFirstFullAim" methodname="RestartBattle_ResetsHealthAndRestartsTheFirstFullAim" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="496446412" result="Passed" start-time="2026-11-02 12:23:34Z" end-time="2026-11-02 12:23:35Z" duration="1.043199" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1028" name="StationaryPlayerReceivesContactHitsAtProtectedIntervalsAndEventuallyDies" fullname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests.StationaryPlayerReceivesContactHitsAtProtectedIntervalsAndEventuallyDies" methodname="StationaryPlayerReceivesContactHitsAtProtectedIntervalsAndEventuallyDies" classname="DogfightThreatAI.Tests.PlayMode.BattleChaseIntegrationTests" runstate="Runnable" seed="426417921" result="Passed" start-time="2026-11-02 12:23:35Z" end-time="2026-11-02 12:23:40Z" duration="5.202122" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1036" name="CameraHitShakeIsolationTests" fullname="DogfightThreatAI.Tests.PlayMode.CameraHitShakeIsolationTests" classname="DogfightThreatAI.Tests.PlayMode.CameraHitShakeIsolationTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-11-02 12:23:40Z" end-time="2026-11-02 12:23:40Z" duration="0.003415" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1037" name="FollowingArtAfterHitShakeMatchesFollowingTheUnshakenInterpolatedPosition" fullname="DogfightThreatAI.Tests.PlayMode.CameraHitShakeIsolationTests.FollowingArtAfterHitShakeMatchesFollowingTheUnshakenInterpolatedPosition" methodname="FollowingArtAfterHitShakeMatchesFollowingTheUnshakenInterpolatedPosition" classname="DogfightThreatAI.Tests.PlayMode.CameraHitShakeIsolationTests" runstate="Runnable" seed="88845254" result="Passed" start-time="2026-11-02 12:23:40Z" end-time="2026-11-02 12:23:40Z" duration="0.002549" asserts="0">
+                <properties />
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1038" name="CannonBattleTests" fullname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests" classname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-02 12:23:40Z" end-time="2026-11-02 12:23:41Z" duration="1.108311" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1045" name="DestroyingEnemyOpensResultAndStopsBothAircraft" fullname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests.DestroyingEnemyOpensResultAndStopsBothAircraft" methodname="DestroyingEnemyOpensResultAndStopsBothAircraft" classname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests" runstate="Runnable" seed="1473309263" result="Passed" start-time="2026-11-02 12:23:40Z" end-time="2026-11-02 12:23:40Z" duration="0.142053" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1040" name="EnemyUsesBehaviorTreeToFireAndFiveSegmentHudTracksHealth" fullname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests.EnemyUsesBehaviorTreeToFireAndFiveSegmentHudTracksHealth" methodname="EnemyUsesBehaviorTreeToFireAndFiveSegmentHudTracksHealth" classname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests" runstate="Runnable" seed="1656499132" result="Passed" start-time="2026-11-02 12:23:40Z" end-time="2026-11-02 12:23:40Z" duration="0.141186" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1044" name="HudDisplaysFourSegmentsAndBothPhysicalRounds" fullname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests.HudDisplaysFourSegmentsAndBothPhysicalRounds" methodname="HudDisplaysFourSegmentsAndBothPhysicalRounds" classname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests" runstate="Runnable" seed="1829877141" result="Passed" start-time="2026-11-02 12:23:40Z" end-time="2026-11-02 12:23:41Z" duration="0.146900" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1043" name="MenuPointerInputCannotLeakIntoNextShot" fullname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests.MenuPointerInputCannotLeakIntoNextShot" methodname="MenuPointerInputCannotLeakIntoNextShot" classname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests" runstate="Runnable" seed="1944514522" result="Passed" start-time="2026-11-02 12:23:41Z" end-time="2026-11-02 12:23:41Z" duration="0.143065" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1041" name="PauseFreezesBattleAndDifficultyAppliesThenResumeRestoresClock" fullname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests.PauseFreezesBattleAndDifficultyAppliesThenResumeRestoresClock" methodname="PauseFreezesBattleAndDifficultyAppliesThenResumeRestoresClock" classname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests" runstate="Runnable" seed="1793310594" result="Passed" start-time="2026-11-02 12:23:41Z" end-time="2026-11-02 12:23:41Z" duration="0.260668" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1042" name="QuitConfirmationUsesNativeMenuAndCancelReturnsToPause" fullname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests.QuitConfirmationUsesNativeMenuAndCancelReturnsToPause" methodname="QuitConfirmationUsesNativeMenuAndCancelReturnsToPause" classname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests" runstate="Runnable" seed="1013901857" result="Passed" start-time="2026-11-02 12:23:41Z" end-time="2026-11-02 12:23:41Z" duration="0.138042" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1039" name="SceneUsesOneCannonForBothAircraftAndSweptRoundDamagesEnemy" fullname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests.SceneUsesOneCannonForBothAircraftAndSweptRoundDamagesEnemy" methodname="SceneUsesOneCannonForBothAircraftAndSweptRoundDamagesEnemy" classname="DogfightThreatAI.Tests.PlayMode.CannonBattleTests" runstate="Runnable" seed="1701529875" result="Passed" start-time="2026-11-02 12:23:41Z" end-time="2026-11-02 12:23:41Z" duration="0.135192" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1046" name="ContactVolumeIntegrationTests" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-11-02 12:23:41Z" end-time="2026-11-02 12:23:43Z" duration="1.774621" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties>
+                <property name="Category" value="LegacyRam" />
+              </properties>
+              <test-case id="1057" name="AimKeepsProfileSpeedAndChargeMovesAtAbsoluteFortyFiveThenRestores" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.AimKeepsProfileSpeedAndChargeMovesAtAbsoluteFortyFiveThenRestores" methodname="AimKeepsProfileSpeedAndChargeMovesAtAbsoluteFortyFiveThenRestores" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="655143289" result="Passed" start-time="2026-11-02 12:23:41Z" end-time="2026-11-02 12:23:41Z" duration="0.143964" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1049" name="ChargeDoesNotRenderAnyPathStreakArrowOrDangerMarker" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.ChargeDoesNotRenderAnyPathStreakArrowOrDangerMarker" methodname="ChargeDoesNotRenderAnyPathStreakArrowOrDangerMarker" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="1841708006" result="Passed" start-time="2026-11-02 12:23:41Z" end-time="2026-11-02 12:23:42Z" duration="0.138268" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1048" name="CollisionInvulnerabilityLastsPointSevenSeconds" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.CollisionInvulnerabilityLastsPointSevenSeconds" methodname="CollisionInvulnerabilityLastsPointSevenSeconds" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="1770186415" result="Passed" start-time="2026-11-02 12:23:42Z" end-time="2026-11-02 12:23:42Z" duration="0.138558" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1051" name="CollisionUsesTheCurrentTwoColliderRadiiInsteadOfAnOldFixedDistance" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.CollisionUsesTheCurrentTwoColliderRadiiInsteadOfAnOldFixedDistance" methodname="CollisionUsesTheCurrentTwoColliderRadiiInsteadOfAnOldFixedDistance" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="271886718" result="Passed" start-time="2026-11-02 12:23:42Z" end-time="2026-11-02 12:23:42Z" duration="0.138738" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1047" name="ContactOutsideChargeImmediatelyDamagesThePlayer" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.ContactOutsideChargeImmediatelyDamagesThePlayer" methodname="ContactOutsideChargeImmediatelyDamagesThePlayer" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="2114775806" result="Passed" start-time="2026-11-02 12:23:42Z" end-time="2026-11-02 12:23:42Z" duration="0.137554" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1053" name="ContinuousContactCannotRepeatDamageBeforeProtectionExpires" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.ContinuousContactCannotRepeatDamageBeforeProtectionExpires" methodname="ContinuousContactCannotRepeatDamageBeforeProtectionExpires" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="2103329426" result="Passed" start-time="2026-11-02 12:23:42Z" end-time="2026-11-02 12:23:42Z" duration="0.143550" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1052" name="DisabledColliderOrHitboxStopsDamageWhileTheCombatClockContinues" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.DisabledColliderOrHitboxStopsDamageWhileTheCombatClockContinues" methodname="DisabledColliderOrHitboxStopsDamageWhileTheCombatClockContinues" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="1856275603" result="Passed" start-time="2026-11-02 12:23:42Z" end-time="2026-11-02 12:23:42Z" duration="0.140304" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1055" name="FortyFiveSpeedSweepDetectsCrossingEvenWhenBothEndpointsMiss" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.FortyFiveSpeedSweepDetectsCrossingEvenWhenBothEndpointsMiss" methodname="FortyFiveSpeedSweepDetectsCrossingEvenWhenBothEndpointsMiss" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="403022266" result="Passed" start-time="2026-11-02 12:23:42Z" end-time="2026-11-02 12:23:42Z" duration="0.132301" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1056" name="HitShakeMovesOnlyArtAndReturnsToItsLogicalPosition" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.HitShakeMovesOnlyArtAndReturnsToItsLogicalPosition" methodname="HitShakeMovesOnlyArtAndReturnsToItsLogicalPosition" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="631107971" result="Passed" start-time="2026-11-02 12:23:42Z" end-time="2026-11-02 12:23:43Z" duration="0.382444" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1054" name="RecoveryContactCanDamageOnceProtectionHasExpired" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.RecoveryContactCanDamageOnceProtectionHasExpired" methodname="RecoveryContactCanDamageOnceProtectionHasExpired" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="700856534" result="Passed" start-time="2026-11-02 12:23:43Z" end-time="2026-11-02 12:23:43Z" duration="0.141078" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1050" name="SavedBattleContainsBothRealRootContactVolumes" fullname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests.SavedBattleContainsBothRealRootContactVolumes" methodname="SavedBattleContainsBothRealRootContactVolumes" classname="DogfightThreatAI.Tests.PlayMode.ContactVolumeIntegrationTests" runstate="Runnable" seed="1590741497" result="Passed" start-time="2026-11-02 12:23:43Z" end-time="2026-11-02 12:23:43Z" duration="0.136445" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1058" name="FourTierBattleTests" fullname="DogfightThreatAI.Tests.PlayMode.FourTierBattleTests" classname="DogfightThreatAI.Tests.PlayMode.FourTierBattleTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-02 12:23:43Z" end-time="2026-11-02 12:23:44Z" duration="1.120259" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties>
+                <property name="Category" value="LegacyRam" />
+              </properties>
+              <test-case id="1060" name="DifficultyPreviewSelectsEachRealLevelInsteadOfChangingOnlyTheHud" fullname="DogfightThreatAI.Tests.PlayMode.FourTierBattleTests.DifficultyPreviewSelectsEachRealLevelInsteadOfChangingOnlyTheHud" methodname="DifficultyPreviewSelectsEachRealLevelInsteadOfChangingOnlyTheHud" classname="DogfightThreatAI.Tests.PlayMode.FourTierBattleTests" runstate="Runnable" seed="2136479387" result="Passed" start-time="2026-11-02 12:23:43Z" end-time="2026-11-02 12:23:43Z" duration="0.137412" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1062" name="EveryDifficultyKeepsAFullMovingWarningWithoutHovering" fullname="DogfightThreatAI.Tests.PlayMode.FourTierBattleTests.EveryDifficultyKeepsAFullMovingWarningWithoutHovering" methodname="EveryDifficultyKeepsAFullMovingWarningWithoutHovering" classname="DogfightThreatAI.Tests.PlayMode.FourTierBattleTests" runstate="Runnable" seed="290357715" result="Passed" start-time="2026-11-02 12:23:43Z" end-time="2026-11-02 12:23:44Z" duration="0.702702" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1059" name="SavedBattleAutomaticallyAdvancesThroughFourLevels" fullname="DogfightThreatAI.Tests.PlayMode.FourTierBattleTests.SavedBattleAutomaticallyAdvancesThroughFourLevels" methodname="SavedBattleAutomaticallyAdvancesThroughFourLevels" classname="DogfightThreatAI.Tests.PlayMode.FourTierBattleTests" runstate="Runnable" seed="1574802648" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.134741" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1061" name="SelectingAHigherLevelCannotResetAnOngoingWarningOrTurnItsCharge" fullname="DogfightThreatAI.Tests.PlayMode.FourTierBattleTests.SelectingAHigherLevelCannotResetAnOngoingWarningOrTurnItsCharge" methodname="SelectingAHigherLevelCannotResetAnOngoingWarningOrTurnItsCharge" classname="DogfightThreatAI.Tests.PlayMode.FourTierBattleTests" runstate="Runnable" seed="853549085" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.144622" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1063" name="PlayerBoostInputTests" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.004810" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1066" name="AShiftTapBetweenFixedStepsStillReceivesOnePaidThrustStep" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.AShiftTapBetweenFixedStepsStillReceivesOnePaidThrustStep" methodname="AShiftTapBetweenFixedStepsStillReceivesOnePaidThrustStep" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="1707509475" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.001026" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1069" name="BrakeDropsPendingSpaceAndLocksHeldAbilityKeys" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.BrakeDropsPendingSpaceAndLocksHeldAbilityKeys" methodname="BrakeDropsPendingSpaceAndLocksHeldAbilityKeys" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="1074215856" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000284" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1074" name="BrakeTapBetweenFixedStepsDropsAnOlderPendingSpace" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.BrakeTapBetweenFixedStepsDropsAnOlderPendingSpace" methodname="BrakeTapBetweenFixedStepsDropsAnOlderPendingSpace" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="1437291432" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000335" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1073" name="BufferedReleaseRepressCannotKeepALowEnergyHoldAuthorized" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.BufferedReleaseRepressCannotKeepALowEnergyHoldAuthorized" methodname="BufferedReleaseRepressCannotKeepALowEnergyHoldAuthorized" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="570704819" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000221" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1070" name="DeathDropsUnconsumedEdgesAndLocksUntilRelease" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.DeathDropsUnconsumedEdgesAndLocksUntilRelease" methodname="DeathDropsUnconsumedEdgesAndLocksUntilRelease" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="21224633" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000223" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1068" name="FocusLossCancelsPaidDashWithoutRefund" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.FocusLossCancelsPaidDashWithoutRefund" methodname="FocusLossCancelsPaidDashWithoutRefund" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="1395683248" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000241" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1067" name="FocusLossDropsQueuedEdgesAndRequiresRelease" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.FocusLossDropsQueuedEdgesAndRequiresRelease" methodname="FocusLossDropsQueuedEdgesAndRequiresRelease" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="40812403" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000221" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1065" name="HeldSpaceNeverRepeatsAfterCooldown" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.HeldSpaceNeverRepeatsAfterCooldown" methodname="HeldSpaceNeverRepeatsAfterCooldown" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="1061803767" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000285" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1071" name="NewBattleRestoresTankButHeldKeysNeedRelease" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.NewBattleRestoresTankButHeldKeysNeedRelease" methodname="NewBattleRestoresTankButHeldKeysNeedRelease" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="219027290" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000259" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1072" name="SpacePressedDuringCooldownCannotBecomeADeferredDash" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.SpacePressedDuringCooldownCannotBecomeADeferredDash" methodname="SpacePressedDuringCooldownCannotBecomeADeferredDash" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="2105097143" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000197" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1064" name="SpaceTapBetweenFixedStepsIsConsumedExactlyOnce" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.SpaceTapBetweenFixedStepsIsConsumedExactlyOnce" methodname="SpaceTapBetweenFixedStepsIsConsumedExactlyOnce" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="2088842267" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000212" asserts="0">
+                <properties />
+              </test-case>
+              <test-case id="1075" name="UnityDownEdgeSurvivesAnAlreadyReleasedHeldSample" fullname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests.UnityDownEdgeSurvivesAnAlreadyReleasedHeldSample" methodname="UnityDownEdgeSurvivesAnAlreadyReleasedHeldSample" classname="DogfightThreatAI.Tests.PlayMode.PlayerBoostInputTests" runstate="Runnable" seed="460250346" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.000184" asserts="0">
+                <properties />
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1076" name="PursuitBoostBattleTests" fullname="DogfightThreatAI.Tests.PlayMode.PursuitBoostBattleTests" classname="DogfightThreatAI.Tests.PlayMode.PursuitBoostBattleTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:45Z" duration="0.421140" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties>
+                <property name="Category" value="LegacyRam" />
+              </properties>
+              <test-case id="1077" name="PursuitBoostUsesTheRealSceneMotionCommandAndClearsItsTrailAtWarning" fullname="DogfightThreatAI.Tests.PlayMode.PursuitBoostBattleTests.PursuitBoostUsesTheRealSceneMotionCommandAndClearsItsTrailAtWarning" methodname="PursuitBoostUsesTheRealSceneMotionCommandAndClearsItsTrailAtWarning" classname="DogfightThreatAI.Tests.PlayMode.PursuitBoostBattleTests" runstate="Runnable" seed="426613151" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:44Z" duration="0.141533" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1078" name="RestartClearsBothResourcesCooldownAndPenalty" fullname="DogfightThreatAI.Tests.PlayMode.PursuitBoostBattleTests.RestartClearsBothResourcesCooldownAndPenalty" methodname="RestartClearsBothResourcesCooldownAndPenalty" classname="DogfightThreatAI.Tests.PlayMode.PursuitBoostBattleTests" runstate="Runnable" seed="2082513500" result="Passed" start-time="2026-11-02 12:23:44Z" end-time="2026-11-02 12:23:45Z" duration="0.278954" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1079" name="TieredDamageBattleTests" fullname="DogfightThreatAI.Tests.PlayMode.TieredDamageBattleTests" classname="DogfightThreatAI.Tests.PlayMode.TieredDamageBattleTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-02 12:23:45Z" end-time="2026-11-02 12:23:45Z" duration="0.689037" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties>
+                <property name="Category" value="LegacyRam" />
+              </properties>
+              <test-case id="1080" name="AllFourPublicDamageValuesReachTheRealContactAuthority" fullname="DogfightThreatAI.Tests.PlayMode.TieredDamageBattleTests.AllFourPublicDamageValuesReachTheRealContactAuthority" methodname="AllFourPublicDamageValuesReachTheRealContactAuthority" classname="DogfightThreatAI.Tests.PlayMode.TieredDamageBattleTests" runstate="Runnable" seed="1457708608" result="Passed" start-time="2026-11-02 12:23:45Z" end-time="2026-11-02 12:23:45Z" duration="0.551453" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1081" name="ChangingLevelKeepsTheSameHealthProtectionAndAFullNextWarning" fullname="DogfightThreatAI.Tests.PlayMode.TieredDamageBattleTests.ChangingLevelKeepsTheSameHealthProtectionAndAFullNextWarning" methodname="ChangingLevelKeepsTheSameHealthProtectionAndAFullNextWarning" classname="DogfightThreatAI.Tests.PlayMode.TieredDamageBattleTests" runstate="Runnable" seed="1281926876" result="Passed" start-time="2026-11-02 12:23:45Z" end-time="2026-11-02 12:23:45Z" duration="0.136700" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1082" name="VisibleAttackReturnTests" fullname="DogfightThreatAI.Tests.PlayMode.VisibleAttackReturnTests" classname="DogfightThreatAI.Tests.PlayMode.VisibleAttackReturnTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-02 12:23:45Z" end-time="2026-11-02 12:23:46Z" duration="0.926973" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties>
+                <property name="Category" value="LegacyRam" />
+              </properties>
+              <test-case id="1083" name="AtFortySeconds_EnemyDirectlyReturnsToViewAndStartsAFullAim" fullname="DogfightThreatAI.Tests.PlayMode.VisibleAttackReturnTests.AtFortySeconds_EnemyDirectlyReturnsToViewAndStartsAFullAim" methodname="AtFortySeconds_EnemyDirectlyReturnsToViewAndStartsAFullAim" classname="DogfightThreatAI.Tests.PlayMode.VisibleAttackReturnTests" runstate="Runnable" seed="548916555" result="Passed" start-time="2026-11-02 12:23:45Z" end-time="2026-11-02 12:23:46Z" duration="0.458517" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+                <output><![CDATA[warning-entry level=3, remaining=0.7999992, now=40.76, enemy=(4.791, 4.294), previous=(4.431, 4.291), radius=0.7071068, camera=(0.00, 0.00, -10.00), aspect=1.333333, currentVisible=False
+]]></output>
+              </test-case>
+              <test-case id="1084" name="AtSixtySeconds_EnemyDirectlyReturnsToViewAndStartsAFullAim" fullname="DogfightThreatAI.Tests.PlayMode.VisibleAttackReturnTests.AtSixtySeconds_EnemyDirectlyReturnsToViewAndStartsAFullAim" methodname="AtSixtySeconds_EnemyDirectlyReturnsToViewAndStartsAFullAim" classname="DogfightThreatAI.Tests.PlayMode.VisibleAttackReturnTests" runstate="Runnable" seed="347544801" result="Passed" start-time="2026-11-02 12:23:46Z" end-time="2026-11-02 12:23:46Z" duration="0.467298" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+                <output><![CDATA[warning-entry level=4, remaining=0.7999992, now=60.78, enemy=(5.074, 4.268), previous=(4.714, 4.263), radius=0.7071068, camera=(0.00, 0.00, -10.00), aspect=1.333333, currentVisible=True
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

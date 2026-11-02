@@ -62,12 +62,14 @@ namespace DogfightThreatAI.Tests.EditMode
                     Assert.That(view.LoadedChunkCount, Is.InRange(1, 9));
                     Assert.That(chunks.Length, Is.EqualTo(view.LoadedChunkCount));
                     for (float y = -4.9f; y <= 4.9f; y += .48f)
+                    {
                         for (float x = -8.8f; x <= 8.8f; x += .48f)
                         {
                             var world = new Vector3(position.x + x, position.y + y);
                             Assert.That(chunks.Any(chunk => chunk.HasTile(chunk.WorldToCell(world))), Is.True,
                                 "Uncovered map at " + world);
                         }
+                    }
                     Assert.That(go.GetComponentsInChildren<TilemapCollider2D>(), Is.Empty);
                     Assert.That(chunks.All(c => c.GetComponent<TilemapRenderer>().sortingOrder < 0), Is.True);
                 }
@@ -96,7 +98,9 @@ namespace DogfightThreatAI.Tests.EditMode
                 cam.aspect = 16f / 9f;
                 var follow = cameraObject.GetComponent<CameraFollow>();
                 follow.SetWorldHalfSize(new Vector2(201.2f, 151.2f));
-                var clamp = typeof(CameraFollow).GetMethod("ClampInsideWorld", BindingFlags.Instance | BindingFlags.NonPublic);
+                var clamp = typeof(CameraFollow).GetMethod(
+                    "ClampInsideWorld",
+                    BindingFlags.Instance | BindingFlags.NonPublic);
                 Assert.That(clamp, Is.Not.Null);
 
                 var view = go.AddComponent<BattleMapView>();
@@ -107,6 +111,7 @@ namespace DogfightThreatAI.Tests.EditMode
                 view.Rebuild();
 
                 foreach (int sideY in new[] { -1, 1 })
+                {
                     foreach (int sideX in new[] { -1, 1 })
                     {
                         // Use the real follow clamp at the physical arena corner, then sample the full viewport.
@@ -117,32 +122,41 @@ namespace DogfightThreatAI.Tests.EditMode
                         Assert.That(view.LoadedChunkCount, Is.InRange(1, 9));
                         Assert.That(chunks.Length, Is.EqualTo(view.LoadedChunkCount));
                         for (int y = 0; y <= 24; y++)
+                        {
                             for (int x = 0; x <= 40; x++)
                             {
                                 var world = cam.ViewportToWorldPoint(new Vector3(x / 40f, y / 24f, 10f));
                                 Assert.That(chunks.Any(chunk => chunk.HasTile(chunk.WorldToCell(world))), Is.True,
                                     "Expanded camera exposes an uncovered map edge at " + world);
                             }
-
+                        }
                         var edge = new Vector3(sideX * 199.75f, sideY * 149.75f);
                         var padding = new Vector3(sideX * 201.75f, sideY * 151.75f);
                         var edgeTile = chunks.Select(chunk => chunk.GetTile<Tile>(chunk.WorldToCell(edge))).First(tile => tile != null);
                         var paddingTile = chunks.Select(chunk => chunk.GetTile<Tile>(chunk.WorldToCell(padding))).FirstOrDefault(tile => tile != null);
                         Assert.That(paddingTile, Is.Not.Null, "All four padding cells must be drawn.");
-                        Assert.That(paddingTile.sprite, Is.EqualTo(edgeTile.sprite), "Padding must repeat the nearest edge terrain.");
+                        Assert.That(
+                            paddingTile.sprite,
+                            Is.EqualTo(edgeTile.sprite),
+                            "Padding must repeat the nearest edge terrain.");
                         foreach (var outside in new[] {
                             new Vector3(sideX * 202.01f, sideY * 151.75f),
                             new Vector3(sideX * 201.75f, sideY * 152.01f) })
+                        {
                             Assert.That(chunks.Any(chunk => chunk.HasTile(chunk.WorldToCell(outside))), Is.False,
-                                "Visual padding must stop after four cells at " + outside);
+                                                        "Visual padding must stop after four cells at " + outside);
+                        }
                         Assert.That(go.GetComponentsInChildren<Collider2D>(), Is.Empty);
                         Assert.That(chunks.SelectMany(chunk => chunk.GetUsedTilesCount() == 0
                             ? new TileBase[0] : chunk.GetTilesBlock(chunk.cellBounds)).OfType<Tile>()
                             .All(tile => tile.colliderType == Tile.ColliderType.None), Is.True);
                     }
-
+                }
                 Assert.That(map.WorldSize, Is.EqualTo(new Vector2(400, 300)));
-                Assert.That(map.Layout.bytes, Is.EqualTo(originalLayout), "Visual padding must not change the source map.");
+                Assert.That(
+                    map.Layout.bytes,
+                    Is.EqualTo(originalLayout),
+                    "Visual padding must not change the source map.");
             }
             finally
             {

@@ -70,8 +70,11 @@ namespace DogfightThreatAI.Tests.EditMode
                 "At least one identical response with a real paid Space dash must safely complete the first attack at both fixed steps.");
         }
 
-        static bool SafeResponse(Outcome outcome) => outcome.LaunchedCharge && outcome.Recovered &&
+        static bool SafeResponse(Outcome outcome)
+        {
+            return outcome.LaunchedCharge && outcome.Recovered &&
             outcome.Hits == 0 && outcome.MinimumDistance >= SafeCenterDistance;
+        }
 
         static Outcome Simulate(float playerHeadingDegrees, float dt, Response response, bool stopAtCharge = false)
         {
@@ -95,12 +98,18 @@ namespace DogfightThreatAI.Tests.EditMode
                 Vec2 relative = world.Enemy.Position - world.Player.Position;
                 ai.CanStartVisibleAttack = MathF.Abs(relative.X) <= 8.15f && MathF.Abs(relative.Y) <= 4.25f;
                 FlightInput enemyInput = ai.ReadInput(dt);
-                if (ai.Phase == AttackRunPhase.Windup && result.WarningAt < 0f) result.WarningAt = now;
+                if (ai.Phase == AttackRunPhase.Windup && result.WarningAt < 0f)
+                {
+                    result.WarningAt = now;
+                }
                 if (ai.Phase == AttackRunPhase.Charge && !result.LaunchedCharge)
                 {
                     result.LaunchedCharge = true;
                     result.ChargeAt = now;
-                    if (stopAtCharge) break;
+                    if (stopAtCharge)
+                    {
+                        break;
+                    }
                 }
                 if (result.WarningAt >= 0f && ai.Phase == AttackRunPhase.Recover)
                 {
@@ -111,23 +120,39 @@ namespace DogfightThreatAI.Tests.EditMode
                 float steer = afterReaction >= -.00001f && afterReaction < response.TurnDegrees / 240f - .00001f
                     ? response.Turn : 0f;
                 bool dash = response.DashDelay.HasValue && !dashEdgeSent && afterReaction >= response.DashDelay.Value - .00001f;
-                if (dash) dashEdgeSent = true;
+                if (dash)
+                {
+                    dashEdgeSent = true;
+                }
                 float energyBefore = boost.Energy;
                 boost.Step(dash, false, dt, Vec2.Dot(world.Player.Velocity, world.Player.Forward), true, false);
                 result.EnergySpent += MathF.Max(0f, energyBefore - boost.Energy);
-                if (dash && boost.MotionCommand.Mode == FlightMotionMode.SpeedOverride && boost.PoweredSecondsThisStep > 0f)
+                if (dash &&
+                    boost.MotionCommand.Mode == FlightMotionMode.SpeedOverride &&
+                    boost.PoweredSecondsThisStep > 0f)
+                {
                     result.Dashes++;
+                }
                 FlightState previousEnemy = world.Enemy, previousPlayer = world.Player;
                 enemyFlight.Step(ref world.Enemy, enemyInput, dt, ai.MotionCommand);
                 playerFlight.Step(ref world.Player, new FlightInput(1f, steer), dt, boost.MotionCommand);
                 world.Cue = boost.MotionCommand.Mode == FlightMotionMode.SpeedOverride && boost.PoweredSecondsThisStep > 0f
                     ? VisiblePropulsionCue.Dash : VisiblePropulsionCue.None;
-                float closest = SweptDistance(previousPlayer.Position, world.Player.Position, previousEnemy.Position, world.Enemy.Position);
+                float closest = SweptDistance(
+                    previousPlayer.Position,
+                    world.Player.Position,
+                    previousEnemy.Position,
+                    world.Enemy.Position);
                 result.MinimumDistance = MathF.Min(result.MinimumDistance, closest);
                 if (ai.Phase == AttackRunPhase.Windup)
+                {
                     result.MinimumWindupDistance = MathF.Min(result.MinimumWindupDistance, closest);
+                }
                 bool hit = combat.StepContact(previousPlayer, world.Player, previousEnemy, world.Enemy, dt, 1f);
-                if (hit && ai.Phase == AttackRunPhase.Windup) result.WindupContact = true;
+                if (hit && ai.Phase == AttackRunPhase.Windup)
+                {
+                    result.WindupContact = true;
+                }
             }
             result.Hits = combat.Status.HitSequence;
             return result;
@@ -137,7 +162,11 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             Vec2 start = previousEnemy - previousPlayer;
             Vec2 delta = (enemy - player) - start;
-            float fraction = delta.SqrMagnitude > 1e-12f ? MathF.Max(0f, MathF.Min(1f, -Vec2.Dot(start, delta) / delta.SqrMagnitude)) : 0f;
+            float fraction = delta.SqrMagnitude > 1e-12f ? MathF.Max(
+                0f,
+                MathF.Min(
+                    1f,
+                    -Vec2.Dot(start, delta) / delta.SqrMagnitude)) : 0f;
             return (start + delta * fraction).Magnitude;
         }
 
@@ -145,8 +174,13 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             public readonly float Turn, TurnDegrees;
             public readonly float? DashDelay;
+
             public Response(float turn, float turnDegrees, float? dashDelay = null)
-            { Turn = turn; TurnDegrees = turnDegrees; DashDelay = dashDelay; }
+            {
+                Turn = turn;
+                TurnDegrees = turnDegrees;
+                DashDelay = dashDelay;
+            }
         }
 
         sealed class Outcome
@@ -162,10 +196,15 @@ namespace DogfightThreatAI.Tests.EditMode
             public FlightState Player, Enemy;
             public float Now;
             public VisiblePropulsionCue Cue;
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0
                 ? new AircraftSnapshot(2, 2, Enemy)
                 : new AircraftSnapshot(1, 1, Player, true, true, Cue, true, Now);
+            }
         }
     }
 }

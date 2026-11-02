@@ -34,7 +34,10 @@ namespace DogfightThreatAI.Tests.Menu
             Assert.That(menu, Is.Not.Null);
             Assert.That(menu.Phase, Is.EqualTo(MainMenuController.MenuPhase.AwaitInput));
             yield return new WaitForSecondsRealtime(.6f);
-            Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(SceneNavigation.StartMenuScene), "Splash must wait for user input");
+            Assert.That(
+                SceneManager.GetActiveScene().name,
+                Is.EqualTo(SceneNavigation.StartMenuScene),
+                "Splash must wait for user input");
             Assert.That(Object.FindObjectOfType<PlayerController>(), Is.Null);
 
             menu.RevealMenu();
@@ -48,7 +51,9 @@ namespace DogfightThreatAI.Tests.Menu
                 ExecuteEvents.pointerClickHandler);
             float deadline = Time.realtimeSinceStartup + 15f;
             while (SceneManager.GetActiveScene().name != SceneNavigation.GameScene && Time.realtimeSinceStartup < deadline)
+            {
                 yield return null;
+            }
             Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(SceneNavigation.GameScene));
             yield return null;
 
@@ -76,7 +81,9 @@ namespace DogfightThreatAI.Tests.Menu
                 ExecuteEvents.pointerClickHandler);
             deadline = Time.realtimeSinceStartup + 15f;
             while (SceneManager.GetActiveScene().name != SceneNavigation.StartMenuScene && Time.realtimeSinceStartup < deadline)
+            {
                 yield return null;
+            }
             Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(SceneNavigation.StartMenuScene));
             Assert.That(Object.FindObjectOfType<PlayerController>(), Is.Null);
             Assert.That(Object.FindObjectOfType<BattleMapView>(), Is.Null);
@@ -87,7 +94,9 @@ namespace DogfightThreatAI.Tests.Menu
             menu.GetComponentsInChildren<Button>().Single(button => button.name == "StartGame").onClick.Invoke();
             deadline = Time.realtimeSinceStartup + 15f;
             while (SceneManager.GetActiveScene().name != SceneNavigation.GameScene && Time.realtimeSinceStartup < deadline)
+            {
                 yield return null;
+            }
             Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(SceneNavigation.GameScene));
             Assert.That(AssertSingleBattle().Player.transform.position.y, Is.EqualTo(0).Within(.1f),
                 "Starting again must create a fresh aircraft at spawn");
@@ -163,7 +172,9 @@ namespace DogfightThreatAI.Tests.Menu
         {
             float deadline = Time.realtimeSinceStartup + 15f;
             while (SceneManager.GetActiveScene().name != sceneName && Time.realtimeSinceStartup < deadline)
+            {
                 yield return null;
+            }
             Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(sceneName));
             yield return null;
         }
@@ -237,7 +248,10 @@ namespace DogfightThreatAI.Tests.Menu
             var previous = SceneManager.GetActiveScene();
             var empty = SceneManager.CreateScene("Menu integration cleanup");
             SceneManager.SetActiveScene(empty);
-            if (previous.IsValid() && previous.isLoaded) yield return SceneManager.UnloadSceneAsync(previous);
+            if (previous.IsValid() && previous.isLoaded)
+            {
+                yield return SceneManager.UnloadSceneAsync(previous);
+            }
             Time.timeScale = 1;
         }
     }

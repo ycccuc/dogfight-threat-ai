@@ -31,22 +31,36 @@ namespace DogfightThreatAI.Tests.EditMode
                 combat.Step(player, player, previous, enemy, .02f);
                 if (Vec2.Distance(enemy.Position, player.Position) <= 1f)
                 {
-                    Assert.IsTrue(warned, "Contact must be preceded by an actual visible Windup, not an instantaneous homing attack.");
+                    Assert.IsTrue(
+                        warned,
+                        "Contact must be preceded by an actual visible Windup, not an instantaneous homing attack.");
                     return;
                 }
             }
-            Assert.IsTrue(warned, "The enemy must actually prepare an attack, not avoid the requirement by never attacking.");
+            Assert.IsTrue(
+                warned,
+                "The enemy must actually prepare an attack, not avoid the requirement by never attacking.");
         }
 
         sealed class World : IWorldView
         {
             public FlightState Enemy;
             readonly FlightState _player;
-            public World(FlightState enemy, FlightState player) { Enemy = enemy; _player = player; }
+
+            public World(FlightState enemy, FlightState player)
+            {
+                Enemy = enemy;
+                _player = player;
+            }
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0
                 ? new AircraftSnapshot(2, 2, Enemy)
                 : new AircraftSnapshot(1, 1, _player, isPlayerControlled: true);
+            }
         }
     }
 }

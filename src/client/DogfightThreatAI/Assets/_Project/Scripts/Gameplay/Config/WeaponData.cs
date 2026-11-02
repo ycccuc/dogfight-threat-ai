@@ -12,6 +12,17 @@ namespace DogfightThreatAI.Gameplay.Config
         [SerializeField, Min(.1f)] float lifetime = 1.5f;
         [SerializeField, Min(.01f)] float radius = .09f;
         [SerializeField, Min(.1f)] float muzzleOffset = .85f;
-        public WeaponSpec ToSpec() => new WeaponSpec(weaponId, shotInterval, projectileSpeed, lifetime, radius, muzzleOffset);
+
+        // 将武器资产转换为纯 C# 模拟使用的配置。
+        public WeaponSpec ToSpec()
+        {
+            return new WeaponSpec(
+                    weaponId,
+                    shotInterval,
+                    projectileSpeed,
+                    lifetime,
+                    radius,
+                    muzzleOffset);
+        }
     }
 }

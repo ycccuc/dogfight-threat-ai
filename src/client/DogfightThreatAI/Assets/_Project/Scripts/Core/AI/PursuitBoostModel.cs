@@ -7,44 +7,86 @@ namespace DogfightThreatAI.Core.AI
     {
         public const float Capacity = 60f, StartCost = 30f, RechargeDelay = .8f, RechargePerSecond = 15f;
         float _now, _endsAt, _readyAt, _rechargeAt;
+
         public float Energy { get; private set; } = Capacity;
-        public bool IsBoosting { get; private set; }
+        public bool IsBoosting
+        {
+            get; private set;
+        }
         public float Remaining => IsBoosting ? MathF.Max(0f, _endsAt - _now) : 0f;
         public float CooldownRemaining => MathF.Max(0f, _readyAt - _now);
 
+        // 恢复追赶推进资源与计时的初始状态。
         public void Reset(float now = 0f)
         {
-            _now = now; _endsAt = _readyAt = _rechargeAt = now;
-            Energy = Capacity; IsBoosting = false;
+            _now = now;
+            _endsAt = _readyAt = _rechargeAt = now;
+            Energy = Capacity;
+            IsBoosting = false;
         }
 
+        // 推进追赶能力的时间、能量与冷却状态。
         public void Advance(float now)
         {
-            if (!Finite(now) || now < _now) return;
-            if (IsBoosting && now >= _endsAt - .000001f) { IsBoosting = false; _rechargeAt = _endsAt + RechargeDelay; }
-            if (!IsBoosting) Energy = MathF.Min(Capacity, Energy + MathF.Max(0f, now - MathF.Max(_now, _rechargeAt)) * RechargePerSecond);
+            if (!Finite(now) || now < _now)
+            {
+                return;
+            }
+            if (IsBoosting && now >= _endsAt - .000001f)
+            {
+                IsBoosting = false;
+                _rechargeAt = _endsAt + RechargeDelay;
+            }
+            if (!IsBoosting)
+            {
+                Energy = MathF.Min(
+                Capacity,
+                Energy + MathF.Max(0f, now - MathF.Max(_now, _rechargeAt)) * RechargePerSecond);
+            }
             _now = now;
         }
 
+        // 检查资源和冷却是否允许开始一次追赶推进。
         public bool TryStart(float now, float duration, PursuitDifficultyProfile profile)
         {
-            if (!Finite(now) || now < _now) return false;
+            if (!Finite(now) || now < _now)
+            {
+                return false;
+            }
             Advance(now);
             if (!Finite(duration) || duration < .2f || duration > profile.BoostDuration + .00001f ||
-                IsBoosting || CooldownRemaining > .00001f || Energy < StartCost) return false;
-            Energy -= StartCost; IsBoosting = true;
-            _endsAt = now + duration; _readyAt = now + profile.BoostCooldown;
+                IsBoosting || CooldownRemaining > .00001f || Energy < StartCost)
+            {
+                return false;
+            }
+            Energy -= StartCost;
+            IsBoosting = true;
+            _endsAt = now + duration;
+            _readyAt = now + profile.BoostCooldown;
             _rechargeAt = _endsAt + RechargeDelay;
             return true;
         }
 
+        // 取消当前追赶推进，按模型规则保留资源结果。
         public void Cancel(float now)
         {
-            if (!Finite(now) || now < _now) return;
+            if (!Finite(now) || now < _now)
+            {
+                return;
+            }
             Advance(now);
-            if (!IsBoosting) return;
-            IsBoosting = false; _endsAt = now; _rechargeAt = now + RechargeDelay;
+            if (!IsBoosting)
+            {
+                return;
+            }
+            IsBoosting = false;
+            _endsAt = now;
+            _rechargeAt = now + RechargeDelay;
         }
-        static bool Finite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
+
+        static bool Finite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
+        }
     }
 }

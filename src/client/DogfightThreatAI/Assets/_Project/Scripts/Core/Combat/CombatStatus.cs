@@ -25,6 +25,9 @@ namespace DogfightThreatAI.Core.Combat
 
     public interface ICombatStatusView
     {
-        CombatStatus Status { get; }
+        CombatStatus Status
+        {
+            get;
+        }
     }
 }

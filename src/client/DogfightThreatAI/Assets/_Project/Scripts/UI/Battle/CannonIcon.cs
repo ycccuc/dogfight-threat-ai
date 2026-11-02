@@ -7,6 +7,7 @@ namespace DogfightThreatAI.UI.Battle
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class CannonIcon : MaskableGraphic
     {
+        // 构建机炮图标的 UI 网格。
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
@@ -16,8 +17,14 @@ namespace DogfightThreatAI.UI.Battle
                 new Vector2(-.16f, .24f), new Vector2(-.16f, -.34f), new Vector2(-.24f, -.38f) };
             var rect = rectTransform.rect;
             vh.AddVert(rect.center, color, Vector2.zero);
-            foreach (var p in outline) vh.AddVert(rect.center + Vector2.Scale(p, rect.size), color, Vector2.zero);
-            for (int i = 0; i < outline.Length; i++) vh.AddTriangle(0, i + 1, (i + 1) % outline.Length + 1);
+            foreach (var p in outline)
+            {
+                vh.AddVert(rect.center + Vector2.Scale(p, rect.size), color, Vector2.zero);
+            }
+            for (int i = 0; i < outline.Length; i++)
+            {
+                vh.AddTriangle(0, i + 1, (i + 1) % outline.Length + 1);
+            }
         }
     }
 }

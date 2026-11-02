@@ -52,7 +52,10 @@ namespace DogfightThreatAI.Tests.EditMode
                 Assert.AreEqual(maneuver, ai.ManeuverPoint);
                 Assert.AreEqual(window, ai.AttackWindow);
                 Assert.AreEqual(previewCount, ai.PreviewPointCount);
-                if (previewCount > 0) Assert.AreEqual(previewEnd, ai.GetPreviewPoint(previewCount - 1));
+                if (previewCount > 0)
+                {
+                    Assert.AreEqual(previewEnd, ai.GetPreviewPoint(previewCount - 1));
+                }
                 var previousEnemy = enemy;
                 var previousPlayer = player;
                 enemyFlight.Step(ref enemy, first, Dt);
@@ -60,7 +63,10 @@ namespace DogfightThreatAI.Tests.EditMode
                 combat.Step(previousPlayer, player, previousEnemy, enemy, Dt, ai.AttackWindow);
             }
             Assert.Greater(reads, 450, "The trajectory must exercise the second approach after the first hit.");
-            Assert.AreEqual(0, combat.Status.PlayerHealth, "Repeated reads must not prevent the idle corner attack loop from completing.");
+            Assert.AreEqual(
+                0,
+                combat.Status.PlayerHealth,
+                "Repeated reads must not prevent the idle corner attack loop from completing.");
         }
 
         [TestCase(-200f, 150f, 1.099804f, -200f, 150f, 1.0269039f, 2.5870402f, 4.1449223f)]
@@ -97,15 +103,28 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             readonly ContactCombatModel _combat;
             readonly float _offset;
-            public Clock(ContactCombatModel combat, float offset) { _combat = combat; _offset = offset; }
+
+            public Clock(ContactCombatModel combat, float offset)
+            {
+                _combat = combat;
+                _offset = offset;
+            }
+
             public CombatStatus Status => new CombatStatus(_combat.Status.PlayerHealth, _combat.Status.MaxPlayerHealth,
                 _combat.Status.HitSequence, _combat.Status.InvulnerabilityRemaining, _combat.Status.ElapsedTime + _offset);
         }
+
         sealed class World : IWorldView
         {
             AircraftSnapshot _enemy, _player;
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0 ? _enemy : _player;
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0 ? _enemy : _player;
+            }
+
             public void Publish(FlightState enemy, FlightState player)
             {
                 _enemy = new AircraftSnapshot(2, 2, enemy);

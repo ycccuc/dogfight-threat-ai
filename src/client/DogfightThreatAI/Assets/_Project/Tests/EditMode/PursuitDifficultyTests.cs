@@ -143,7 +143,10 @@ namespace DogfightThreatAI.Tests.EditMode
                 flight.Step(ref world.Enemy, input, Dt, ai.MotionCommand);
                 combat.StepContact(world.Player, world.Player, before, world.Enemy, Dt, 1f);
             }
-            Assert.AreEqual(0, combat.Status.PlayerHealth, $"level {level} stopped attacking at {combat.Status.ElapsedTime}s / {ai.Phase}");
+            Assert.AreEqual(
+                0,
+                combat.Status.PlayerHealth,
+                $"level {level} stopped attacking at {combat.Status.ElapsedTime}s / {ai.Phase}");
         }
 
         [Test]
@@ -231,14 +234,18 @@ namespace DogfightThreatAI.Tests.EditMode
         }
 
         static int Level(PursuitChargeInputSource source)
-            => source.GetType().GetProperty("Level")?.GetValue(source) is int result ? result : 1;
+        {
+            return source.GetType().GetProperty("Level")?.GetValue(source) is int result ? result : 1;
+        }
 
         static PursuitChargeInputSource Create(World world, ICombatStatusView combat, int level = 0)
         {
             foreach (var constructor in typeof(PursuitChargeInputSource).GetConstructors())
             {
                 if (constructor.GetParameters().Length == 6)
+                {
                     return (PursuitChargeInputSource)constructor.Invoke(new object[] { world, 2, Spec, combat, Arena, level });
+                }
             }
             return new PursuitChargeInputSource(world, 2, Spec, combat, Arena);
         }
@@ -247,15 +254,21 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             public FlightState Enemy = FlightState.At(new Vec2(-6f, 0f));
             public FlightState Player = FlightState.At(Vec2.Zero, MathF.PI * .5f);
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0
                 ? new AircraftSnapshot(2, 2, Enemy)
                 : new AircraftSnapshot(1, 1, Player, true, true);
+            }
         }
 
         sealed class Clock : ICombatStatusView
         {
             public float Now;
+
             public CombatStatus Status => new CombatStatus(5, 5, 0, 0f, Now);
         }
     }

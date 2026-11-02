@@ -8,9 +8,15 @@ namespace DogfightThreatAI.Tests.EditMode
 {
     public sealed class ContactCombatTests
     {
-        static FlightState At(float x, float y = 0f) => FlightState.At(new Vec2(x, y));
+        static FlightState At(float x, float y = 0f)
+        {
+            return FlightState.At(new Vec2(x, y));
+        }
+
         static AttackWindow Active(int id = 1, float start = 0f, float end = 1f)
-            => new AttackWindow(id, true, start, end);
+        {
+            return new AttackWindow(id, true, start, end);
+        }
 
         [Test]
         public void Contact_RemovesOneHealthAndStartsInvulnerability()
@@ -74,8 +80,9 @@ namespace DogfightThreatAI.Tests.EditMode
             Assert.IsTrue(model.Step(state, state, state, state, 0.02f, Active()));
 
             for (int tick = 0; tick < 90; tick++)
+            {
                 Assert.IsFalse(model.Step(state, state, state, state, 0.02f, Active(tick + 2)));
-
+            }
             Assert.AreEqual(4, model.Status.PlayerHealth);
             Assert.AreEqual(1, model.Status.HitSequence);
             Assert.Greater(model.Status.InvulnerabilityRemaining, 0f);
@@ -210,8 +217,9 @@ namespace DogfightThreatAI.Tests.EditMode
             var state = At(0f);
             Assert.IsTrue(model.Step(state, state, state, state, 0.02f, Active()));
             for (int tick = 0; tick < 20; tick++)
+            {
                 Assert.IsFalse(model.Step(state, state, state, state, 0.02f, Active()));
-
+            }
             Assert.AreEqual(4, model.Status.PlayerHealth);
             Assert.AreEqual(0f, model.Status.InvulnerabilityRemaining);
             Assert.IsTrue(model.Step(state, state, state, state, 0.02f, Active(2)));

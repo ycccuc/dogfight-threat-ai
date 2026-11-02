@@ -80,6 +80,8 @@ namespace DogfightThreatAI.Tests.PlayMode
         }
 
         static void Tick(CameraFollow follow)
-            => typeof(CameraFollow).GetMethod("LateUpdate", Private).Invoke(follow, null);
+        {
+            typeof(CameraFollow).GetMethod("LateUpdate", Private).Invoke(follow, null);
+        }
     }
 }

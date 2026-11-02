@@ -44,35 +44,47 @@ namespace DogfightThreatAI.Core.Flight
                            float lateralGrip = 6f, float driftScrub = 0.35f,
                            Bounds2D? arena = null)
         {
-            _minSpeed     = minSpeed;
-            _maxSpeed     = maxSpeed < minSpeed ? minSpeed : maxSpeed;
+            _minSpeed = minSpeed;
+            _maxSpeed = maxSpeed < minSpeed ? minSpeed : maxSpeed;
             _acceleration = acceleration;
-            _turnRateRad  = turnRateDegPerSec * 0.01745329252f;   // 度 → 弧度（不依赖 Mathf）
-            _drag         = drag;
-            _lateralGrip  = lateralGrip < 0f ? 0f : lateralGrip;
-            _driftScrub   = Clamp(driftScrub, 0f, 0.95f);
-            _hasArena     = arena.HasValue;
-            _arena        = arena.GetValueOrDefault();
+            _turnRateRad = turnRateDegPerSec * 0.01745329252f;   // 度 → 弧度（不依赖 Mathf）
+            _drag = drag;
+            _lateralGrip = lateralGrip < 0f ? 0f : lateralGrip;
+            _driftScrub = Clamp(driftScrub, 0f, 0.95f);
+            _hasArena = arena.HasValue;
+            _arena = arena.GetValueOrDefault();
         }
 
         /// <summary>使用纯配置数据构造飞行模型。</summary>
         public static FlightModel From(in AircraftSpec spec, Bounds2D? arena = null)
-            => new FlightModel(spec.MinSpeed, spec.MaxSpeed, spec.Acceleration,
-                               spec.TurnRateDegPerSec, spec.Drag,
-                               spec.LateralGrip, spec.DriftScrub, arena);
+        {
+            return new FlightModel(spec.MinSpeed, spec.MaxSpeed, spec.Acceleration,
+                           spec.TurnRateDegPerSec, spec.Drag,
+                           spec.LateralGrip, spec.DriftScrub, arena);
+        }
 
         /// <summary>
         /// Explicit speed ability. A multiplier above one produces a straight burst immediately;
         /// returning to one removes its temporary overspeed. The ordinary three-argument path is unchanged.
         /// </summary>
         public void Step(ref FlightState state, in FlightInput input, float dt, float speedMultiplier)
-            => Step(ref state, input, dt, speedMultiplier, false);
+        {
+            Step(ref state, input, dt, speedMultiplier, false);
+        }
 
         /// <summary>Powered cruise keeps forward speed while turning; ordinary flight retains inertia.</summary>
-        public void Step(ref FlightState state, in FlightInput input, float dt, float speedMultiplier, bool maintainCruiseSpeed)
+        public void Step(
+            ref FlightState state,
+            in FlightInput input,
+            float dt,
+            float speedMultiplier,
+            bool maintainCruiseSpeed)
         {
             if (float.IsNaN(speedMultiplier) || float.IsInfinity(speedMultiplier) || speedMultiplier < 1f ||
-                float.IsInfinity(_maxSpeed * speedMultiplier)) throw new ArgumentOutOfRangeException(nameof(speedMultiplier));
+                float.IsInfinity(_maxSpeed * speedMultiplier))
+            {
+                throw new ArgumentOutOfRangeException(nameof(speedMultiplier));
+            }
             StepCore(ref state, input, dt, speedMultiplier, true, maintainCruiseSpeed);
         }
 
@@ -81,16 +93,22 @@ namespace DogfightThreatAI.Core.Flight
         /// 否则服务器与客户端的模拟结果会发散。
         /// </summary>
         public void Step(ref FlightState state, in FlightInput input, float dt)
-            => StepCore(ref state, input, dt, 1f, false, false);
+        {
+            StepCore(ref state, input, dt, 1f, false, false);
+        }
 
         /// <summary>Apply the explicit policy produced for this simulation step.</summary>
         public void Step(ref FlightState state, in FlightInput input, float dt, in FlightMotionCommand command)
         {
-            if (dt <= 0f) return;
+            if (dt <= 0f)
+            {
+                return;
+            }
             float activeSeconds = MathF.Min(dt, command.ActiveSeconds);
             if (activeSeconds > 0f)
+            {
                 StepMotionSegment(ref state, input, activeSeconds, command);
-
+            }
             float remainingSeconds = dt - activeSeconds;
             if (remainingSeconds > 0f)
             {
@@ -100,8 +118,9 @@ namespace DogfightThreatAI.Core.Flight
             }
         }
 
+        // 根据显式推进命令积分一个运动时间片。
         void StepMotionSegment(ref FlightState state, in FlightInput input, float dt,
-            in FlightMotionCommand command)
+                    in FlightMotionCommand command)
         {
             float throttle = Clamp(input.Throttle, -1f, 1f);
             float steer = Clamp(input.Steer, -1f, 1f);
@@ -114,31 +133,42 @@ namespace DogfightThreatAI.Core.Flight
             float lateralSpeed = Vec2.Dot(state.Velocity, right);
             float targetForwardSpeed;
             if (throttle > 0f)
+            {
                 targetForwardSpeed = Clamp(throttle * command.MaxSpeed,
-                    MathF.Min(_minSpeed, command.MaxSpeed), command.MaxSpeed);
+                                MathF.Min(_minSpeed, command.MaxSpeed), command.MaxSpeed);
+            }
             else if (throttle < 0f)
+            {
                 targetForwardSpeed = 0f;
+            }
             else
+            {
                 targetForwardSpeed = command.Mode == FlightMotionMode.Ordinary
-                    ? forwardSpeed : MathF.Min(forwardSpeed, command.MaxSpeed);
-
+                                ? forwardSpeed : MathF.Min(forwardSpeed, command.MaxSpeed);
+            }
             // Turning still costs speed and generates sideslip. A finite thrust policy
             // compensates only forward drag; it never erases the lateral component.
             if (!powered && _driftScrub > 0f && state.Speed > 1e-3f)
+            {
                 targetForwardSpeed *= 1f - _driftScrub * MathF.Abs(lateralSpeed) / state.Speed;
-
+            }
             if (powered)
             {
                 forwardSpeed = targetForwardSpeed;
                 lateralSpeed = 0f;
             }
             else if (targetForwardSpeed < forwardSpeed)
+            {
                 forwardSpeed = MoveTowardsScalar(forwardSpeed, targetForwardSpeed, command.Deceleration * dt);
+            }
             else if (command.Mode == FlightMotionMode.FiniteAcceleration)
+            {
                 forwardSpeed = AccelerateForward(forwardSpeed, targetForwardSpeed, dt, command);
+            }
             else
+            {
                 forwardSpeed = MoveTowardsScalar(forwardSpeed, targetForwardSpeed, command.Acceleration * dt);
-
+            }
             lateralSpeed *= MathF.Exp(-_lateralGrip * dt);
             if (_drag > 0f)
             {
@@ -147,7 +177,9 @@ namespace DogfightThreatAI.Core.Flight
                 // Finite acceleration/deceleration and powered targets are expressed
                 // after drag. Ordinary movement keeps the historical inertial loss.
                 if (command.Mode == FlightMotionMode.Ordinary)
+                {
                     forwardSpeed *= damp;
+                }
             }
 
             state.Velocity = forward * forwardSpeed + right * lateralSpeed;
@@ -155,43 +187,69 @@ namespace DogfightThreatAI.Core.Flight
             ApplyArena(ref state);
         }
 
+        // 按有限加速度逐段逼近目标前向速度。
         static float AccelerateForward(float current, float target, float dt, in FlightMotionCommand command)
         {
             if (current < command.CruiseThreshold)
             {
                 float lowerTarget = MathF.Min(target, command.CruiseThreshold);
-                if (command.BelowCruiseAcceleration <= 0f) return current;
+                if (command.BelowCruiseAcceleration <= 0f)
+                {
+                    return current;
+                }
                 float secondsToLowerTarget = (lowerTarget - current) / command.BelowCruiseAcceleration;
                 if (secondsToLowerTarget >= dt)
+                {
                     return MoveTowardsScalar(current, lowerTarget, command.BelowCruiseAcceleration * dt);
+                }
                 current = lowerTarget;
                 dt -= secondsToLowerTarget;
             }
             return MoveTowardsScalar(current, target, command.Acceleration * dt);
         }
 
+        // 限制状态在活动边界内，并消除继续朝外的速度。
         void ApplyArena(ref FlightState state)
         {
-            if (!_hasArena) return;
+            if (!_hasArena)
+            {
+                return;
+            }
             Vec2 clamped = _arena.Clamp(state.Position);
-            if (clamped.Equals(state.Position)) return;
+            if (clamped.Equals(state.Position))
+            {
+                return;
+            }
             Vec2 outward = state.Position - clamped;
             float intoWall = Vec2.Dot(state.Velocity, outward.Normalized);
-            if (intoWall > 0f) state.Velocity -= outward.Normalized * intoWall;
+            if (intoWall > 0f)
+            {
+                state.Velocity -= outward.Normalized * intoWall;
+            }
             state.Position = clamped;
         }
 
-        void StepCore(ref FlightState state, in FlightInput input, float dt, float speedMultiplier, bool speedAbility, bool maintainCruiseSpeed)
+        // 执行基础飞行积分，统一处理转向、侧滑、阻尼和边界。
+        void StepCore(
+                    ref FlightState state,
+                    in FlightInput input,
+                    float dt,
+                    float speedMultiplier,
+                    bool speedAbility,
+                    bool maintainCruiseSpeed)
         {
-            if (dt <= 0f) return;
-
+            if (dt <= 0f)
+            {
+                return;
+            }
             // An ended ability restores the normal limit rather than carrying dash velocity into recovery.
             if (speedAbility && speedMultiplier == 1f && state.Speed > _maxSpeed)
+            {
                 state.Velocity *= _maxSpeed / state.Speed;
-
+            }
             // 0) 输入夹紧：防止脏输入（网络包被篡改 / 读取错误）破坏物理
             float throttle = Clamp(input.Throttle, -1f, 1f);
-            float steer    = Clamp(input.Steer,    -1f, 1f);
+            float steer = Clamp(input.Steer, -1f, 1f);
             float maximumSpeed = _maxSpeed * speedMultiplier;
             bool bursting = speedAbility && speedMultiplier > 1f && throttle > 0f;
             bool powered = bursting || (maintainCruiseSpeed && throttle > 0f);
@@ -202,7 +260,7 @@ namespace DogfightThreatAI.Core.Flight
             // 2) 把速度分解到「机头方向」和「垂直机头方向」
             //    这是漂移的数学基础：机头一转，旧速度在新坐标系里就多出横向分量。
             Vec2 forward = state.Forward;
-            Vec2 right   = new Vec2(forward.Y, -forward.X);      // 与机头垂直
+            Vec2 right = new Vec2(forward.Y, -forward.X);      // 与机头垂直
             float forwardSpeed = Vec2.Dot(state.Velocity, forward);
             float lateralSpeed = Vec2.Dot(state.Velocity, right);
 
@@ -212,12 +270,17 @@ namespace DogfightThreatAI.Core.Flight
             //    无输入（=0）：保持当前前进速度 —— 惯性滑行，**绝不会自己加速**
             float targetForwardSpeed;
             if (throttle > 0f)
+            {
                 targetForwardSpeed = Clamp(throttle * maximumSpeed, _minSpeed, maximumSpeed);
+            }
             else if (throttle < 0f)
+            {
                 targetForwardSpeed = 0f;
+            }
             else
+            {
                 targetForwardSpeed = forwardSpeed;
-
+            }
             // 3b) 漂移掉速：侧滑越厉害，前进极速越低（模拟机翼侧滑的阻力）
             //     不做这个的话，漂移是"免费"的，玩家会一直拖着侧滑飞
             float totalSpeed = state.Speed;
@@ -234,8 +297,10 @@ namespace DogfightThreatAI.Core.Flight
                 forwardSpeed = targetForwardSpeed;
                 lateralSpeed = 0f;
             }
-            else forwardSpeed = MoveTowardsScalar(forwardSpeed, targetForwardSpeed, _acceleration * dt);
-
+            else
+            {
+                forwardSpeed = MoveTowardsScalar(forwardSpeed, targetForwardSpeed, _acceleration * dt);
+            }
             // 4) 横向分量被「抓地力」吃掉 —— 漂移与收敛都在这一步
             //    grip 越大 → exp 衰减越快 → 立刻咬住航线
             //    grip 越小 → 横向速度保留越久 → 甩得越远
@@ -262,7 +327,10 @@ namespace DogfightThreatAI.Core.Flight
                 {
                     Vec2 outward = state.Position - clamped;          // 朝墙外的方向
                     float intoWall = Vec2.Dot(state.Velocity, outward.Normalized);
-                    if (intoWall > 0f) state.Velocity -= outward.Normalized * intoWall;
+                    if (intoWall > 0f)
+                    {
+                        state.Velocity -= outward.Normalized * intoWall;
+                    }
                     state.Position = clamped;
                 }
             }
@@ -272,11 +340,16 @@ namespace DogfightThreatAI.Core.Flight
         static float MoveTowardsScalar(float current, float target, float maxDelta)
         {
             float d = target - current;
-            if (MathF.Abs(d) <= maxDelta) return target;
+            if (MathF.Abs(d) <= maxDelta)
+            {
+                return target;
+            }
             return current + MathF.Sign(d) * maxDelta;
         }
 
         static float Clamp(float v, float lo, float hi)
-            => v < lo ? lo : (v > hi ? hi : v);
+        {
+            return v < lo ? lo : (v > hi ? hi : v);
+        }
     }
 }

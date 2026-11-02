@@ -83,8 +83,12 @@ namespace DogfightThreatAI.Tests.PlayMode
             yield return null;
             var lines = _enemy.GetComponentsInChildren<LineRenderer>();
             foreach (var line in lines)
+            {
                 if (line.name.StartsWith("AttackCue_"))
+                {
                     Assert.IsFalse(line.enabled, $"The charge marker must be removed: {line.name} was still visible.");
+                }
+            }
             Assert.IsFalse(_enemy.GetComponent<AttackCueView>().IsShowingCue);
             LogAssert.NoUnexpectedReceived();
         }
@@ -132,7 +136,10 @@ namespace DogfightThreatAI.Tests.PlayMode
             SetState(_enemy, FlightState.At(Vec2.Zero));
             hitbox.Collider.enabled = false;
             float before = _combat.Status.ElapsedTime;
-            for (int i = 0; i < 5; i++) TickCombat();
+            for (int i = 0; i < 5; i++)
+            {
+                TickCombat();
+            }
             Assert.AreEqual(5, _combat.Status.PlayerHealth);
             Assert.Greater(_combat.Status.ElapsedTime, before + .09f);
             hitbox.Collider.enabled = true;
@@ -210,7 +217,10 @@ namespace DogfightThreatAI.Tests.PlayMode
             Assert.Greater(Vec2.Distance(current.Position, _player.State.Position), radius);
             Assert.AreEqual(45f, Vec2.Distance(previous.Position, current.Position) / Time.fixedDeltaTime, .001f);
             TickCombat();
-            Assert.AreEqual(5 - _ai.CollisionDamage, _combat.Status.PlayerHealth, "The new dash must not tunnel through a real contact volume.");
+            Assert.AreEqual(
+                5 - _ai.CollisionDamage,
+                _combat.Status.PlayerHealth,
+                "The new dash must not tunnel through a real contact volume.");
             yield return null;
         }
 
@@ -247,8 +257,20 @@ namespace DogfightThreatAI.Tests.PlayMode
         [UnityTest]
         public IEnumerator AimKeepsProfileSpeedAndChargeMovesAtAbsoluteFortyFiveThenRestores()
         {
-            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>()) hitbox.Collider.enabled = false;
-            SetState(_enemy, new FlightState { Position = new Vec2(4f, 0f), Heading = Mathf.PI, Velocity = new Vec2(-9f, 0f) });
+            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>())
+            {
+                hitbox.Collider.enabled = false;
+            }
+            SetState(
+                            _enemy,
+                            new FlightState
+                            {
+                                Position = new Vec2(4f, 0f),
+                                Heading = Mathf.PI,
+                                Velocity = new Vec2(
+                                -9f,
+                                0f)
+                            });
             FlightInput aim = _ai.ReadInput(Time.fixedDeltaTime);
             Assert.AreEqual(AttackRunPhase.Windup, _ai.Phase);
             Assert.AreEqual(1f, aim.Throttle, "Aiming may turn but must not intentionally throttle down.");
@@ -269,7 +291,10 @@ namespace DogfightThreatAI.Tests.PlayMode
             }
             Assert.AreEqual(AttackRunPhase.Recover, _ai.Phase);
             Assert.AreEqual(1f, ((IFlightSpeedSource)_ai).SpeedMultiplier);
-            Assert.LessOrEqual(_enemy.State.Speed, _ai.CruiseSpeed + .01f, "Ending the dash must not leave an overspeed recovery state.");
+            Assert.LessOrEqual(
+                _enemy.State.Speed,
+                _ai.CruiseSpeed + .01f,
+                "Ending the dash must not leave an overspeed recovery state.");
             Assert.AreEqual(9f, _player.Ship.MaxSpeed);
             yield return null;
         }
@@ -301,9 +326,19 @@ namespace DogfightThreatAI.Tests.PlayMode
             typeof(PlayerController).GetField("inputSource", Private).SetValue(controller, source);
         }
 
-        void TickCombat() => typeof(BattleCombatController).GetMethod("FixedUpdate", Private).Invoke(_combat, null);
-        ContactCombatModel Model() => (ContactCombatModel)typeof(BattleCombatController).GetField("_model", Private).GetValue(_combat);
+        void TickCombat()
+        {
+            typeof(BattleCombatController).GetMethod("FixedUpdate", Private).Invoke(_combat, null);
+        }
+
+        ContactCombatModel Model()
+        {
+            return (ContactCombatModel)typeof(BattleCombatController).GetField("_model", Private).GetValue(_combat);
+        }
+
         static void TickController(PlayerController controller)
-            => typeof(PlayerController).GetMethod("FixedUpdate", Private).Invoke(controller, null);
+        {
+            typeof(PlayerController).GetMethod("FixedUpdate", Private).Invoke(controller, null);
+        }
     }
 }

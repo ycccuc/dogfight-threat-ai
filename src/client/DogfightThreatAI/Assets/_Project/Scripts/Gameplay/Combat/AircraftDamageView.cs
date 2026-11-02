@@ -9,23 +9,52 @@ namespace DogfightThreatAI.Gameplay.Combat
         Color[] _colors;
         PlayerView _view;
         float _lastHit = -10;
+
+        // 缓存机身精灵、原始颜色和受击抖动视图。
         void Awake()
         {
-            _sprites = GetComponentsInChildren<SpriteRenderer>(); _colors = new Color[_sprites.Length];
-            for (int i = 0; i < _sprites.Length; i++) _colors[i] = _sprites[i].color;
+            _sprites = GetComponentsInChildren<SpriteRenderer>();
+            _colors = new Color[_sprites.Length];
+            for (int i = 0; i < _sprites.Length; i++)
+            {
+                _colors[i] = _sprites[i].color;
+            }
             _view = GetComponentInChildren<PlayerView>();
         }
-        public void PlayHit() { _lastHit = Time.time; if (_view != null) _view.PlayHitShake(); }
+
+        // 记录受击时间并触发机身抖动，不修改模拟生命。
+        public void PlayHit()
+        {
+            _lastHit = Time.time;
+            if (_view != null)
+            {
+                _view.PlayHitShake();
+            }
+        }
+
+        // 根据存活、保护时间和受击时刻更新机身颜色。
         public void Present(bool alive, float protection)
         {
             bool dim = protection > 0 && ((int)(Time.time * 12) & 1) == 0;
             for (int i = 0; i < _sprites.Length; i++)
             {
-                if (_sprites[i] == null) continue;
+                if (_sprites[i] == null)
+                {
+                    continue;
+                }
                 Color tint = _colors[i];
-                if (!alive) tint = new Color(.35f, .35f, .35f, .65f);
-                else if (Time.time - _lastHit < .15f) tint = new Color(1, .45f, .35f);
-                else if (dim) tint.a *= .3f;
+                if (!alive)
+                {
+                    tint = new Color(.35f, .35f, .35f, .65f);
+                }
+                else if (Time.time - _lastHit < .15f)
+                {
+                    tint = new Color(1, .45f, .35f);
+                }
+                else if (dim)
+                {
+                    tint.a *= .3f;
+                }
                 _sprites[i].color = tint;
             }
         }

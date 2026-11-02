@@ -37,7 +37,11 @@ namespace DogfightThreatAI.Tests.PlayMode
         }
 
         [UnityTearDown]
-        public IEnumerator Restore() { Time.timeScale = _scale; yield return null; }
+        public IEnumerator Restore()
+        {
+            Time.timeScale = _scale;
+            yield return null;
+        }
 
         [UnityTest]
         public IEnumerator PursuitBoostUsesTheRealSceneMotionCommandAndClearsItsTrailAtWarning()
@@ -46,14 +50,25 @@ namespace DogfightThreatAI.Tests.PlayMode
             SetState(_combat.Enemy, new FlightState { Position = new Vec2(-40, 0), Velocity = new Vec2(9, 0) });
             _ai.SetDifficulty(4);
             typeof(PlayerController).GetMethod("FixedUpdate", Private).Invoke(_combat.Enemy, null);
-            Assert.IsTrue(_ai.IsPursuitBoosting, "A player outside the enemy's screen position is still observable in the following camera.");
+            Assert.IsTrue(
+                _ai.IsPursuitBoosting,
+                "A player outside the enemy's screen position is still observable in the following camera.");
             Assert.AreEqual(30, _ai.BoostEnergy, .01f);
             Assert.AreEqual(90, _ai.MotionCommand.TurnRateDegPerSec);
             Assert.That(_combat.Enemy.State.Speed, Is.InRange(9.7f, 9.81f));
             yield return null;
             Assert.IsTrue(_combat.Enemy.transform.Find("EnemyPursuitTrail").GetComponent<LineRenderer>().enabled);
 
-            SetState(_combat.Enemy, new FlightState { Position = new Vec2(-4, 0), Heading = Mathf.PI * .5f, Velocity = new Vec2(0, 13.5f) });
+            SetState(
+                _combat.Enemy,
+                new FlightState
+                {
+                    Position = new Vec2(-4, 0),
+                    Heading = Mathf.PI * .5f,
+                    Velocity = new Vec2(
+                    0,
+                    13.5f)
+                });
             _ai.ReadInput(.02f);
             Assert.AreEqual(AttackRunPhase.Windup, _ai.Phase);
             Assert.AreEqual(.8f, _ai.PhaseRemaining, .0001f);

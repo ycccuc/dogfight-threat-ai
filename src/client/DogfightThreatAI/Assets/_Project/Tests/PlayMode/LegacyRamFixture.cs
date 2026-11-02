@@ -13,17 +13,27 @@ namespace DogfightThreatAI.Tests.PlayMode
     internal static class LegacyRamFixture
     {
         const BindingFlags Private = BindingFlags.Instance | BindingFlags.NonPublic;
+
         internal static void Activate()
         {
             var battle = Object.FindObjectOfType<BattleCombatController>();
             var presenter = battle.GetComponent<BattleUiPresenter>();
-            if (presenter != null) Object.DestroyImmediate(presenter);
+            if (presenter != null)
+            {
+                Object.DestroyImmediate(presenter);
+            }
             var shots = battle.GetComponent<ProjectileView>();
-            if (shots != null) Object.DestroyImmediate(shots);
+            if (shots != null)
+            {
+                Object.DestroyImmediate(shots);
+            }
             for (int i = battle.transform.childCount - 1; i >= 0; i--)
             {
                 var child = battle.transform.GetChild(i).gameObject;
-                if (child.name == "Battle HUD" || child.name.StartsWith("Cannon round")) Object.DestroyImmediate(child);
+                if (child.name == "Battle HUD" || child.name.StartsWith("Cannon round"))
+                {
+                    Object.DestroyImmediate(child);
+                }
             }
             typeof(BattleCombatController).GetField("useProjectileCombat", Private).SetValue(battle, false);
             typeof(BattleCombatController).GetField("_simulation", Private).SetValue(battle, null);
@@ -34,7 +44,10 @@ namespace DogfightThreatAI.Tests.PlayMode
             typeof(ChaseAiInputSource).GetField("_source", Private).SetValue(ai, null);
             ai.SetDifficulty(0);
             var cue = battle.Enemy.GetComponent<AttackCueView>();
-            if (cue != null) cue.enabled = true;
+            if (cue != null)
+            {
+                cue.enabled = true;
+            }
         }
     }
 }

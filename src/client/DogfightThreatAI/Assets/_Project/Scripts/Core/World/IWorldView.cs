@@ -6,7 +6,11 @@ namespace DogfightThreatAI.Core.World
     /// </summary>
     public interface IWorldView
     {
-        int AircraftCount { get; }
+        int AircraftCount
+        {
+            get;
+        }
+        // 按索引读取一个飞机值快照，不暴露可变模拟对象。
         AircraftSnapshot GetAircraft(int index);
     }
 }

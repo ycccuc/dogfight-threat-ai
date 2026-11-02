@@ -14,10 +14,13 @@ namespace DogfightThreatAI.Gameplay.Combat
         ChaseAiInputSource _ai;
         WeaponInputSource _input;
         bool _resultShown;
+
+        // 创建战斗显示组件，并绑定难度、重开等界面事件。
         public void Connect(BattleCombatController battle)
         {
             _battle = battle;
-            var root = new GameObject("Battle HUD", typeof(RectTransform)); root.transform.SetParent(transform, false);
+            var root = new GameObject("Battle HUD", typeof(RectTransform));
+            root.transform.SetParent(transform, false);
             _hud = root.AddComponent<BattleHudView>();
             _projectiles = gameObject.AddComponent<ProjectileView>();
             var spec = battle.Weapon;
@@ -28,32 +31,61 @@ namespace DogfightThreatAI.Gameplay.Combat
             if (_menu != null)
             {
                 var data = battle.Difficulties;
-                var names = new string[data.Length]; var descriptions = new string[data.Length];
-                for (int i = 0; i < data.Length; i++) { names[i] = data[i].DisplayName; descriptions[i] = data[i].Description; }
+                var names = new string[data.Length];
+                var descriptions = new string[data.Length];
+                for (int i = 0; i < data.Length; i++)
+                {
+                    names[i] = data[i].DisplayName;
+                    descriptions[i] = data[i].Description;
+                }
                 _menu.ConfigureDifficulties(names, descriptions);
                 _menu.DifficultySelected += SetDifficulty;
                 _menu.RestartRequested += battle.RestartBattle;
                 SetDifficulty(_menu.SelectedDifficulty);
             }
         }
-        void SetDifficulty(int index) => _ai.SetDifficulty(index + 1);
+
+        // 将菜单中的难度索引转换为 AI 使用的等级。
+        void SetDifficulty(int index)
+        {
+            _ai.SetDifficulty(index + 1);
+        }
+
+        // 同步开火门控、双方生命及一次性的对局结果界面。
         void Update()
         {
-            if (_battle == null) return;
+            if (_battle == null)
+            {
+                return;
+            }
             _input.Blocked = _menu != null && _menu.IsOpen;
             _hud.Present(_battle.Status.PlayerHealth, _battle.Simulation.PlayerCooldown01);
+            _hud.PresentEnemyHealth(_battle.Simulation.EnemyHealth, _battle.Simulation.MaxHealth);
             if (!_resultShown && _battle.Simulation.IsFinished && _menu != null)
-            { _resultShown = true; _menu.ShowResult(_battle.Status.IsPlayerAlive); }
+            {
+                _resultShown = true;
+                _menu.ShowResult(_battle.Status.IsPlayerAlive);
+            }
         }
+
+        // 按固定步间的插值比例显示现有弹丸。
         void LateUpdate()
         {
-            if (_battle == null) return;
+            if (_battle == null)
+            {
+                return;
+            }
             float alpha = Time.fixedDeltaTime > 0 ? Mathf.Clamp01((Time.time - Time.fixedTime) / Time.fixedDeltaTime) : 1;
             _projectiles.Present(_battle.Simulation.Projectiles, alpha);
         }
+
+        // 解除菜单订阅，避免卸载后保留旧对局回调。
         void OnDestroy()
         {
-            if (_menu == null) return;
+            if (_menu == null)
+            {
+                return;
+            }
             _menu.DifficultySelected -= SetDifficulty;
             _menu.RestartRequested -= _battle.RestartBattle;
         }

@@ -91,6 +91,7 @@ namespace DogfightThreatAI.Tests.EditMode
         sealed class Clock : ICombatStatusView
         {
             public float Now;
+
             public CombatStatus Status => new CombatStatus(5, 5, 0, 0f, Now);
         }
 
@@ -98,10 +99,15 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             public FlightState Enemy;
             public FlightState Player = FlightState.At(Vec2.Zero);
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0
                 ? new AircraftSnapshot(2, 2, Enemy)
                 : new AircraftSnapshot(1, 1, Player, true, true);
+            }
         }
     }
 }

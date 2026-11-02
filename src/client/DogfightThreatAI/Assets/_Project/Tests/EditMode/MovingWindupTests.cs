@@ -12,6 +12,7 @@ namespace DogfightThreatAI.Tests.EditMode
     public sealed class MovingWindupTests
     {
         const float Dt = .02f;
+
         [Test]
         public void LevelFourUsesInvulnerableWaitToPrepareItsNextApproachWithoutStartingAnotherAttack()
         {
@@ -20,7 +21,10 @@ namespace DogfightThreatAI.Tests.EditMode
             var combat = new Clock { Model = new ContactCombatModel(), Offset = 60f };
             var ai = new AttackRunInputSource(world, 2, spec, combat);
             var model = FlightModel.From(spec);
-            for (int i = 0; i < 2000 && combat.Status.HitSequence == 0; i++) Tick(world, ai, model, combat);
+            for (int i = 0; i < 2000 && combat.Status.HitSequence == 0; i++)
+            {
+                Tick(world, ai, model, combat);
+            }
             Assert.AreEqual(1, combat.Status.HitSequence);
             int attack = ai.AttackId;
             while (combat.Status.InvulnerabilityRemaining > .12f)
@@ -32,7 +36,10 @@ namespace DogfightThreatAI.Tests.EditMode
             Assert.AreEqual(AttackRunPhase.Recover, ai.Phase);
             float targetHeading = System.MathF.Atan2(-world.Enemy.Position.Y, -world.Enemy.Position.X);
             float error = System.MathF.Abs(Vec2.NormalizeAngle(targetHeading - world.Enemy.Heading));
-            Assert.Less(error, 1f, "The last level should prepare the next approach during the existing safe recovery wait.");
+            Assert.Less(
+                error,
+                1f,
+                "The last level should prepare the next approach during the existing safe recovery wait.");
         }
 
         [TestCase(0f)]
@@ -46,7 +53,10 @@ namespace DogfightThreatAI.Tests.EditMode
             var combat = new Clock { Model = new ContactCombatModel(), Offset = offset };
             var ai = new AttackRunInputSource(world, 2, spec, combat);
             var model = FlightModel.From(spec);
-            for (int i = 0; i < 2000 && ai.Phase != AttackRunPhase.Windup; i++) Tick(world, ai, model, combat);
+            for (int i = 0; i < 2000 && ai.Phase != AttackRunPhase.Windup; i++)
+            {
+                Tick(world, ai, model, combat);
+            }
             Assert.AreEqual(AttackRunPhase.Windup, ai.Phase, "Moving preview cannot pass by refusing every attack.");
             Vec2 origin = world.Enemy.Position;
             float heading = ai.LockedHeading;
@@ -73,19 +83,27 @@ namespace DogfightThreatAI.Tests.EditMode
             var player = FlightState.At(Vec2.Zero);
             clock.Model.Step(player, player, before, world.Enemy, Dt, ai.AttackWindow);
         }
+
         sealed class Clock : ICombatStatusView
         {
             public ContactCombatModel Model;
             public float Offset;
+
             public CombatStatus Status => new CombatStatus(Model.Status.PlayerHealth, 5, Model.Status.HitSequence,
                 Model.Status.InvulnerabilityRemaining, Model.Status.ElapsedTime + Offset);
         }
+
         sealed class World : IWorldView
         {
             public FlightState Enemy;
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0 ? new AircraftSnapshot(2, 2, Enemy) :
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0 ? new AircraftSnapshot(2, 2, Enemy) :
                 new AircraftSnapshot(1, 1, FlightState.At(Vec2.Zero), true, true);
+            }
         }
     }
 }

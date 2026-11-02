@@ -49,6 +49,7 @@
     "editor.tabSize": 2
   },
   "[csharp]": {
-    "editor.tabSize": 4
+    "editor.tabSize": 4,
+    "editor.formatOnSave": true
   }
 }

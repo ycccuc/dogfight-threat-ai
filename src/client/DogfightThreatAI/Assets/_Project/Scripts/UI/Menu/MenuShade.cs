@@ -8,6 +8,7 @@ namespace DogfightThreatAI.UI.Menu
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class MenuShade : MaskableGraphic
     {
+        // 绘制菜单文字区域的可读性遮罩。
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();
@@ -21,7 +22,10 @@ namespace DogfightThreatAI.UI.Menu
                 float x = Mathf.Lerp(rect.xMin, rect.xMax, t);
                 vh.AddVert(new Vector3(x, rect.yMin), tint, Vector2.zero);
                 vh.AddVert(new Vector3(x, rect.yMax), tint, Vector2.one);
-                if (i == 0) continue;
+                if (i == 0)
+                {
+                    continue;
+                }
                 int v = (i - 1) * 2;
                 vh.AddTriangle(v, v + 1, v + 2);
                 vh.AddTriangle(v + 2, v + 1, v + 3);

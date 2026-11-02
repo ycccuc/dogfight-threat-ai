@@ -20,11 +20,18 @@ namespace DogfightThreatAI.Editor
         const string MapFolder = "Assets/_Project/Settings/Maps";
         const int Width = 800, Height = 600;
 
+        // 生成河谷地图内容资产，并接入已有战斗场景。
         [MenuItem("Tools/Dogfight Threat AI/构建河谷农田地图")]
         public static void Build()
         {
-            if (EditorApplication.isPlaying) return;
-            if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo()) return;
+            if (EditorApplication.isPlaying)
+            {
+                return;
+            }
+            if (!Application.isBatchMode && !EditorSceneManager.SaveCurrentModifiedScenesIfUserWantsTo())
+            {
+                return;
+            }
             Directory.CreateDirectory(MapFolder);
             AssetDatabase.Refresh();
             var importer = (TextureImporter)AssetImporter.GetAtPath(AtlasPath);
@@ -66,15 +73,27 @@ namespace DogfightThreatAI.Editor
             importer.SaveAndReimport();
             var palette = new Sprite[120];
             foreach (var obj in AssetDatabase.LoadAllAssetsAtPath(AtlasPath))
+            {
                 if (obj is Sprite sprite && int.TryParse(sprite.name.Substring(5), out int index))
+                {
                     palette[index] = sprite;
+                }
+            }
             for (int i = 0; i < palette.Length; i++)
-                if (palette[i] == null) throw new InvalidOperationException("Missing terrain tile " + i);
-
+            {
+                if (palette[i] == null)
+                {
+                    throw new InvalidOperationException("Missing terrain tile " + i);
+                }
+            }
             byte[] layout = new byte[Width * Height];
             for (int y = 0; y < Height; y++)
+            {
                 for (int x = 0; x < Width; x++)
+                {
                     layout[y * Width + x] = (byte)TileAt(x - (Width / 2 - 18), y - (Height / 2 - 10));
+                }
+            }
             string layoutPath = MapFolder + "/RiverValleyTiles.bytes";
             File.WriteAllBytes(layoutPath, layout);
             AssetDatabase.ImportAsset(layoutPath);
@@ -93,15 +112,23 @@ namespace DogfightThreatAI.Editor
             data.FindProperty("layout").objectReferenceValue = AssetDatabase.LoadAssetAtPath<TextAsset>(layoutPath);
             var entries = data.FindProperty("palette");
             entries.arraySize = palette.Length;
-            for (int i = 0; i < palette.Length; i++) entries.GetArrayElementAtIndex(i).objectReferenceValue = palette[i];
+            for (int i = 0; i < palette.Length; i++)
+            {
+                entries.GetArrayElementAtIndex(i).objectReferenceValue = palette[i];
+            }
             data.ApplyModifiedPropertiesWithoutUndo();
             EditorUtility.SetDirty(map);
 
             var scene = EditorSceneManager.OpenScene(ScenePath, OpenSceneMode.Single);
             foreach (var starfield in UnityEngine.Object.FindObjectsOfType<DebugStarfield>())
+            {
                 UnityEngine.Object.DestroyImmediate(starfield.gameObject);
+            }
             var view = UnityEngine.Object.FindObjectOfType<BattleMapView>();
-            if (view == null) view = new GameObject("River Valley Map").AddComponent<BattleMapView>();
+            if (view == null)
+            {
+                view = new GameObject("River Valley Map").AddComponent<BattleMapView>();
+            }
             var viewData = new SerializedObject(view);
             viewData.FindProperty("map").objectReferenceValue = map;
             viewData.FindProperty("targetCamera").objectReferenceValue = Camera.main;
@@ -131,52 +158,134 @@ namespace DogfightThreatAI.Editor
             return Math.Abs(x - (18 + 2.6 * Math.Sin(y * .32) + broadBend)) > 3.2;
         }
 
+        // 检查当前位置附近是否全部属于陆地。
         static bool Full(int x, int y)
         {
             for (int dy = -1; dy <= 1; dy++)
+            {
                 for (int dx = -1; dx <= 1; dx++)
-                    if (!Land(x + dx, y + dy)) return false;
+                {
+                    if (!Land(x + dx, y + dy))
+                    {
+                        return false;
+                    }
+                }
+            }
             return true;
         }
 
-        static int Mod(int value, int period) => (value % period + period) % period;
+        // 把坐标转换为非负循环索引。
+        static int Mod(int value, int period)
+        {
+            return (value % period + period) % period;
+        }
+
+        // 根据坐标和种子生成可重复的布局采样值。
         static double Hash(int x, int y, int seed)
         {
             double value = Math.Sin(x * 127.1 + y * 311.7 + seed * 19.13) * 43758.5453;
             return value - Math.Floor(value);
         }
 
+        // 根据河流、道路和装饰规则选择对应的地形瓦片。
         static int TileAt(int x, int y)
         {
             if (!Land(x, y))
+            {
                 return !Land(x - 1, y) && !Land(x + 1, y) && !Land(x, y - 1) &&
-                    !Land(x, y + 1) && Hash(x, y, 2) < .018 ? 65 : 42;
+                                !Land(x, y + 1) && Hash(x, y, 2) < .018 ? 65 : 42;
+            }
             bool n = Land(x, y - 1), e = Land(x + 1, y), s = Land(x, y + 1), w = Land(x - 1, y);
-            if (!n && !w) return 37;
-            if (!n && !e) return 39;
-            if (!s && !w) return 61;
-            if (!s && !e) return 63;
-            if (!n) return 38;
-            if (!s) return 62;
-            if (!w) return 49;
-            if (!e) return 51;
-            if (!Land(x + 1, y + 1)) return 40;
-            if (!Land(x - 1, y + 1)) return 41;
-            if (!Land(x + 1, y - 1)) return 52;
-            if (!Land(x - 1, y - 1)) return 53;
-            if (!Full(x, y)) return 50;
-
+            if (!n && !w)
+            {
+                return 37;
+            }
+            if (!n && !e)
+            {
+                return 39;
+            }
+            if (!s && !w)
+            {
+                return 61;
+            }
+            if (!s && !e)
+            {
+                return 63;
+            }
+            if (!n)
+            {
+                return 38;
+            }
+            if (!s)
+            {
+                return 62;
+            }
+            if (!w)
+            {
+                return 49;
+            }
+            if (!e)
+            {
+                return 51;
+            }
+            if (!Land(x + 1, y + 1))
+            {
+                return 40;
+            }
+            if (!Land(x - 1, y + 1))
+            {
+                return 41;
+            }
+            if (!Land(x + 1, y - 1))
+            {
+                return 52;
+            }
+            if (!Land(x - 1, y - 1))
+            {
+                return 53;
+            }
+            if (!Full(x, y))
+            {
+                return 50;
+            }
             int px = Mod(x, 44), py = Mod(y, 20);
-            if (px == 6 && py == 4 || px == 28 && py == 7) return 72;
-            if (px == 6 && py == 14 || px == 28 && py == 15) return 84;
-            if (px == 6 && py == 5 || px == 28 && py == 8) return 96;
-            if (px == 8 && py == 13 || px == 30 && py == 16) return 108;
+            if (px == 6 && py == 4 || px == 28 && py == 7)
+            {
+                return 72;
+            }
+            if (px == 6 && py == 14 || px == 28 && py == 15)
+            {
+                return 84;
+            }
+            if (px == 6 && py == 5 || px == 28 && py == 8)
+            {
+                return 96;
+            }
+            if (px == 8 && py == 13 || px == 30 && py == 16)
+            {
+                return 108;
+            }
             if (px >= 9 && px <= 12 && py >= 3 && py <= 6 ||
-                px >= 24 && px <= 26 && py >= 12 && py <= 15) return 109;
-            if (px == 7 && py == 10) return 86;
-            if (px == 7 || px == 29) return 85;
-            if (px >= 2 && px < 14 && py == 10) return 98;
-            if (Hash(x, y, 6) < .17) return Hash(x, y, 9) < .35 ? 60 : 48;
+                            px >= 24 && px <= 26 && py >= 12 && py <= 15)
+            {
+                return 109;
+            }
+            if (px == 7 && py == 10)
+            {
+                return 86;
+            }
+            if (px == 7 || px == 29)
+            {
+                return 85;
+            }
+            if (px >= 2 && px < 14 && py == 10)
+            {
+                return 98;
+            }
+            if (Hash(x, y, 6) < .17)
+            {
+                return Hash(x, y, 9) < .35 ? 60 : 48;
+            }
             return Hash(x, y, 11) < .025 ? 110 : 50;
         }
     }

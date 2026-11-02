@@ -19,7 +19,10 @@ namespace DogfightThreatAI.Gameplay.Combat
         SpriteRenderer[] _sprites;
         Color[] _baseColors;
 
-        public bool IsShowingCue { get; private set; }
+        public bool IsShowingCue
+        {
+            get; private set;
+        }
 
         void Awake()
         {
@@ -28,10 +31,19 @@ namespace DogfightThreatAI.Gameplay.Combat
             _view = GetComponentInChildren<PlayerView>();
             _sprites = GetComponentsInChildren<SpriteRenderer>();
             _baseColors = new Color[_sprites.Length];
-            for (int i = 0; i < _sprites.Length; i++) _baseColors[i] = _sprites[i].color;
+            for (int i = 0; i < _sprites.Length; i++)
+            {
+                _baseColors[i] = _sprites[i].color;
+            }
             var shader = Shader.Find("Sprites/Default");
-            if (shader == null) shader = Shader.Find("Unlit/Color");
-            if (shader == null) return;
+            if (shader == null)
+            {
+                shader = Shader.Find("Unlit/Color");
+            }
+            if (shader == null)
+            {
+                return;
+            }
             _material = new Material(shader) { name = "AttackCue_Runtime", hideFlags = HideFlags.HideAndDontSave };
             _streak = CreateLine("AttackCue_ChargeStreak", .14f, true);
             _axis = CreateLine("AttackCue_LockedAxis", .025f, true);
@@ -85,13 +97,19 @@ namespace DogfightThreatAI.Gameplay.Combat
             // Commitment instead marks the fixed future launch lane while the aircraft
             // finishes its already selected bank into that lane.
             Vec2 heading = committed ? _source.LockedDirection : _aircraft.State.Forward;
-            if (heading.SqrMagnitude < .000001f) { HideLines(); return; }
+            if (heading.SqrMagnitude < .000001f)
+            {
+                HideLines();
+                return;
+            }
             var direction = new Vector3(heading.X, heading.Y, 0f).normalized;
             Vector3 center = _view != null ? _view.RenderPosition : transform.position;
             center.z = transform.position.z + .05f;
             Vec2 launch = _source.GetPreviewPoint(0);
             Vector3 laneOrigin = committed ? new Vector3(launch.X, launch.Y, center.z) : center;
-            float length = Vec2.Distance(_source.GetPreviewPoint(0), _source.GetPreviewPoint(_source.PreviewPointCount - 1));
+            float length = Vec2.Distance(
+                _source.GetPreviewPoint(0),
+                _source.GetPreviewPoint(_source.PreviewPointCount - 1));
             length = Mathf.Clamp(length, 6f, 18f);
             Vector3 start = laneOrigin + direction * .5f;
             Vector3 end = laneOrigin + direction * length;
@@ -116,9 +134,18 @@ namespace DogfightThreatAI.Gameplay.Combat
             IsShowingCue = true;
         }
 
-        static Color WithAlpha(Color color, float alpha) => new Color(color.r, color.g, color.b, alpha);
+        static Color WithAlpha(Color color, float alpha)
+        {
+            return new Color(color.r, color.g, color.b, alpha);
+        }
 
-        static void SetLane(LineRenderer line, Vector3 start, Vector3 end, Color color, float startAlpha, float endAlpha)
+        static void SetLane(
+            LineRenderer line,
+            Vector3 start,
+            Vector3 end,
+            Color color,
+            float startAlpha,
+            float endAlpha)
         {
             line.positionCount = 2;
             line.SetPosition(0, start);
@@ -130,21 +157,41 @@ namespace DogfightThreatAI.Gameplay.Combat
 
         void SetAircraftTint(AttackRunPhase phase, float progress, bool committed)
         {
-            if (_sprites == null) return;
+            if (_sprites == null)
+            {
+                return;
+            }
             Color color = PhaseColor(phase);
             float blend = phase == AttackRunPhase.Windup ? (committed ? .68f : .22f + progress * .18f)
                 : phase == AttackRunPhase.Charge ? .7f : phase == AttackRunPhase.Recover ? .55f : 0f;
-            if (phase == AttackRunPhase.Windup && committed) color = new Color(1f, .88f, .6f);
+            if (phase == AttackRunPhase.Windup && committed)
+            {
+                color = new Color(1f, .88f, .6f);
+            }
             for (int i = 0; i < _sprites.Length; i++)
-                if (_sprites[i] != null) _sprites[i].color = Color.Lerp(_baseColors[i], color, blend);
+            {
+                if (_sprites[i] != null)
+                {
+                    _sprites[i].color = Color.Lerp(_baseColors[i], color, blend);
+                }
+            }
         }
 
         void HideLines()
         {
             IsShowingCue = false;
-            if (_streak != null) _streak.enabled = false;
-            if (_axis != null) _axis.enabled = false;
-            if (_halo != null) _halo.enabled = false;
+            if (_streak != null)
+            {
+                _streak.enabled = false;
+            }
+            if (_axis != null)
+            {
+                _axis.enabled = false;
+            }
+            if (_halo != null)
+            {
+                _halo.enabled = false;
+            }
         }
 
         void OnDisable()
@@ -155,17 +202,24 @@ namespace DogfightThreatAI.Gameplay.Combat
 
         void OnDestroy()
         {
-            if (_material != null) Destroy(_material);
+            if (_material != null)
+            {
+                Destroy(_material);
+            }
         }
 
         public static Color PhaseColor(AttackRunPhase phase)
         {
             switch (phase)
             {
-                case AttackRunPhase.Windup: return new Color(1f, .78f, .27f, 1f);
-                case AttackRunPhase.Charge: return new Color(1f, .58f, .28f, 1f);
-                case AttackRunPhase.Recover: return new Color(.55f, .72f, .87f, 1f);
-                default: return Color.white;
+                case AttackRunPhase.Windup:
+                    return new Color(1f, .78f, .27f, 1f);
+                case AttackRunPhase.Charge:
+                    return new Color(1f, .58f, .28f, 1f);
+                case AttackRunPhase.Recover:
+                    return new Color(.55f, .72f, .87f, 1f);
+                default:
+                    return Color.white;
             }
         }
     }

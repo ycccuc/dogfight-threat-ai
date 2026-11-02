@@ -77,8 +77,13 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             public readonly FlightState State;
             public readonly float TurnRate, Confidence;
+
             public Observation(in FlightState state, float turnRate, float confidence)
-            { State = state; TurnRate = turnRate; Confidence = confidence; }
+            {
+                State = state;
+                TurnRate = turnRate;
+                Confidence = confidence;
+            }
         }
     }
 }

@@ -40,7 +40,10 @@ namespace DogfightThreatAI.Tests.EditMode
             var ai = Charge(out var world, out _);
             var flight = FlightModel.From(Spec);
             var normal = world.Enemy;
-            for (int i = 0; i < 100; i++) flight.Step(ref normal, new FlightInput(1f, 0f), Dt);
+            for (int i = 0; i < 100; i++)
+            {
+                flight.Step(ref normal, new FlightInput(1f, 0f), Dt);
+            }
             var charging = world.Enemy;
             Vec2 start = charging.Position;
             FlightInput input = ai.ReadInput(Dt);
@@ -91,7 +94,10 @@ namespace DogfightThreatAI.Tests.EditMode
             var abilityOverspeed = legacyOverspeed;
             flight.Step(ref legacyOverspeed, new FlightInput(1f, 0f), Dt);
             flight.Step(ref abilityOverspeed, new FlightInput(1f, 0f), Dt, 1f);
-            Assert.Greater(legacyOverspeed.Speed, 40f, "The existing three-argument integrator is a preserved contract.");
+            Assert.Greater(
+                legacyOverspeed.Speed,
+                40f,
+                "The existing three-argument integrator is a preserved contract.");
             Assert.LessOrEqual(abilityOverspeed.Speed, 9f);
         }
 
@@ -122,15 +128,21 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             public FlightState Enemy = FlightState.At(new Vec2(-6f, 0f));
             public bool Alive = true;
+
             public int AircraftCount => 2;
-            public AircraftSnapshot GetAircraft(int index) => index == 0
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0
                 ? new AircraftSnapshot(2, 2, Enemy)
                 : new AircraftSnapshot(1, 1, FlightState.At(Vec2.Zero), Alive, true);
+            }
         }
 
         sealed class Clock : ICombatStatusView
         {
             public float Now;
+
             public CombatStatus Status => new CombatStatus(5, 5, 0, 0f, Now);
         }
     }

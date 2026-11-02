@@ -40,11 +40,15 @@ namespace DogfightThreatAI.Tests.PlayMode
 
         [UnityTest]
         public IEnumerator AtFortySeconds_EnemyDirectlyReturnsToViewAndStartsAFullAim()
-            => ReturnAndWarn(40f);
+        {
+            return ReturnAndWarn(40f);
+        }
 
         [UnityTest]
         public IEnumerator AtSixtySeconds_EnemyDirectlyReturnsToViewAndStartsAFullAim()
-            => ReturnAndWarn(60f);
+        {
+            return ReturnAndWarn(60f);
+        }
 
         IEnumerator ReturnAndWarn(float startingClock)
         {
@@ -63,7 +67,10 @@ namespace DogfightThreatAI.Tests.PlayMode
             typeof(PlayerController).GetField("inputSource", Private).SetValue(player, input);
             SetState(player, FlightState.At(Vec2.Zero, Mathf.PI * .5f));
             // Contact may now interrupt aiming. Isolate the visibility/countdown contract from collision reactions.
-            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>()) hitbox.Collider.enabled = false;
+            foreach (var hitbox in Object.FindObjectsOfType<AircraftHitbox>())
+            {
+                hitbox.Collider.enabled = false;
+            }
             float radius = ActualRadius(enemy);
             // The upper sprite extent is outside the actual viewport, not merely behind a HUD panel.
             float upperVisibleCenter = camera.orthographicSize - radius;
@@ -82,7 +89,10 @@ namespace DogfightThreatAI.Tests.PlayMode
             for (int tick = 0; tick < 400 && ai.Phase != AttackRunPhase.Windup; tick++)
             {
                 yield return new WaitForFixedUpdate();
-                if (ai.Phase == AttackRunPhase.Windup) break;
+                if (ai.Phase == AttackRunPhase.Windup)
+                {
+                    break;
+                }
                 Assert.IsFalse(ai.AttackWindow.IsActive);
             }
             Assert.AreEqual(AttackRunPhase.Windup, ai.Phase,
@@ -133,10 +143,12 @@ namespace DogfightThreatAI.Tests.PlayMode
             }
             return radius;
         }
+
         static bool FullyVisible(Camera camera, PlayerController aircraft)
         {
             return FullyVisible(camera, aircraft.State, ActualRadius(aircraft));
         }
+
         static bool FullyVisible(Camera camera, FlightState state, float radius)
         {
             Vec2 p = state.Position;
@@ -144,6 +156,7 @@ namespace DogfightThreatAI.Tests.PlayMode
             Vector3 max = camera.WorldToViewportPoint(new Vector3(p.X + radius, p.Y + radius, 0f));
             return min.z > 0f && max.z > 0f && min.x >= -.0001f && min.y >= -.0001f && max.x <= 1.0001f && max.y <= 1.0001f;
         }
+
         static void SetState(PlayerController controller, FlightState state)
         {
             typeof(PlayerController).GetField("_state", Private).SetValue(controller, state);

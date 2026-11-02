@@ -89,7 +89,10 @@ namespace DogfightThreatAI.Tests.EditMode
                     lastWarning = responseStarted = time;
                     var normal = new Vec2(-ai.LockedDirection.Y, ai.LockedDirection.X);
                     escapeDirection = Vec2.Dot(normal, player.Forward) >= 0f ? normal : -normal;
-                    if (!Arena.Contains(player.Position + escapeDirection * 12f)) escapeDirection = -escapeDirection;
+                    if (!Arena.Contains(player.Position + escapeDirection * 12f))
+                    {
+                        escapeDirection = -escapeDirection;
+                    }
                 }
 
                 FlightInput playerInput = new FlightInput(1f, 1f);
@@ -100,7 +103,11 @@ namespace DogfightThreatAI.Tests.EditMode
                     playerInput = new FlightInput(-1f, 0f);
                     if (lastWarningId > 0 && active && sinceWarning >= .30f)
                     {
-                        float angle = MathF.Atan2(Vec2.Cross(player.Forward, escapeDirection), Vec2.Dot(player.Forward, escapeDirection));
+                        float angle = MathF.Atan2(
+                            Vec2.Cross(player.Forward, escapeDirection),
+                            Vec2.Dot(
+                                player.Forward,
+                                escapeDirection));
                         float steer = sinceWarning < .70f
                             ? MathF.Max(-1f, MathF.Min(1f, angle / (240f * MathF.PI / 180f * Dt))) : 0f;
                         playerInput = new FlightInput(1f, steer);
@@ -112,7 +119,10 @@ namespace DogfightThreatAI.Tests.EditMode
                 enemyFlight.Step(ref enemy, enemyInput, Dt);
                 playerFlight.Step(ref player, playerInput, Dt);
                 if (ai.AttackWindow.IsActive && RelativeSegmentDistance(previousEnemy.Position, enemy.Position,
-                    previousPlayer.Position, player.Position) <= 1.5d) closeAttackIds.Add(ai.AttackId);
+                    previousPlayer.Position, player.Position) <= 1.5d)
+                {
+                    closeAttackIds.Add(ai.AttackId);
+                }
                 combat.Step(previousPlayer, player, previousEnemy, enemy, Dt, ai.AttackWindow);
                 result.Hits = combat.Status.HitSequence;
             }
@@ -137,28 +147,44 @@ namespace DogfightThreatAI.Tests.EditMode
         {
             public int Warnings, ClosePasses, Hits;
             public float Elapsed, LongestWarningGap;
+
             public override string ToString()
-                => $"warnings={Warnings}, closePasses={ClosePasses}, hits={Hits}, elapsed={Elapsed:F2}, longestGap={LongestWarningGap:F2}";
+            {
+                return $"warnings={Warnings}, closePasses={ClosePasses}, hits={Hits}, elapsed={Elapsed:F2}, longestGap={LongestWarningGap:F2}";
+            }
         }
 
         sealed class Clock : ICombatStatusView
         {
             readonly ContactCombatModel _model;
             readonly float _offset;
-            public Clock(ContactCombatModel model, float offset) { _model = model; _offset = offset; }
+
+            public Clock(ContactCombatModel model, float offset)
+            {
+                _model = model;
+                _offset = offset;
+            }
+
             public CombatStatus Status => new CombatStatus(_model.Status.PlayerHealth, _model.Status.MaxPlayerHealth,
                 _model.Status.HitSequence, _model.Status.InvulnerabilityRemaining, _model.Status.ElapsedTime + _offset);
         }
+
         sealed class TestWorld : IWorldView
         {
             AircraftSnapshot _enemy, _player;
+
             public int AircraftCount => 2;
+
             public void Publish(FlightState enemy, FlightState player)
             {
                 _enemy = new AircraftSnapshot(2, 2, enemy);
                 _player = new AircraftSnapshot(1, 1, player, true, true);
             }
-            public AircraftSnapshot GetAircraft(int index) => index == 0 ? _enemy : _player;
+
+            public AircraftSnapshot GetAircraft(int index)
+            {
+                return index == 0 ? _enemy : _player;
+            }
         }
     }
 }

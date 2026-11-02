@@ -8,9 +8,12 @@ namespace DogfightThreatAI.Gameplay.Config
     /// </summary>
     public static class AircraftSpecAdapter
     {
+        // 将 Unity 机型资产复制为模拟层可独立使用的纯配置。
         public static AircraftSpec ToSpec(AircraftData data)
-            => new AircraftSpec(data.MinSpeed, data.MaxSpeed, data.Acceleration,
-                                data.TurnRateDegPerSec, data.Drag,
-                                data.LateralGrip, data.DriftScrub);
+        {
+            return new AircraftSpec(data.MinSpeed, data.MaxSpeed, data.Acceleration,
+                            data.TurnRateDegPerSec, data.Drag,
+                            data.LateralGrip, data.DriftScrub);
+        }
     }
 }

@@ -18,54 +18,80 @@ namespace DogfightThreatAI.Core.Combat
         int _highestAttackId;
         bool _attackConsumed;
 
-        public CombatStatus Status { get; private set; }
+        public CombatStatus Status
+        {
+            get; private set;
+        }
 
         public ContactCombatModel(int maxHealth = 5, int collisionDamage = 1,
                                   float invulnerabilitySeconds = 2f, float contactRadius = 1f)
         {
-            if (maxHealth <= 0) throw new ArgumentOutOfRangeException(nameof(maxHealth));
-            if (collisionDamage <= 0) throw new ArgumentOutOfRangeException(nameof(collisionDamage));
+            if (maxHealth <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(maxHealth));
+            }
+            if (collisionDamage <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(collisionDamage));
+            }
             if (!IsFinite(invulnerabilitySeconds) || invulnerabilitySeconds < 0f)
+            {
                 throw new ArgumentOutOfRangeException(nameof(invulnerabilitySeconds));
+            }
             if (!IsFinite(contactRadius) || contactRadius <= 0f)
+            {
                 throw new ArgumentOutOfRangeException(nameof(contactRadius));
-
+            }
             _collisionDamage = collisionDamage;
             _invulnerabilitySeconds = invulnerabilitySeconds;
             _contactRadiusSquared = (double)contactRadius * contactRadius;
             Status = new CombatStatus(maxHealth, maxHealth, 0, 0f, 0f);
         }
 
+        // 根据所提供的飞行与攻击数据推进旧接触战斗。
         public bool Step(in FlightState previousPlayer, in FlightState player,
-                         in FlightState previousEnemy, in FlightState enemy, float deltaTime)
-            => Step(previousPlayer, player, previousEnemy, enemy, deltaTime, AttackWindow.Inactive);
+                                 in FlightState previousEnemy, in FlightState enemy, float deltaTime)
+        {
+            return Step(previousPlayer, player, previousEnemy, enemy, deltaTime, AttackWindow.Inactive);
+        }
 
+        // 按前后飞行状态计算真实接触及保护时间内的伤害。
         public bool StepContact(in FlightState previousPlayer, in FlightState player,
-                                in FlightState previousEnemy, in FlightState enemy, float deltaTime,
-                                float combinedRadius)
-            => StepContact(previousPlayer, player, previousEnemy, enemy, deltaTime,
-                combinedRadius, _collisionDamage);
+                                        in FlightState previousEnemy, in FlightState enemy, float deltaTime,
+                                        float combinedRadius)
+        {
+            return StepContact(previousPlayer, player, previousEnemy, enemy, deltaTime,
+            combinedRadius, _collisionDamage);
+        }
 
         /// <summary>Uses the current frozen action's damage without replacing health or protection state.</summary>
         public bool StepContact(in FlightState previousPlayer, in FlightState player,
                                 in FlightState previousEnemy, in FlightState enemy, float deltaTime,
                                 float combinedRadius, int collisionDamage)
         {
-            if (collisionDamage <= 0 || !CanStep(previousPlayer, player, previousEnemy, enemy, deltaTime)) return false;
+            if (collisionDamage <= 0 || !CanStep(previousPlayer, player, previousEnemy, enemy, deltaTime))
+            {
+                return false;
+            }
             if (!IsFinite(combinedRadius) || combinedRadius <= 0f)
+            {
                 return Step(previousPlayer, player, previousEnemy, enemy, deltaTime);
+            }
             _contactRadiusSquared = (double)combinedRadius * combinedRadius;
             // Contact mode has no attack/phase permission: only geometry and the invulnerability clock matter.
             return Advance(previousPlayer, player, previousEnemy, enemy, deltaTime,
                 0f, 1f, true, false, collisionDamage);
         }
 
+        // 根据所提供的飞行与攻击数据推进旧接触战斗。
         public bool Step(in FlightState previousPlayer, in FlightState player,
-                         in FlightState previousEnemy, in FlightState enemy, float deltaTime,
-                         in AttackWindow attack)
+                                 in FlightState previousEnemy, in FlightState enemy, float deltaTime,
+                                 in AttackWindow attack)
         {
-            if (!CanStep(previousPlayer, player, previousEnemy, enemy, deltaTime)) return false;
-
+            if (!CanStep(previousPlayer, player, previousEnemy, enemy, deltaTime))
+            {
+                return false;
+            }
             // 只有有效公开窗口才能登记新攻击；漏接、预警/恢复期或无效窗口均不会伤害。
             bool attackAllowed = IsValid(attack);
             if (attackAllowed && attack.AttackId > _highestAttackId)
@@ -79,15 +105,19 @@ namespace DogfightThreatAI.Core.Combat
                 attack.StartFraction, attack.EndFraction, attackAllowed, true, _collisionDamage);
         }
 
+        // 检查当前状态是否允许继续推进接触战斗。
         bool CanStep(in FlightState previousPlayer, in FlightState player,
-                     in FlightState previousEnemy, in FlightState enemy, float deltaTime)
-            => Status.IsPlayerAlive && IsFinite(deltaTime) && deltaTime > 0f &&
-               IsFinite(previousPlayer) && IsFinite(player) && IsFinite(previousEnemy) && IsFinite(enemy);
+                             in FlightState previousEnemy, in FlightState enemy, float deltaTime)
+        {
+            return Status.IsPlayerAlive && IsFinite(deltaTime) && deltaTime > 0f &&
+           IsFinite(previousPlayer) && IsFinite(player) && IsFinite(previousEnemy) && IsFinite(enemy);
+        }
 
+        // 推进旧战斗的时间和受击保护状态。
         bool Advance(in FlightState previousPlayer, in FlightState player,
-                     in FlightState previousEnemy, in FlightState enemy, float deltaTime,
-                     float windowStart, float windowEnd, bool contactAllowed, bool consumeAttack,
-                     int collisionDamage)
+                             in FlightState previousEnemy, in FlightState enemy, float deltaTime,
+                             float windowStart, float windowEnd, bool contactAllowed, bool consumeAttack,
+                             int collisionDamage)
         {
 
             // 把公开伤害窗口与本步内无敌已结束的轨迹取交集，不能追溯早先的擦碰。
@@ -104,7 +134,10 @@ namespace DogfightThreatAI.Core.Combat
             int sequence = Status.HitSequence;
             if (hit)
             {
-                if (consumeAttack) _attackConsumed = true;
+                if (consumeAttack)
+                {
+                    _attackConsumed = true;
+                }
                 health = System.Math.Max(0, health - collisionDamage);
                 sequence++;
                 _invulnerabilityRemaining = System.Math.Max(0d,
@@ -116,8 +149,9 @@ namespace DogfightThreatAI.Core.Combat
             return hit;
         }
 
+        // 通过相对运动检查本步内是否发生接触。
         bool TryFindContact(Vec2 previousPlayer, Vec2 player, Vec2 previousEnemy, Vec2 enemy,
-                            double eligibleStart, double eligibleEnd, out double contactFraction)
+                                    double eligibleStart, double eligibleEnd, out double contactFraction)
         {
             // 相对运动将“两条线段之间的同一时刻接触”变成一条线段到原点的距离。
             // 坐标差与平方都用 double，避免大但有限的 float 输入溢出。
@@ -128,16 +162,23 @@ namespace DogfightThreatAI.Core.Combat
             double startX = x + dx * eligibleStart;
             double startY = y + dy * eligibleStart;
             contactFraction = eligibleStart;
-            if (startX * startX + startY * startY <= _contactRadiusSquared) return true;
-
+            if (startX * startX + startY * startY <= _contactRadiusSquared)
+            {
+                return true;
+            }
             double lengthSquared = dx * dx + dy * dy;
-            if (lengthSquared <= 0d) return false;
+            if (lengthSquared <= 0d)
+            {
+                return false;
+            }
             double center = -(x * dx + y * dy) / lengthSquared;
             double closest = System.Math.Max(eligibleStart, System.Math.Min(eligibleEnd, center));
             double closestX = x + dx * closest;
             double closestY = y + dy * closest;
-            if (closestX * closestX + closestY * closestY > _contactRadiusSquared) return false;
-
+            if (closestX * closestX + closestY * closestY > _contactRadiusSquared)
+            {
+                return false;
+            }
             double perpendicularX = x + dx * center;
             double perpendicularY = y + dy * center;
             double perpendicularSquared = perpendicularX * perpendicularX + perpendicularY * perpendicularY;
@@ -148,13 +189,25 @@ namespace DogfightThreatAI.Core.Combat
         }
 
         static bool IsValid(AttackWindow attack)
-            => attack.IsActive && attack.AttackId > 0 && IsFinite(attack.StartFraction) &&
-               IsFinite(attack.EndFraction) && attack.StartFraction >= 0f &&
-               attack.StartFraction < attack.EndFraction && attack.EndFraction <= 1f;
+        {
+            return attack.IsActive && attack.AttackId > 0 && IsFinite(attack.StartFraction) &&
+           IsFinite(attack.EndFraction) && attack.StartFraction >= 0f &&
+           attack.StartFraction < attack.EndFraction && attack.EndFraction <= 1f;
+        }
 
-        static bool IsFinite(float value) => !float.IsNaN(value) && !float.IsInfinity(value);
-        static bool IsFinite(Vec2 value) => IsFinite(value.X) && IsFinite(value.Y);
+        static bool IsFinite(float value)
+        {
+            return !float.IsNaN(value) && !float.IsInfinity(value);
+        }
+
+        static bool IsFinite(Vec2 value)
+        {
+            return IsFinite(value.X) && IsFinite(value.Y);
+        }
+
         static bool IsFinite(FlightState state)
-            => IsFinite(state.Position) && IsFinite(state.Velocity) && IsFinite(state.Heading);
+        {
+            return IsFinite(state.Position) && IsFinite(state.Velocity) && IsFinite(state.Heading);
+        }
     }
 }
