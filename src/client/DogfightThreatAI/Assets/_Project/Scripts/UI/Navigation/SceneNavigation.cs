@@ -13,29 +13,48 @@ namespace DogfightThreatAI.UI.Navigation
         // 必须与实际场景文件名一致，并在 Build Settings 中勾选这两个场景。
         public const string StartMenuScene = "StartMenu";
         public const string GameScene = "GameScene";
+        public const string LobbyScene = "LobbyScene";
+        public const string LobbyScenePath = "Assets/_Project/Scenes/LobbyScene/LobbyScene.unity";
         public const string StartMenuScenePath = "Assets/_Project/Scenes/StartMenu/StartMenu.unity";
         public const string GameScenePath = "Assets/_Project/Scenes/GameScene/GameScene.unity";
         bool _loading;
 
         public static bool CanLoadGameScene => Application.CanStreamedLevelBeLoaded(GameScene);
+        public static bool CanLoadLobbyScene => Application.CanStreamedLevelBeLoaded(LobbyScene);
 
         /// <summary>普通“开始游戏”按钮可以直接绑定此方法。</summary>
         public void StartGame()
         {
-            if (_loading) return;
+            if (_loading)
+            {
+                return;
+            }
             _loading = LoadGameSceneAsync() != null;
         }
 
         /// <summary>游戏内“返回主菜单”按钮绑定此方法；以后暂停菜单也可复用。</summary>
         public void ReturnToMainMenu()
         {
-            if (_loading) return;
+            if (_loading)
+            {
+                return;
+            }
             _loading = LoadScene(StartMenuScene) != null;
         }
 
         /// <summary>现有菜单在淡出动画结束后调用，保留原来的过渡和输入门控。</summary>
-        public static AsyncOperation LoadGameSceneAsync() => LoadScene(GameScene);
+        public static AsyncOperation LoadGameSceneAsync()
+        {
+            return LoadScene(GameScene);
+        }
 
+        // 通过统一导航入口异步加载大厅场景。
+        public static AsyncOperation LoadLobbySceneAsync()
+        {
+            return LoadScene(LobbyScene);
+        }
+
+        // 检查场景配置并恢复时间推进，再启动异步加载。
         static AsyncOperation LoadScene(string sceneName)
         {
             if (!Application.CanStreamedLevelBeLoaded(sceneName))
@@ -48,6 +67,7 @@ namespace DogfightThreatAI.UI.Navigation
             return SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
         }
 
+        // 注册战斗场景加载回调，避免重复添加导航界面。
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         static void Register()
         {
@@ -56,10 +76,13 @@ namespace DogfightThreatAI.UI.Navigation
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
+        // 进入战斗场景后按需创建场景内的返回菜单入口。
         static void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
-            if (scene.name != GameScene || FindObjectOfType<SceneNavigation>() != null) return;
-            // 导航 UI 属于当前游戏场景，返回时随场景一起卸载，不使用 DontDestroyOnLoad。
+            if (scene.name != GameScene || FindObjectOfType<SceneNavigation>() != null)
+            {
+                return;
+            }            // 导航 UI 属于当前游戏场景，返回时随场景一起卸载，不使用 DontDestroyOnLoad。
             var root = new GameObject("Game Navigation", typeof(RectTransform));
             SceneManager.MoveGameObjectToScene(root, scene);
             var navigation = root.AddComponent<SceneNavigation>();

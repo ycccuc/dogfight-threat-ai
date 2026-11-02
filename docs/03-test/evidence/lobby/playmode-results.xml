@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="7" result="Passed" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-11-02 03:57:50Z" end-time="2026-11-02 03:58:08Z" duration="18.6321893">
+  <test-suite type="TestSuite" id="1000" name="dogfight-threat-ai" fullname="dogfight-threat-ai" runstate="Runnable" testcasecount="69" result="Passed" start-time="2026-11-02 03:57:50Z" end-time="2026-11-02 03:58:08Z" duration="18.632189" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties />
+    <test-suite type="Assembly" id="1085" name="DogfightThreatAI.Tests.PlayMode.dll" fullname="D:/Projects/Unity/dogfight-threat-ai/src/client/DogfightThreatAI/Library/ScriptAssemblies/DogfightThreatAI.Tests.PlayMode.dll" runstate="Runnable" testcasecount="69" result="Passed" start-time="2026-11-02 03:57:50Z" end-time="2026-11-02 03:58:08Z" duration="18.624145" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="38164" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+      </properties>
+      <test-suite type="TestSuite" id="1086" name="DogfightThreatAI" fullname="DogfightThreatAI" runstate="Runnable" testcasecount="69" result="Passed" start-time="2026-11-02 03:57:50Z" end-time="2026-11-02 03:58:08Z" duration="18.623312" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1087" name="Tests" fullname="DogfightThreatAI.Tests" runstate="Runnable" testcasecount="69" result="Passed" start-time="2026-11-02 03:57:50Z" end-time="2026-11-02 03:58:08Z" duration="18.623104" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1088" name="Menu" fullname="DogfightThreatAI.Tests.Menu" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-11-02 03:57:50Z" end-time="2026-11-02 03:58:08Z" duration="18.621272" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1001" name="LobbyFlowTests" fullname="DogfightThreatAI.Tests.Menu.LobbyFlowTests" classname="DogfightThreatAI.Tests.Menu.LobbyFlowTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-11-02 03:57:50Z" end-time="2026-11-02 03:57:52Z" duration="2.683341" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1002" name="MenuLobbyAndReturnHaveValidLocalStateAndNoCombat" fullname="DogfightThreatAI.Tests.Menu.LobbyFlowTests.MenuLobbyAndReturnHaveValidLocalStateAndNoCombat" methodname="MenuLobbyAndReturnHaveValidLocalStateAndNoCombat" classname="DogfightThreatAI.Tests.Menu.LobbyFlowTests" runstate="Runnable" seed="432564850" result="Passed" start-time="2026-11-02 03:57:50Z" end-time="2026-11-02 03:57:52Z" duration="2.675240" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1003" name="MainMenuFlowTests" fullname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" classname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-11-02 03:57:52Z" end-time="2026-11-02 03:58:00Z" duration="7.147055" total="4" passed="4" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1006" name="ClosingSettingsDiscardsDraftWithoutChangingAudio" fullname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests.ClosingSettingsDiscardsDraftWithoutChangingAudio" methodname="ClosingSettingsDiscardsDraftWithoutChangingAudio" classname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" runstate="Runnable" seed="1237488025" result="Passed" start-time="2026-11-02 03:57:52Z" end-time="2026-11-02 03:57:55Z" duration="2.023883" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1007" name="ControlsAndCreditsHaveWorkingReturnPaths" fullname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests.ControlsAndCreditsHaveWorkingReturnPaths" methodname="ControlsAndCreditsHaveWorkingReturnPaths" classname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" runstate="Runnable" seed="9626150" result="Passed" start-time="2026-11-02 03:57:55Z" end-time="2026-11-02 03:57:57Z" duration="2.259684" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="ModalBlocksMenuAndRestoresItsOriginFocus" fullname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests.ModalBlocksMenuAndRestoresItsOriginFocus" methodname="ModalBlocksMenuAndRestoresItsOriginFocus" classname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" runstate="Runnable" seed="797621114" result="Passed" start-time="2026-11-02 03:57:57Z" end-time="2026-11-02 03:57:58Z" duration="1.707211" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1004" name="SplashAndTransitionCannotLaunchBattle" fullname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests.SplashAndTransitionCannotLaunchBattle" methodname="SplashAndTransitionCannotLaunchBattle" classname="DogfightThreatAI.Tests.Menu.MainMenuFlowTests" runstate="Runnable" seed="1264317647" result="Passed" start-time="2026-11-02 03:57:58Z" end-time="2026-11-02 03:58:00Z" duration="1.154540" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1008" name="MenuToBattleTests" fullname="DogfightThreatAI.Tests.Menu.MenuToBattleTests" classname="DogfightThreatAI.Tests.Menu.MenuToBattleTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-11-02 03:58:00Z" end-time="2026-11-02 03:58:08Z" duration="8.789813" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1010" name="ReturningToMenuAndReenteringKeepsRiverValleyAndResetsDamagedBattle" fullname="DogfightThreatAI.Tests.Menu.MenuToBattleTests.ReturningToMenuAndReenteringKeepsRiverValleyAndResetsDamagedBattle" methodname="ReturningToMenuAndReenteringKeepsRiverValleyAndResetsDamagedBattle" classname="DogfightThreatAI.Tests.Menu.MenuToBattleTests" runstate="Runnable" seed="393833842" result="Passed" start-time="2026-11-02 03:58:00Z" end-time="2026-11-02 03:58:03Z" duration="3.831093" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+              <test-case id="1009" name="StartGameAndReturnMenuPreserveBothScenesAndResetAircraft" fullname="DogfightThreatAI.Tests.Menu.MenuToBattleTests.StartGameAndReturnMenuPreserveBothScenesAndResetAircraft" methodname="StartGameAndReturnMenuPreserveBothScenesAndResetAircraft" classname="DogfightThreatAI.Tests.Menu.MenuToBattleTests" runstate="Runnable" seed="1740817148" result="Passed" start-time="2026-11-02 03:58:03Z" end-time="2026-11-02 03:58:08Z" duration="4.957845" asserts="0">
+                <properties>
+                  <property name="_JOINTYPE" value="UnityCombinatorial" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
