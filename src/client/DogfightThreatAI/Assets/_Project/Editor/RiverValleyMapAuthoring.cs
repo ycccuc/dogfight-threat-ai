@@ -6,6 +6,7 @@ using DogfightThreatAI.Gameplay.Config;
 using DogfightThreatAI.Gameplay.World;
 using UnityEditor;
 using UnityEditor.SceneManagement;
+using UnityEditor.U2D.Sprites;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -35,16 +36,33 @@ namespace DogfightThreatAI.Editor
             importer.textureCompression = TextureImporterCompression.Uncompressed;
             importer.maxTextureSize = 2048;
             importer.wrapMode = TextureWrapMode.Clamp;
-            var slices = new SpriteMetaData[120];
+            var factories = new SpriteDataProviderFactories();
+            factories.Init();
+            var provider = factories.GetSpriteEditorDataProviderFromObject(importer);
+            provider.InitSpriteEditorDataProvider();
+            var existingSlices = provider.GetSpriteRects();
+            var slices = new SpriteRect[120];
+            var nameIdPairs = new List<SpriteNameFileIdPair>();
             for (int i = 0; i < slices.Length; i++)
-                slices[i] = new SpriteMetaData
+            {
+                string spriteName = "tile_" + i.ToString("0000");
+                var existing = Array.Find(existingSlices, slice => slice.name == spriteName);
+                slices[i] = new SpriteRect
                 {
-                    name = "tile_" + i.ToString("0000"),
+                    name = spriteName,
                     rect = new Rect(i % 12 * 16, (9 - i / 12) * 16, 16, 16),
-                    alignment = (int)SpriteAlignment.Center,
+                    alignment = SpriteAlignment.Center,
+                    spriteID = existing != null ? existing.spriteID : GUID.Generate(),
                     pivot = new Vector2(.5f, .5f)
                 };
-            importer.spritesheet = slices;
+            }
+            foreach (var slice in slices)
+            {
+                nameIdPairs.Add(new SpriteNameFileIdPair(slice.name, slice.spriteID));
+            }
+            provider.SetSpriteRects(slices);
+            provider.GetDataProvider<ISpriteNameFileIdDataProvider>().SetNameFileIdPairs(nameIdPairs);
+            provider.Apply();
             importer.SaveAndReimport();
             var palette = new Sprite[120];
             foreach (var obj in AssetDatabase.LoadAllAssetsAtPath(AtlasPath))
