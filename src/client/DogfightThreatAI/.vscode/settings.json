@@ -56,5 +56,6 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "DogfightThreatAI.sln"
+    "dotnet.defaultSolution": "DogfightThreatAI.slnx",
+    "dotnet.preferCSharpExtension": true
 }
