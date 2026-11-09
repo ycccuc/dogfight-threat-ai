@@ -1,5 +1,6 @@
 using System;
 using DogfightThreatAI.Core.AI;
+using DogfightThreatAI.Core.World;
 using DogfightThreatAI.Gameplay.InputSource;
 using UnityEngine;
 
@@ -10,7 +11,8 @@ namespace DogfightThreatAI.Gameplay.Combat
     {
         readonly PlayerController _player, _enemy;
         readonly KeyboardInputSource _keyboard;
-        readonly LineRenderer _playerTrail, _enemyTrail, _enemyCore, _chargeWake;
+        readonly LineRenderer _enemyTrail, _enemyCore, _chargeWake;
+        readonly PlayerPropulsionView _playerTrail;
         readonly Material _material;
         readonly PlayerView _playerView, _enemyView;
 
@@ -28,7 +30,11 @@ namespace DogfightThreatAI.Gameplay.Combat
                 return;
             }
             _material = new Material(shader);
-            _playerTrail = CreateTrail(player, "PlayerPropulsionTrail");
+            if (player != null)
+            {
+                _playerTrail = player.gameObject.AddComponent<PlayerPropulsionView>();
+                _playerTrail.Build(player.GetComponentInChildren<SpriteRenderer>());
+            }
             _enemyTrail = CreateTrail(enemy, "EnemyPursuitTrail");
             _enemyCore = CreateTrail(enemy, "EnemyPursuitTrailCore");
             _chargeWake = CreateTrail(enemy, "EnemyChargeWake");
@@ -78,20 +84,12 @@ namespace DogfightThreatAI.Gameplay.Combat
         // 根据公开的推进和过热状态更新双方尾迹。
         public void Update(bool alive, ChaseAiInputSource ai)
         {
-            bool playerActive = alive && _keyboard != null && (_keyboard.IsBoosting || _keyboard.IsOverheated);
-            Color playerColor = _keyboard != null && _keyboard.IsOverheated ? new Color(1f, .48f, .15f, .7f) : new Color(
-                .55f,
-                .95f,
-                1f,
-                .85f);
-            float playerLength = _keyboard != null && _keyboard.IsOverheated ? .65f : Mathf.Lerp(
-                .8f,
-                2.5f,
-                _player != null ? Mathf.InverseLerp(
-                    9f,
-                    21.6f,
-                    _player.State.Speed) : 0f);
-            SetTrail(_playerTrail, _player, _playerView, playerActive, playerLength, playerColor);
+            if (_playerTrail != null && _player != null)
+            {
+                var heading = _player.State.Forward;
+                _playerTrail.Present(alive, _keyboard != null ? _keyboard.VisiblePropulsionCue : VisiblePropulsionCue.None,
+                    _player.State.Speed, Position(_player, _playerView), new Vector3(heading.X, heading.Y));
+            }
             bool enemyActive = alive && ai != null && (ai.IsPursuitBoosting || ai.IsBoostCoasting);
             float strength = ai != null ? Mathf.Lerp(.72f, 1f, ai.Aggression01) : 1f;
             float length = _enemy != null ? Mathf.Lerp(.8f, 2.1f, Mathf.InverseLerp(9f, 24f, _enemy.State.Speed)) : 1f;
@@ -196,7 +194,7 @@ namespace DogfightThreatAI.Gameplay.Combat
         {
             if (_playerTrail != null)
             {
-                UnityEngine.Object.Destroy(_playerTrail.gameObject);
+                UnityEngine.Object.Destroy(_playerTrail);
             }
             if (_enemyTrail != null)
             {

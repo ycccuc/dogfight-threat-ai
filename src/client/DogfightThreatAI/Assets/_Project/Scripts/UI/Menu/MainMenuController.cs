@@ -98,7 +98,7 @@ namespace DogfightThreatAI.UI.Menu
                 var rect = (RectTransform)buttons[i].transform;
                 rect.anchoredPosition = new Vector2(rect.anchoredPosition.x, -(456 + i * 60));
             }
-            Wire(_start, StartBattle, "驾驶战机，进入当前的 GameScene 飞行场景。");
+            Wire(_start, StartBattle, "驾驶战机，清剿河谷的三支敌方巡逻队。");
             Wire(_lobby, StartLobby, "进入机库大厅，自由移动与查看停机位。");
             Wire(_settings, OpenSettings, "调整声音、显示与界面动态效果。");
             Wire(_controls, OpenControls, "查看飞行操控与菜单快捷键。");
@@ -156,7 +156,7 @@ namespace DogfightThreatAI.UI.Menu
             _menu.interactable = _menu.blocksRaycasts = false;
             _blackout.alpha = 0;
             _blackout.blocksRaycasts = false;
-            _description.text = "驾驶战机，进入当前的 GameScene 飞行场景。";
+            _description.text = "驾驶战机，清剿河谷的三支敌方巡逻队。";
             Canvas.ForceUpdateCanvases();
         }
 
@@ -226,7 +226,7 @@ namespace DogfightThreatAI.UI.Menu
             _ui.Text("Subtitle", _content, "THREAT AI", 96, 32, 229, 570, 150, display: true);
             _ui.Text("Tagline", _content, "实时威胁评估 · 动态决策", 20, 36, 374, 550, 36, MenuUi.Muted);
 
-            _start = Item("StartGame", "开始游戏", 456, StartBattle, "驾驶战机，进入当前的 GameScene 飞行场景。");
+            _start = Item("StartGame", "开始游戏", 456, StartBattle, "驾驶战机，清剿河谷的三支敌方巡逻队。");
             _lobby = Item("Lobby", "联机大厅", 516, StartLobby, "进入机库大厅，自由移动与查看停机位。");
             _settings = Item("Settings", "设置", 576, OpenSettings, "调整声音、显示与界面动态效果。");
             _controls = Item("Controls", "操作说明", 636, OpenControls, "查看飞行操控与菜单快捷键。");
@@ -566,10 +566,10 @@ namespace DogfightThreatAI.UI.Menu
             {
                 return;
             }
-            bool canLoad = lobby ? SceneNavigation.CanLoadLobbyScene : SceneNavigation.CanLoadGameScene;
+            bool canLoad = lobby ? SceneNavigation.CanLoadLobbyScene : SceneNavigation.CanLoadPatrolMissionScene;
             if (!canLoad)
             {
-                string sceneName = lobby ? SceneNavigation.LobbyScene : SceneNavigation.GameScene;
+                string sceneName = lobby ? SceneNavigation.LobbyScene : SceneNavigation.PatrolMissionScene;
                 var rect = OpenPanel("暂时无法开始", $"请在 Build Settings 中启用 {sceneName} 场景后重试。", lobby ? _lobby : _start);
                 if (rect != null)
                 {
@@ -590,7 +590,7 @@ namespace DogfightThreatAI.UI.Menu
         {
             yield return Fade(_blackout, 1, .45f);
             // 先完成现有淡黑动画，再由独立导航脚本加载地图场景。
-            yield return lobby ? SceneNavigation.LoadLobbySceneAsync() : SceneNavigation.LoadGameSceneAsync();
+            yield return lobby ? SceneNavigation.LoadLobbySceneAsync() : SceneNavigation.LoadPatrolMissionAsync();
         }
 
     }

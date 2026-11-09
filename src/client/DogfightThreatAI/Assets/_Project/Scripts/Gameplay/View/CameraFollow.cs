@@ -8,6 +8,7 @@ namespace DogfightThreatAI.Gameplay.View
     /// 跟随逻辑在 LateUpdate 中执行，避免与目标移动产生时序冲突。
     /// </summary>
     [RequireComponent(typeof(Camera))]
+    [DefaultExecutionOrder(200)]
     public sealed class CameraFollow : MonoBehaviour
     {
         [Header("目标与偏移")]

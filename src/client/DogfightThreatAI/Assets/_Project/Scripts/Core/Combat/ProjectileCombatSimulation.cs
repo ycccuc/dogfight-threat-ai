@@ -138,17 +138,9 @@ namespace DogfightThreatAI.Core.Combat
                 return;
             }
             _cooldown[index] = _weapon.ShotInterval;
-            Vec2 position = aircraft.Position + aircraft.Forward * _weapon.MuzzleOffset;
-            _projectiles.Add(new ProjectileState
-            {
-                Id = ++_nextId,
-                OwnerId = index + 1,
-                Position = position,
-                PreviousPosition = position,
-                Velocity = aircraft.Forward * _weapon.ProjectileSpeed,
-                Remaining = _weapon.Lifetime
-            });
-            _events.Add(new WeaponEvent(WeaponEventKind.Fired, index + 1, position));
+            var shot = ProjectileBallistics.Launch(_weapon, ++_nextId, index + 1, aircraft);
+            _projectiles.Add(shot);
+            _events.Add(new WeaponEvent(WeaponEventKind.Fired, index + 1, shot.Position));
         }
 
         // 计算相对运动线段与命中圆的接触，避免高速弹丸穿透。

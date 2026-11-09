@@ -208,6 +208,8 @@ namespace Mirror
                 _connectionToClient?.AddOwnedObject(this);
             }
         }
+        // 网络连接只在运行时建立，不参与 Unity 的序列化和脚本重载恢复。
+        [System.NonSerialized]
         NetworkConnectionToClient _connectionToClient;
 
         // get all NetworkBehaviour components

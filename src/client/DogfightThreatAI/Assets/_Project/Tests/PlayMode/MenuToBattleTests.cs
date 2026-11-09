@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Linq;
 using System.Reflection;
+using DogfightThreatAI.Core.Combat;
 using DogfightThreatAI.Core.Flight;
 using DogfightThreatAI.Core.Math;
 using DogfightThreatAI.Gameplay;
@@ -26,7 +27,35 @@ namespace DogfightThreatAI.Tests.Menu
         const BindingFlags Private = BindingFlags.Instance | BindingFlags.NonPublic;
 
         [UnityTest]
-        public IEnumerator StartGameAndReturnMenuPreserveBothScenesAndResetAircraft()
+        public IEnumerator CoopPatrolAircraftSizeMatchesSoloWithHudScaling()
+        {
+            yield return SceneManager.LoadSceneAsync(SceneNavigation.PatrolMissionScene, LoadSceneMode.Single);
+            var controller = Object.FindObjectOfType<PatrolMissionController>();
+            var layout = typeof(PatrolMissionController).GetField("layout", Private).GetValue(controller);
+            var solo = GameObject.Find("Patrol aircraft 1").GetComponent<SpriteRenderer>();
+            var match = new GameObject("Coop scale test");
+            var view = System.Type.GetType("NetworkPatrolView, Assembly-CSharp", throwOnError: true);
+            System.Activator.CreateInstance(view, match.transform, layout,
+                (System.Action)(() => { }), (System.Action)(() => { }));
+            yield return null;
+
+            var canvas = match.GetComponentInChildren<Canvas>();
+            var remote = match.GetComponentsInChildren<SpriteRenderer>(true)
+                .Single(renderer => renderer.name == "Remote patrol 1");
+            var effects = match.GetComponentInChildren<PatrolMissionEffects>();
+            Assert.That(effects.GetComponentInParent<Canvas>(), Is.Null);
+            Assert.That(remote.sprite, Is.SameAs(solo.sprite));
+            // Simulate the HUD scale of a higher-resolution Game view.
+            canvas.transform.localScale = Vector3.one * 2f;
+            Assert.That(remote.transform.lossyScale.x,
+                Is.EqualTo(solo.transform.lossyScale.x).Within(.001f));
+            Assert.That(remote.transform.lossyScale.y,
+                Is.EqualTo(solo.transform.lossyScale.y).Within(.001f));
+            Assert.That(remote.GetComponentInParent<Canvas>(), Is.Null);
+        }
+
+        [UnityTest]
+        public IEnumerator SoloMissionCanDeployWinRetryLoseAndReturnToMenu()
         {
             Time.timeScale = 1;
             yield return SceneManager.LoadSceneAsync(SceneNavigation.StartMenuScene, LoadSceneMode.Single);
@@ -50,16 +79,27 @@ namespace DogfightThreatAI.Tests.Menu
                 new PointerEventData(EventSystem.current) { button = PointerEventData.InputButton.Left },
                 ExecuteEvents.pointerClickHandler);
             float deadline = Time.realtimeSinceStartup + 15f;
-            while (SceneManager.GetActiveScene().name != SceneNavigation.GameScene && Time.realtimeSinceStartup < deadline)
+            while (SceneManager.GetActiveScene().name != SceneNavigation.PatrolMissionScene && Time.realtimeSinceStartup < deadline)
             {
                 yield return null;
             }
-            Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(SceneNavigation.GameScene));
+            Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(SceneNavigation.PatrolMissionScene));
             yield return null;
 
             Assert.That(Object.FindObjectOfType<MainMenuController>(), Is.Null, "Menu overlay must be unloaded");
             AssertRiverValleyMap();
-            var player = AssertSingleBattle().Player;
+            var controller = Object.FindObjectsOfType<PatrolMissionController>().Single();
+            var hud = Object.FindObjectOfType<PatrolMissionHud>();
+            var mission = controller.Mission;
+            var effects = controller.GetComponent<PatrolMissionEffects>();
+            var labels = effects.GetComponentsInChildren<TextMesh>();
+            Assert.That(labels.Length, Is.EqualTo(3));
+            Assert.That(labels.All(label => label.text == "侦察记录"), Is.True);
+            Assert.That(labels[0].GetComponent<MeshRenderer>().bounds.size.y, Is.GreaterThan(.15f));
+            Assert.That(mission.EnemyCount, Is.EqualTo(6));
+            Assert.That(mission.SectorCount, Is.EqualTo(3));
+            Assert.That(Time.timeScale, Is.Zero);
+            var player = Object.FindObjectsOfType<PlayerController>().Single();
             Assert.That(player.isActiveAndEnabled, Is.True);
             Assert.That(player.Ship, Is.Not.Null);
             Assert.That(player.GetComponentInChildren<SpriteRenderer>().sprite, Is.EqualTo(player.Ship.BodySprite));
@@ -67,47 +107,76 @@ namespace DogfightThreatAI.Tests.Menu
             Assert.That(Camera.main.GetComponent<CameraFollow>().isActiveAndEnabled, Is.True);
             var input = player.gameObject.AddComponent<IntegrationFlightInput>();
             typeof(PlayerController).GetField("inputSource", Private).SetValue(player, input);
+            var initialEnemy = mission.EnemyFrame(0).Current.Position;
+            Click(hud.GetComponentsInChildren<Button>().Single(button => button.name == "Primary action"));
             Vector3 initial = player.transform.position;
             yield return new WaitForSeconds(.6f);
             Assert.That(Vector3.Distance(initial, player.transform.position), Is.GreaterThan(.05f),
                 "Flight simulation must continue after leaving the menu");
 
-            var navigation = Object.FindObjectOfType<SceneNavigation>();
-            Assert.That(navigation, Is.Not.Null);
-            Object.FindObjectOfType<BattleMenuView>().OpenPause();
-            var back = navigation.GetComponentsInChildren<Button>().Single(button => button.name == "ReturnToMainMenu");
-            ExecuteEvents.Execute(back.gameObject,
-                new PointerEventData(EventSystem.current) { button = PointerEventData.InputButton.Left },
-                ExecuteEvents.pointerClickHandler);
+            Assert.That((mission.EnemyFrame(0).Current.Position - initialEnemy).Magnitude, Is.GreaterThan(.1f));
+            var keyboard = player.GetComponent<KeyboardInputSource>();
+            var boost = (PlayerBoostModel)typeof(KeyboardInputSource).GetField("_boost", Private).GetValue(keyboard);
+            boost.Step(true, false, .02f, 9f);
+            yield return null;
+            Assert.That(player.GetComponentsInChildren<LineRenderer>()
+                .Any(line => line.name == "PlayerPropulsionTrail" && line.enabled), Is.True);
+            var orders = hud.GetComponentsInChildren<CanvasGroup>().Single(group => group.name == "Orders");
+            Assert.That(orders.alpha, Is.EqualTo(1f));
+            hud.PresentIntro(8f);
+            Assert.That(orders.gameObject.activeSelf, Is.False);
+            SetAircraftState(player, FlightState.At(new Vec2(0, 16)));
+            yield return new WaitForSeconds(.1f);
+            Assert.That(mission.CollectedCount, Is.EqualTo(1));
+            Assert.That(effects.GetComponentsInChildren<TextMesh>().Length, Is.EqualTo(2));
+            Assert.That(hud.GetComponentsInChildren<Text>().Any(label =>
+                label.text == "已拾取  河口侦察记录  1/3"), Is.True);
+            controller.Pause();
+            Assert.That(Time.timeScale, Is.Zero);
+            Click(hud.GetComponentsInChildren<Button>().Single(button => button.name == "Toggle collection"));
+            Assert.That(hud.GetComponentsInChildren<Text>().Any(label => label.text == "河口侦察记录  ·  已拾取"), Is.True);
+            Click(hud.GetComponentsInChildren<Button>().Single(button => button.name == "Toggle objectives"));
+            Assert.That(hud.GetComponentsInChildren<Text>().Any(label => label.name == "Patrol progress"), Is.False);
+            Click(hud.GetComponentsInChildren<Button>().Single(button => button.name == "Primary action"));
+            for (int enemy = 0; enemy < mission.EnemyCount; enemy++)
+            {
+                mission.Combat.Forfeit(enemy + 2);
+            }
+            yield return new WaitForSecondsRealtime(.15f);
+            Assert.That(mission.Outcome, Is.EqualTo(MissionOutcome.Victory));
+            Assert.That(hud.GetComponentsInChildren<Text>().Any(label => label.text == "任务完成"), Is.True);
+            Click(hud.GetComponentsInChildren<Button>().Single(button => button.name == "Retry mission"));
             deadline = Time.realtimeSinceStartup + 15f;
-            while (SceneManager.GetActiveScene().name != SceneNavigation.StartMenuScene && Time.realtimeSinceStartup < deadline)
+            while (controller != null && Time.realtimeSinceStartup < deadline)
             {
                 yield return null;
             }
-            Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(SceneNavigation.StartMenuScene));
+            controller = Object.FindObjectsOfType<PatrolMissionController>().Single();
+            hud = Object.FindObjectOfType<PatrolMissionHud>();
+            Assert.That(controller.Mission, Is.Not.SameAs(mission));
+            Assert.That(controller.Mission.EnemiesRemaining, Is.EqualTo(6));
+            Assert.That(controller.Mission.CollectedCount, Is.Zero);
+            Assert.That(controller.Mission.Combat.Health(PatrolMission.PlayerSeat), Is.EqualTo(5));
+            Assert.That(Time.timeScale, Is.Zero);
+            Click(hud.GetComponentsInChildren<Button>().Single(button => button.name == "Primary action"));
+            controller.Mission.Combat.Forfeit(PatrolMission.PlayerSeat);
+            yield return new WaitForSecondsRealtime(.15f);
+            Assert.That(controller.Mission.Outcome, Is.EqualTo(MissionOutcome.Defeat));
+            Assert.That(hud.GetComponentsInChildren<Text>().Any(label => label.text == "任务失败"), Is.True);
+            Click(hud.GetComponentsInChildren<Button>().Single(button => button.name == "Return to main menu"));
+            yield return WaitForScene(SceneNavigation.StartMenuScene);
             Assert.That(Object.FindObjectOfType<PlayerController>(), Is.Null);
             Assert.That(Object.FindObjectOfType<BattleMapView>(), Is.Null);
             menu = Object.FindObjectOfType<MainMenuController>();
             Assert.That(menu.Phase, Is.EqualTo(MainMenuController.MenuPhase.AwaitInput));
-            menu.RevealMenu();
-            yield return new WaitForSecondsRealtime(1.15f);
-            menu.GetComponentsInChildren<Button>().Single(button => button.name == "StartGame").onClick.Invoke();
-            deadline = Time.realtimeSinceStartup + 15f;
-            while (SceneManager.GetActiveScene().name != SceneNavigation.GameScene && Time.realtimeSinceStartup < deadline)
-            {
-                yield return null;
-            }
-            Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(SceneNavigation.GameScene));
-            Assert.That(AssertSingleBattle().Player.transform.position.y, Is.EqualTo(0).Within(.1f),
-                "Starting again must create a fresh aircraft at spawn");
+            Assert.That(Time.timeScale, Is.EqualTo(1f));
         }
 
         [UnityTest]
         public IEnumerator ReturningToMenuAndReenteringKeepsRiverValleyAndResetsDamagedBattle()
         {
             Time.timeScale = 1f;
-            yield return SceneManager.LoadSceneAsync(SceneNavigation.StartMenuScene, LoadSceneMode.Single);
-            yield return StartGameFromMenu();
+            yield return SceneManager.LoadSceneAsync(SceneNavigation.GameScene, LoadSceneMode.Single);
             Time.timeScale = 0f;
 
             var firstBattle = AssertSingleBattle();
@@ -145,7 +214,7 @@ namespace DogfightThreatAI.Tests.Menu
             Assert.That(firstBattle == null && firstPlayer == null && firstEnemy == null && firstMap == null, Is.True,
                 "Returning must unload every instance from the previous battle");
 
-            yield return StartGameFromMenu();
+            yield return SceneManager.LoadSceneAsync(SceneNavigation.GameScene, LoadSceneMode.Single);
             Time.timeScale = 0f;
             var freshBattle = AssertSingleBattle();
             var freshMap = AssertRiverValleyMap();
@@ -154,18 +223,6 @@ namespace DogfightThreatAI.Tests.Menu
             Assert.That(Object.FindObjectOfType<MainMenuController>(), Is.Null);
             Assert.That(Object.FindObjectsOfType<SceneNavigation>().Length, Is.EqualTo(1));
             LogAssert.NoUnexpectedReceived();
-        }
-
-        static IEnumerator StartGameFromMenu()
-        {
-            Assert.That(SceneManager.GetActiveScene().name, Is.EqualTo(SceneNavigation.StartMenuScene));
-            var menu = Object.FindObjectsOfType<MainMenuController>().Single();
-            Assert.That(menu.Phase, Is.EqualTo(MainMenuController.MenuPhase.AwaitInput));
-            menu.RevealMenu();
-            yield return new WaitForSecondsRealtime(1.15f);
-            Assert.That(menu.Phase, Is.EqualTo(MainMenuController.MenuPhase.Menu));
-            Click(menu.GetComponentsInChildren<Button>().Single(button => button.name == "StartGame"));
-            yield return WaitForScene(SceneNavigation.GameScene);
         }
 
         static IEnumerator WaitForScene(string sceneName)

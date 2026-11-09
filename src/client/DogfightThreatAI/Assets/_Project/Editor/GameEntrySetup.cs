@@ -10,6 +10,12 @@ namespace DogfightThreatAI.Editor
     [InitializeOnLoad]
     public static class GameEntrySetup
     {
+        // 本次点击 Play 时，从当前打开的场景开始。
+        [MenuItem("Tools/Dogfight Threat AI/本次从当前场景运行")]
+        public static void UseCurrentSceneForNextPlay()
+        {
+            EditorSceneManager.playModeStartScene = null;
+        }
         const string MenuPath = SceneNavigation.StartMenuScenePath;
 
         // 在编辑器加载后安排游戏入口配置。

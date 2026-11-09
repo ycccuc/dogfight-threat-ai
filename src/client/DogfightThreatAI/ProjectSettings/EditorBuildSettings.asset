@@ -14,4 +14,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/LobbyScene/LobbyScene.unity
     guid: bae6d25a731df39488be0473b125304f
+  - enabled: 0
+    path: Assets/_Project/Scenes/NetworkPractice/NetworkPractice.unity
+    guid: 57ede1cbe8cb186419b363e254ad10cf
+  - enabled: 1
+    path: Assets/_Project/Scenes/NetworkBattle/NetworkBattle.unity
+    guid: 77cd901883f7b93438751ca7d2bc9531
+  - enabled: 1
+    path: Assets/_Project/Scenes/RiverValleyMission/RiverValleyMission.unity
+    guid: ed8498037df94db292f826b4dd80654e
+  - enabled: 1
+    path: Assets/_Project/Scenes/NetworkPatrol/NetworkPatrol.unity
+    guid: 2ff50951ef64420a877f76937d5eff22
   m_configObjects: {}

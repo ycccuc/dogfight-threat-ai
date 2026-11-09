@@ -14,6 +14,7 @@ namespace DogfightThreatAI.UI.Navigation
         public const string StartMenuScene = "StartMenu";
         public const string GameScene = "GameScene";
         public const string LobbyScene = "LobbyScene";
+        public const string PatrolMissionScene = "RiverValleyMission";
         public const string LobbyScenePath = "Assets/_Project/Scenes/LobbyScene/LobbyScene.unity";
         public const string StartMenuScenePath = "Assets/_Project/Scenes/StartMenu/StartMenu.unity";
         public const string GameScenePath = "Assets/_Project/Scenes/GameScene/GameScene.unity";
@@ -21,6 +22,7 @@ namespace DogfightThreatAI.UI.Navigation
 
         public static bool CanLoadGameScene => Application.CanStreamedLevelBeLoaded(GameScene);
         public static bool CanLoadLobbyScene => Application.CanStreamedLevelBeLoaded(LobbyScene);
+        public static bool CanLoadPatrolMissionScene => Application.CanStreamedLevelBeLoaded(PatrolMissionScene);
 
         /// <summary>普通“开始游戏”按钮可以直接绑定此方法。</summary>
         public void StartGame()
@@ -29,7 +31,7 @@ namespace DogfightThreatAI.UI.Navigation
             {
                 return;
             }
-            _loading = LoadGameSceneAsync() != null;
+            _loading = LoadPatrolMissionAsync() != null;
         }
 
         /// <summary>游戏内“返回主菜单”按钮绑定此方法；以后暂停菜单也可复用。</summary>
@@ -54,12 +56,17 @@ namespace DogfightThreatAI.UI.Navigation
             return LoadScene(LobbyScene);
         }
 
+        public static AsyncOperation LoadPatrolMissionAsync()
+        {
+            return LoadScene(PatrolMissionScene);
+        }
+
         // 检查场景配置并恢复时间推进，再启动异步加载。
         static AsyncOperation LoadScene(string sceneName)
         {
             if (!Application.CanStreamedLevelBeLoaded(sceneName))
             {
-                Debug.LogError($"无法加载 {sceneName}：请将 StartMenu 和 GameScene 加入 Build Settings 场景列表并勾选启用。");
+                Debug.LogError($"无法加载 {sceneName}。请在 Build Settings 中添加并启用这个场景。");
                 return null;
             }
             // 返回时取消可能存在的暂停。Single 卸载上一场景，避免旧飞机、相机、菜单重复存在。

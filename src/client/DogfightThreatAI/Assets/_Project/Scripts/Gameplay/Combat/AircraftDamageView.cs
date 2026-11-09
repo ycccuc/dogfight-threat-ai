@@ -33,7 +33,7 @@ namespace DogfightThreatAI.Gameplay.Combat
         }
 
         // 根据存活、保护时间和受击时刻更新机身颜色。
-        public void Present(bool alive, float protection)
+        public void Present(bool alive, float protection, bool collisionFade = false)
         {
             bool dim = protection > 0 && ((int)(Time.time * 12) & 1) == 0;
             for (int i = 0; i < _sprites.Length; i++)
@@ -50,6 +50,10 @@ namespace DogfightThreatAI.Gameplay.Combat
                 else if (Time.time - _lastHit < .15f)
                 {
                     tint = new Color(1, .45f, .35f);
+                }
+                else if (collisionFade && protection > 0f)
+                {
+                    tint.a *= Mathf.Lerp(1f, .42f, Mathf.Clamp01(protection / .55f));
                 }
                 else if (dim)
                 {
