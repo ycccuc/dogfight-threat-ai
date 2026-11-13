@@ -408,7 +408,8 @@ public sealed class NetworkBattleMatch : NetworkBehaviour
         {
             int seconds = Mathf.Max(0, Mathf.CeilToInt((float)(deadline - NetworkTime.time)));
             hud.Present((int)phase, local != null ? local.Health : -1, maxHealth,
-                aliveCount, seconds, winner, local != null ? local.Seat : 0, NetworkServer.active);
+                aliveCount, seconds, winner, local != null ? local.Seat : 0,
+                NetworkManager.singleton is DogfightNetworkManager manager && manager.IsLocalRoomOwner);
         }
 
         renderShots.Clear();

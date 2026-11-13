@@ -23,6 +23,7 @@ internal sealed class NetworkPatrolView
     float nextStatusUpdate, feedbackUntil;
     NetworkRoundPhase phase = (NetworkRoundPhase)byte.MaxValue;
     bool menuOpen;
+    bool resultCanReturn;
 
     public bool BlocksInput => menuOpen;
 
@@ -90,6 +91,9 @@ internal sealed class NetworkPatrolView
     public void Present(NetworkRoundPhase current, BattleNetworkPlayer local, IList<int> enemyHealth,
         IList<int> sectors, IList<int> pickups, bool won, float elapsed)
     {
+        bool canReturn = NetworkManager.singleton is DogfightNetworkManager manager && manager.IsLocalRoomOwner;
+        bool permissionChanged = canReturn != resultCanReturn;
+        resultCanReturn = canReturn;
         bool phaseChanged = phase != current;
         phase = current;
         if (current == NetworkRoundPhase.Fighting && Application.isFocused)
@@ -130,7 +134,7 @@ internal sealed class NetworkPatrolView
             hud.PresentPosition(layout.ChartPosition(new Vec2(position.x, position.y)));
             hud.PresentBoost(local.BoostEnergy01);
         }
-        if (!phaseChanged && Time.unscaledTime < nextStatusUpdate)
+        if (!phaseChanged && !permissionChanged && Time.unscaledTime < nextStatusUpdate)
         {
             return;
         }
@@ -174,10 +178,10 @@ internal sealed class NetworkPatrolView
         hud.PresentStatus(remaining, enemies.Length, cleared, sectors.Count,
             local != null ? local.Health : 0, layout.PlayerHealth, local != null ? local.CannonReady01 : 1f,
             "队伍目标 · 清剿全部巡逻机", alert, radar);
-        if (phaseChanged && current == NetworkRoundPhase.Finished)
+        if ((phaseChanged || permissionChanged) && current == NetworkRoundPhase.Finished)
         {
             hud.ShowResult(won, enemies.Length - remaining, enemies.Length, elapsed, collected,
-                records.Length, NetworkServer.active);
+                records.Length, canReturn);
         }
     }
 

@@ -72,7 +72,7 @@ public sealed class LobbyNetworkHud : MonoBehaviour
     {
         if (exiting)
         {
-            return;            
+            return;
         }
 
         if (!Application.CanStreamedLevelBeLoaded(
@@ -100,18 +100,9 @@ public sealed class LobbyNetworkHud : MonoBehaviour
             }
 
             exiting = true;
-
-            if (NetworkServer.active && NetworkClient.active)
+            if (manager is DogfightNetworkManager session)
             {
-                manager.StopHost();
-            }
-            else if (NetworkServer.active)
-            {
-                manager.StopServer();
-            }
-            else
-            {
-                manager.StopClient();
+                session.LeaveSession();
             }
 
             return;

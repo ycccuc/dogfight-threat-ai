@@ -135,6 +135,15 @@ public sealed class LobbyNetworkPlayer : NetworkBehaviour
     [Command]
     private void CmdToggleReady()
     {
-        readyToStart = !readyToStart;
+        if (NetworkManager.singleton is DogfightNetworkManager manager)
+        {
+            manager.SetLobbyReady(connectionToClient, this, !readyToStart);
+        }
+    }
+
+    [Server]
+    internal void SetReadyOnServer(bool ready)
+    {
+        readyToStart = ready;
     }
 }

@@ -28,9 +28,12 @@
 | Player 移动说明 | [02-design/Player移动说明.md](02-design/Player移动说明.md) | 飞行模型、输入、视图、相机与调参 |
 | 推进资源与敌机难度调研 | [02-design/推进资源与敌机难度调研.md](02-design/推进资源与敌机难度调研.md) | 八游戏一手资料、性能缺口与推进/四级方案依据 |
 | Battle 四级敌机 AI 与加速惩罚说明 | [02-design/AI原型说明.md](02-design/AI原型说明.md) | 四级决策原理、设计目的与反制、敌机追赶参数、Shift/Space资源与耗尽惩罚、碰撞和技术接线 |
-| AI 成长与反制方案 | [02-design/AI成长与反制方案.md](02-design/AI成长与反制方案.md) | 已批准的四级成长、固定预警、反制手段与设计依据 |
+| AI 成长与反制方案 | [02-design/AI成长与反制方案.md](02-design/AI成长与反制方案.md) | 四级成长、固定预警、反制手段与设计依据 |
 
 ## 运行与验证
+
+- [Mirror 独立服与房间权限](04-manuals/Mirror独立服与房间权限.md)：server-only 启动、消息权限、房主移交、空房复用与 NGINX 接入边界。
+- [Mirror 独立服验证](03-test/Mirror独立服与房间权限验证.md)：477 项 EditMode 与真实 UDP 会话流程测试、覆盖范围和未测项。
 
 - [获取与运行](04-manuals/获取与运行.md)：其他电脑拉取 PR、引擎版本、依赖和运行入口。
 - [开始界面使用说明](04-manuals/开始界面.md)：操作流程、设置项、资源来源及测试方法。
@@ -47,7 +50,7 @@
 | 项目分工 | [00-project/分工.md](00-project/分工.md) | 岗位职责、共享契约、协作规则与交付节奏 |
 | AI 原型交接 | [04-manuals/AI原型交接.md](04-manuals/AI原型交接.md) | 当前四级一伤原型、启动与操作、共享接口及与初稿差异、后台运行设置和评审范围 |
 | AI 原型提交验证 | [03-test/evidence/chase-ai-prototype/handoff-validation.md](03-test/evidence/chase-ai-prototype/handoff-validation.md) | 集成前交接版本验证摘要、复现方法及证据边界 |
-| 场景改名与上游集成验证 | [03-test/场景改名与上游集成验证.md](03-test/场景改名与上游集成验证.md) | 本轮菜单、地图、导航与 AI 集成的复跑状态，不沿用旧版本测试计数 |
+| 场景改名与上游集成验证 | [03-test/场景改名与上游集成验证.md](03-test/场景改名与上游集成验证.md) | 菜单、地图、导航与 AI 集成的复跑状态，不沿用旧版本测试计数 |
 | AI 原型验证 | [03-test/AI原型验证.md](03-test/AI原型验证.md) | Unity / .NET 测试结果、复跑命令与当前限制 |
 | AI 成长与反制验证 | [03-test/AI成长与反制验证.md](03-test/AI成长与反制验证.md) | 上一版停车预警的 182 项 Core/EditMode、11 项场景测试与公开预警反制对照 |
 | AI 难度试玩评估 | [03-test/AI难度试玩评估.md](03-test/AI难度试玩评估.md) | 真实键盘绕圈试玩与432组策略对照，记录高级进攻机会不足 |
@@ -71,7 +74,7 @@
 | `01-requirements/` | 需求文档 |
 | `02-design/` | 系统设计与技术说明 |
 | `03-test/` | 测试记录与验证证据 |
-| `04-manuals/` | 用户手册与操作说明 |
+| `04-manuals/` | 操作手册与运行说明 |
 | `05-reports/` | 结题与汇报材料 |
 
 ## 不在本目录的文档
@@ -82,12 +85,12 @@
 | Kenney 素材说明 | `art-source/third-party/kenney-pixel-shmup/NOTES.md` | 记录授权与来源，需与第三方素材放在一起 |
 | PR 模板 | `.github/PULL_REQUEST_TEMPLATE.md` | GitHub 自动读取，位置固定 |
 
-## 本轮射击与 HUD
+## 射击与 HUD
 
 - [机炮与五段圆环使用、配置和架构说明](04-manuals/机炮与圆环HUD.md)
 - [机炮、菜单与 AI 算法验证](03-test/机炮与圆环HUD验证.md)
 
 ## 变更记录
 
-- 2026-10-25：合并开始界面、河谷地图和双向导航入口；补充现行 GameScene 玩法与本轮集成验证索引。
+- 2026-10-25：合并开始界面、河谷地图和双向导航入口；补充现行 GameScene 玩法与集成验证索引。
 - 2026-10-24：增加AI原型交接及可携带提交验证入口。

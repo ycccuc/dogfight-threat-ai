@@ -2,7 +2,7 @@
 
 2026-10-24。本记录是整理分支、提交及创建PR前的**新复跑**，使用当前单次1伤版本；没有沿用之前423/423/55的结果。测试期间生产源码、场景、资产及项目配置保持不变。
 
-| 集合 | 通过/总数 | 失败/跳过 | 测试历时 | 本轮报告 |
+| 集合 | 通过/总数 | 失败/跳过 | 测试历时 | 测试报告 |
 |---|---:|---:|---:|---|
 | .NET Core | 423/423 | 0/0 | 24.56秒 | [完整TRX XML](core-handoff.trx.xml) |
 | Unity EditMode | 423/423 | 0/0 | 36.37秒 | [NUnit XML](unity-edit-handoff.xml) |
@@ -65,7 +65,7 @@ foreach ($platform in @('EditMode', 'PlayMode')) {
 
 首次独立启动因宿主缺少标准ALLUSERSPROFILE环境变量，UPM在测试开始前解析失败。仅给测试子进程补齐系统CommonApplicationData路径后，重新启动并完整执行上述测试；未改生产源码或依赖清单。初次环境失败未生成测试结果，不计入代码用例失败。环境日志和含本机路径的完整日志保留在仓库外。
 
-主交付流程另核对AiDemo与BalanceProbe两工具构建，均0警告、0错误；BalanceProbe先恢复项目依赖再构建。本轮没有因此重新运行完整压力矩阵。
+主交付流程另核对AiDemo与BalanceProbe两工具构建，均0警告、0错误；BalanceProbe先恢复项目依赖再构建。完整压力矩阵未重跑。
 
 ```powershell
 dotnet build tools/DogfightThreatAI.AiDemo/DogfightThreatAI.AiDemo.csproj --no-restore -p:NuGetAudit=false --nologo
@@ -75,8 +75,8 @@ dotnet build tools/DogfightThreatAI.BalanceProbe/DogfightThreatAI.BalanceProbe.c
 
 ## 证据边界
 
-- 本轮复跑的是上述三套回归；[历史一伤384局压力与3456首击轨迹](../../AI全级强化验证.md)是独立实验，未在本轮重新生成。Core中的前三次真实接触节奏回归不等于完整5HP生存时间。
+- 复跑的是上述三套回归；[历史一伤384局压力与3456首击轨迹](../../AI全级强化验证.md)是独立实验，未在本轮重新生成。Core中的前三次真实接触节奏回归不等于完整5HP生存时间。
 - 当前一伤版未达到所有级别、所有操作下统一五倍难度；历史数据中的删失、步长差异和缺失反制组合继续保留，不能由本次全绿回归泛化为整体平衡完成。
 - 之前唯一原生键盘绕圈尝试因额外按键作废，没有有效的四档原生试玩成绩。本轮没有人工手打或系统键盘试玩，不能将自动化结果写成人类手感评估。
 - PlayMode验证真实Unity接线与可计算表现；本次使用无图形设备批处理，不代替前台视觉审美检查、独立构建性能测试或所有墙角/输入抖动下的可躲保证。
-- 报告仅清理机器路径、主机名和用户名，保留测试名称、结果、时长、计数与诊断；原始报告SHA256和脱敏副本SHA256均在summary中。`core-handoff.trx.xml`内容仍为TRX格式，只用附加`.xml`避开仓库的`*.trx`忽略规则。
+- 报告仅清理机器路径、主机名和登录名，保留测试名称、结果、时长、计数与诊断；原始报告SHA256和脱敏副本SHA256均在summary中。`core-handoff.trx.xml`内容仍为TRX格式，只用附加`.xml`避开仓库的`*.trx`忽略规则。

@@ -21,12 +21,22 @@ public sealed class LobbyConnectionPanel : MonoBehaviour
 
         hostButton.onClick.AddListener(CreateLobby);
         joinButton.onClick.AddListener(JoinLobby);
+        Text hostLabel = hostButton.GetComponentInChildren<Text>();
+        Text joinLabel = joinButton.GetComponentInChildren<Text>();
+        if (hostLabel != null)
+        {
+            hostLabel.text = "本机建房（测试）";
+        }
+        if (joinLabel != null)
+        {
+            joinLabel.text = "连接服务器";
+        }
     }
 
     private void Update()
     {
         // 连接成功后隐藏面板，连接过程中仍然显示。
-        panel.SetActive(!NetworkClient.isConnected);
+        panel.SetActive(!NetworkClient.isConnected && !NetworkServer.active);
 
         bool canStart =
             NetworkManager.singleton != null &&

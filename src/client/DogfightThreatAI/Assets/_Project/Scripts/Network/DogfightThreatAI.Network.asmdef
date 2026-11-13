@@ -1,0 +1,11 @@
+{
+    "name": "DogfightThreatAI.Network",
+    "references": [
+        "DogfightThreatAI.Core",
+        "DogfightThreatAI.Gameplay",
+        "DogfightThreatAI.UI",
+        "Mirror",
+        "UnityEngine.UI"
+    ],
+    "autoReferenced": true
+}

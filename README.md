@@ -39,6 +39,8 @@
 
 ## 独立测试
 
+Mirror 联机现已支持独立服务器会话，房主权限不再依赖 Host 本地连接。服务器启动、客户端版本要求和当前单进程单房间边界见 [Mirror 独立服与房间权限](docs/04-manuals/Mirror独立服与房间权限.md)。NGINX 网关尚未接入。
+
 需要 .NET 8 SDK。在仓库根目录执行：
 
 ```powershell

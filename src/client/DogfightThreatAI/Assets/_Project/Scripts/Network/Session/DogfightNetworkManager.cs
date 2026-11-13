@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DogfightThreatAI.Core.Session;
 using DogfightThreatAI.UI.Navigation;
 using Mirror;
 using UnityEngine;
@@ -11,12 +12,18 @@ public sealed class DogfightNetworkManager : NetworkManager
     [SerializeField] private string battleSceneName = "NetworkBattle";
     [SerializeField] private string coopSceneName = "NetworkPatrol";
     [SerializeField, Min(2)] private int minimumPlayers = 2;
+    [Header("独立服务器调试")]
+    [SerializeField] private bool serverOnlyInEditor;
 
     private bool matchStarting;
     // 连接只在入场时映射到席位。对局规则不保存 Mirror 连接。
     private readonly List<int> battleConnections = new List<int>();
     private NetworkBattleMatch activeBattle;
-    private NetworkConnectionToClient roomOwner;
+    private readonly RoomSession room = new RoomSession();
+    private readonly Dictionary<int, double> nextRequestTimes = new Dictionary<int, double>();
+    private bool serverStopping;
+    public SessionStateMessage ClientSession { get; private set; }
+    public bool IsLocalRoomOwner => NetworkClient.isConnected && ClientSession.IsRoomOwner;
     public int BattleSeatCount => battleConnections.Count;
     private bool InBattle => SceneManager.GetActiveScene().name == battleSceneName ||
         SceneManager.GetActiveScene().name == coopSceneName;
@@ -38,10 +45,60 @@ public sealed class DogfightNetworkManager : NetworkManager
         matchStarting = false;
         activeBattle = null;
         battleConnections.Clear();
-        roomOwner = null;
+        room.Clear();
+        nextRequestTimes.Clear();
+        serverStopping = false;
+        NetworkServer.RegisterHandler<SessionRequestMessage>(OnSessionRequest, true);
     }
 
-    // 直连模式将 Host 设为房主。将来可在认证成功后分配同一角色。
+    public override void Start()
+    {
+        if (DedicatedServerBootstrap.Requested || (Application.isEditor && serverOnlyInEditor))
+        {
+            if (!NetworkServer.active && !NetworkClient.active)
+            {
+                StartServer();
+            }
+            return;
+        }
+        base.Start();
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+        ClientSession = default;
+        NetworkClient.RegisterHandler<SessionStateMessage>(OnSessionState, true);
+    }
+
+    public override void OnStopClient()
+    {
+        ClientSession = default;
+        NetworkClient.UnregisterHandler<SessionStateMessage>();
+        base.OnStopClient();
+    }
+
+    public override void OnStopServer()
+    {
+        serverStopping = true;
+        room.Clear();
+        battleConnections.Clear();
+        nextRequestTimes.Clear();
+        NetworkServer.UnregisterHandler<SessionRequestMessage>();
+        base.OnStopServer();
+    }
+
+    public override void OnStopHost()
+    {
+        serverStopping = true;
+        base.OnStopHost();
+    }
+
+    private void OnSessionState(SessionStateMessage state)
+    {
+        ClientSession = state;
+    }
+
     public override void OnServerConnect(NetworkConnectionToClient connection)
     {
         if (matchStarting || InBattle)
@@ -49,18 +106,25 @@ public sealed class DogfightNetworkManager : NetworkManager
             connection.Disconnect();
             return;
         }
-        if (connection == NetworkServer.localConnection)
-        {
-            roomOwner = connection;
-        }
         base.OnServerConnect(connection);
+        PublishSession();
     }
 
-    public bool CanStartMatch() => CanStartMatch(NetworkServer.localConnection);
+    public override void OnServerReady(NetworkConnectionToClient connection)
+    {
+        base.OnServerReady(connection);
+        PublishSession();
+    }
+
+    public bool CanStartMatch()
+    {
+        return NetworkClient.isConnected && ClientSession.CanStartMatch;
+    }
 
     private bool CanStartMatch(NetworkConnectionToClient requester)
     {
-        if (!NetworkServer.active || requester == null || requester != roomOwner ||
+        if (!NetworkServer.active || requester == null || !requester.isAuthenticated ||
+            !room.CanStart(requester.connectionId, minimumPlayers) ||
             matchStarting || NetworkServer.isLoadingScene ||
             SceneManager.GetActiveScene().name != SceneNavigation.LobbyScene)
         {
@@ -95,13 +159,60 @@ public sealed class DogfightNetworkManager : NetworkManager
         return count >= minimumPlayers;
     }
 
-    public void StartMatch() => BeginBattle(battleSceneName);
-    public void StartCoop() => BeginBattle(coopSceneName);
+    public void StartMatch()
+    {
+        RequestSessionAction(SessionAction.StartVersus);
+    }
 
-    private void BeginBattle(string scene)
+    public void StartCoop()
+    {
+        RequestSessionAction(SessionAction.StartCoop);
+    }
+
+    // Host 和远程客户端走相同的消息路径，权限始终在服务器重新检查。
+    private void RequestSessionAction(SessionAction action)
+    {
+        if (NetworkClient.isConnected)
+        {
+            NetworkClient.Send(new SessionRequestMessage { Action = action });
+        }
+    }
+
+    private void OnSessionRequest(NetworkConnectionToClient sender, SessionRequestMessage message)
+    {
+        if (serverStopping || !sender.isAuthenticated || !sender.isReady ||
+            sender.identity == null || !room.IsOwner(sender.connectionId))
+        {
+            return;
+        }
+        double now = NetworkTime.time;
+        if (nextRequestTimes.TryGetValue(sender.connectionId, out double next) && now < next)
+        {
+            return;
+        }
+        nextRequestTimes[sender.connectionId] = now + .25;
+        switch (message.Action)
+        {
+            case SessionAction.StartVersus:
+                BeginBattle(sender, battleSceneName);
+                break;
+            case SessionAction.StartCoop:
+                BeginBattle(sender, coopSceneName);
+                break;
+            case SessionAction.ReturnToLobby:
+                if (!NetworkServer.isLoadingScene && activeBattle != null &&
+                    activeBattle.Phase == NetworkRoundPhase.Finished)
+                {
+                    ServerChangeScene(SceneNavigation.LobbyScenePath);
+                }
+                break;
+        }
+    }
+
+    private void BeginBattle(NetworkConnectionToClient requester, string scene)
     {
         // 点击时再次检查，防止期间有人取消准备或离开。
-        if (!CanStartMatch())
+        if (!CanStartMatch(requester))
         {
             Debug.LogWarning("无法开始：需要房主发起，人数足够且所有玩家已准备。");
             return;
@@ -128,6 +239,7 @@ public sealed class DogfightNetworkManager : NetworkManager
         }
         battleConnections.Sort();
         matchStarting = true;
+        PublishSession();
 
         // Mirror 通知所有客户端加载同一个场景。
         ServerChangeScene(scene);
@@ -138,8 +250,12 @@ public sealed class DogfightNetworkManager : NetworkManager
         activeBattle = battle;
     }
 
-    public bool IsBattleSeatConnected(int seat) =>
-        NetworkServer.connections.ContainsKey(battleConnections[seat - 1]);
+    public bool IsBattleSeatConnected(int seat)
+    {
+        return seat >= 1 && seat <= battleConnections.Count &&
+            room.Contains(battleConnections[seat - 1]) &&
+            NetworkServer.connections.ContainsKey(battleConnections[seat - 1]);
+    }
 
     public override void OnServerDisconnect(NetworkConnectionToClient connection)
     {
@@ -147,11 +263,16 @@ public sealed class DogfightNetworkManager : NetworkManager
         {
             activeBattle.Forfeit(battleConnections.IndexOf(connection.connectionId) + 1);
         }
-        if (connection == roomOwner)
-        {
-            roomOwner = null;
-        }
+        room.Leave(connection.connectionId);
+        nextRequestTimes.Remove(connection.connectionId);
         base.OnServerDisconnect(connection);
+        PublishSession();
+        // 空房不关闭战斗服，回到大厅等待下一批玩家。
+        if (!serverStopping && NetworkServer.active && room.Count == 0 &&
+            InBattle && !NetworkServer.isLoadingScene)
+        {
+            ServerChangeScene(SceneNavigation.LobbyScenePath);
+        }
     }
 
     public override void OnServerSceneChanged(string sceneName)
@@ -161,19 +282,59 @@ public sealed class DogfightNetworkManager : NetworkManager
             activeBattle = null;
             battleConnections.Clear();
             matchStarting = false;
+            room.ResetReady();
         }
         base.OnServerSceneChanged(sceneName);
+        PublishSession();
+        // 也覆盖所有玩家在切场景期间离开的情况。
+        if (!serverStopping && room.Count == 0 && InBattle)
+        {
+            ServerChangeScene(SceneNavigation.LobbyScenePath);
+        }
     }
 
     public void ReturnToLobby(NetworkBattleMatch battle)
     {
-        if (!NetworkServer.active || NetworkServer.localConnection == null ||
-            NetworkServer.localConnection != roomOwner || NetworkServer.isLoadingScene ||
-            battle == null || battle != activeBattle || battle.Phase != NetworkRoundPhase.Finished)
+        if (battle == null || battle.Phase != NetworkRoundPhase.Finished)
         {
             return;
         }
-        ServerChangeScene(SceneNavigation.LobbyScenePath);
+        RequestSessionAction(SessionAction.ReturnToLobby);
+    }
+
+    public void SetLobbyReady(NetworkConnectionToClient connection, LobbyNetworkPlayer player, bool ready)
+    {
+        if (!NetworkServer.active || matchStarting || NetworkServer.isLoadingScene || InBattle ||
+            connection == null || !connection.isAuthenticated || !connection.isReady ||
+            connection.identity == null || connection.identity.GetComponent<LobbyNetworkPlayer>() != player ||
+            !room.SetReady(connection.connectionId, ready))
+        {
+            return;
+        }
+        player.SetReadyOnServer(ready);
+        PublishSession();
+    }
+
+    private void PublishSession()
+    {
+        if (!NetworkServer.active || serverStopping)
+        {
+            return;
+        }
+        foreach (NetworkConnectionToClient connection in NetworkServer.connections.Values)
+        {
+            if (connection == null || !connection.isAuthenticated || !room.Contains(connection.connectionId))
+            {
+                continue;
+            }
+            connection.Send(new SessionStateMessage
+            {
+                IsRoomOwner = room.IsOwner(connection.connectionId),
+                CanStartMatch = CanStartMatch(connection),
+                PlayerCount = room.Count,
+                ReadyCount = room.ReadyCount
+            });
+        }
     }
 
     public void LeaveSession()
@@ -247,5 +408,12 @@ public sealed class DogfightNetworkManager : NetworkManager
         {
             activeBattle.RegisterPlayer(battlePlayer);
         }
+        else
+        {
+            // 只让成功生成玩家的已认证连接成为成员。顺序同时决定房主移交。
+            room.Join(connection.connectionId);
+            room.SetReady(connection.connectionId, false);
+        }
+        PublishSession();
     }
 }

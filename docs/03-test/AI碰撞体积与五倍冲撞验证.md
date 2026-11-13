@@ -1,6 +1,6 @@
 # 飞机碰撞体积与五倍冲撞验证
 
-日期：2026-10-24。本记录保存当时验收；当前 Battle 继续由 [绕后瞄准与玩家冲刺验证](AI绕后瞄准与玩家冲刺验证.md) 更新。该轮按用户要求调整基础追踪版；此前的减速瞄准、红色冲撞轨迹、仅冲撞阶段伤害和 2 秒无敌已由本记录替代。
+日期：2026-10-24。本记录保存当时验收；当前 Battle 继续由 [绕后瞄准与玩家冲刺验证](AI绕后瞄准与玩家冲刺验证.md) 更新。该版本调整基础追踪逻辑；此前的减速瞄准、红色冲撞轨迹、仅冲撞阶段伤害和 2 秒无敌已由本记录替代。
 
 ## 当前行为
 
@@ -38,4 +38,4 @@ FlightModel 继续拥有飞行状态，CircleCollider2D 使用 trigger 定义体
 - `contact-ram-live-{aim-start,aim-tracking,charge,hit,final}.png` 五张图片均完整落盘，有 PNG 完成记录。已查看动态黄线、无红色轨迹的冲撞以及受击扣血画面。
 - 结束证据为 `contact-ram-live-jsonl` 中 `recordType:finished`、`finished:true`、HP0；最后一行可能是截图写入回执，不把它误作战斗状态。`contact-ram-live.log` 无 C# 编译错误或异常。
 
-临时 `Editor/LocalContactRamPlaytest.cs` 与 meta 已移除，驱动源码与截图保留在仓库外的证据目录；场景与预制体没有测试输入引用，后台运行设置恢复为原值 0。交接为普通键盘输入的 Battle：点击 Game，W/S 加减速、A/D 转向，R 重开。本轮按要求先采用五倍冲撞，没有据此宣称难度平衡已定稿。
+临时 `Editor/LocalContactRamPlaytest.cs` 与 meta 已移除，驱动源码与截图保留在仓库外的证据目录；场景与预制体没有测试输入引用，后台运行设置恢复为原值 0。运行方式为普通键盘输入的 Battle：点击 Game，W/S 加减速、A/D 转向，R 重开。该版本采用五倍冲撞参数，难度平衡仍需验证。

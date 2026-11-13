@@ -1,8 +1,8 @@
 # AI原型交接
 
-更新日期：2026-10-25。分支来源为`Chaos1207/dogfight-threat-ai:feat/chase-ai-prototype`，评审目标为`ycccuc/dogfight-threat-ai:main`。当前交付为 Unity GameScene 中的单敌机空战原型；Battle 沿用为玩法名称，实际场景路径为 `Assets/_Project/Scenes/GameScene/GameScene.unity`。完整玩法见[Battle手册](Battle追击演示.md)，算法与资源规则见[AI原型说明](../02-design/AI原型说明.md)。
+更新日期：2026-10-25。分支来源为`Chaos1207/dogfight-threat-ai:feat/chase-ai-prototype`，评审目标为`ycccuc/dogfight-threat-ai:main`。该版本为 Unity GameScene 中的单敌机空战原型；Battle 沿用为玩法名称，实际场景路径为 `Assets/_Project/Scenes/GameScene/GameScene.unity`。完整玩法见[Battle手册](Battle追击演示.md)，算法与资源规则见[AI原型说明](../02-design/AI原型说明.md)。
 
-当前账号没有上游仓库的直接推送权限，采用标准 Fork 流程：将同名功能分支推送到 Fork，更新现有[上游 PR #1](https://github.com/ycccuc/dogfight-threat-ai/pull/1)。本轮集成上游 `main` 的开始界面、河谷农田地图和场景改名，继续在同一 PR 评审；main 的合并由项目负责人决定。
+集成记录：[上游 PR #1](https://github.com/ycccuc/dogfight-threat-ai/pull/1)。该版本合并了上游 `main` 的开始界面、河谷农田地图和场景改名。
 
 ## 当前实现
 
@@ -34,7 +34,7 @@
 
 河谷地图保持 400×300 物理战场，相机世界半尺寸保持 (201.2, 151.2)。为覆盖镜头边缘增加的 2 单位地图外沿只作背景渲染，不改变飞行边界、碰撞体积或接触伤害；调试网格保留但 Play 中隐藏，星点背景移除。
 
-默认物理固定步为0.02秒。Core批量对照、Unity真实场景和系统键盘输入各自验证不同边界，不能互相替代。本轮测试数量与结果以[场景改名与上游集成验证](../03-test/场景改名与上游集成验证.md)为准；[原交接版本验证摘要](../03-test/evidence/chase-ai-prototype/handoff-validation.md)保留为集成前基线，不从旧开发记录推断此次集成已经通过。
+默认物理固定步为0.02秒。Core批量对照、Unity真实场景和系统键盘输入各自验证不同边界，不能互相替代。测试数量与结果以[场景改名与上游集成验证](../03-test/场景改名与上游集成验证.md)为准；[原交接版本验证摘要](../03-test/evidence/chase-ai-prototype/handoff-validation.md)保留为集成前基线，不从旧开发记录推断此次集成已经通过。
 
 ## 跨模块变更与评审范围
 
@@ -78,13 +78,13 @@
 dotnet test tools/DogfightThreatAI.Core.Tests/DogfightThreatAI.Core.Tests.csproj
 ```
 
-Unity测试通过`Window → General → Test Runner`分别运行EditMode与PlayMode。本轮复跑状态和新证据入口以[场景改名与上游集成验证](../03-test/场景改名与上游集成验证.md)为准；[handoff-validation.md](../03-test/evidence/chase-ai-prototype/handoff-validation.md)记录集成前版本的命令、结果和可携带文件，不充当本轮测试结果。批量矩阵工具说明见[tools文档](../../tools/README.md)，历史控制台AiDemo仍用旧攻击入口。
+Unity测试通过`Window → General → Test Runner`分别运行EditMode与PlayMode。复跑状态和新证据入口以[场景改名与上游集成验证](../03-test/场景改名与上游集成验证.md)为准；[handoff-validation.md](../03-test/evidence/chase-ai-prototype/handoff-validation.md)记录集成前版本的命令、结果和可携带文件，不充当测试结果。批量矩阵工具说明见[tools文档](../../tools/README.md)，历史控制台AiDemo仍用旧攻击入口。
 
 [全级强化开发记录](../03-test/AI全级强化验证.md)与更早记录保留各阶段口径，其中本机临时目录、日志和截图路径不会随仓库传递。接收方应使用本次随仓库携带的证据与复现方法；一伤版本不能沿用早期多伤候选的生存倍率，脚本键盘成绩也不能写成人工手打。
 
-当前一伤版没有有效的原生键盘试玩成绩，不能声称人工试玩通过。历史矩阵与截图不等于本轮复跑；提交验证摘要应分别列明本轮实际重跑的测试、携带的历史数据及尚未覆盖的边界。
+当前一伤版没有有效的原生键盘试玩成绩，不能声称人工试玩通过。历史矩阵与截图不等于复跑；提交验证摘要应分别列明本轮实际重跑的测试、携带的历史数据及尚未覆盖的边界。
 
 ## 变更记录
 
-- 2026-10-25：记录同一 PR 的上游集成范围，更新 StartMenu / GameScene、双向导航与 AI 直入流程，并区分本轮证据与集成前基线。
+- 2026-10-25：记录同一 PR 的上游集成范围，更新 StartMenu / GameScene、双向导航与 AI 直入流程，并区分证据与集成前基线。
 - 2026-10-24：整理当前四级一伤原型、共享变更、初稿差异、后台运行设置与可携带提交验证入口。

@@ -22,7 +22,7 @@ namespace DogfightThreatAI.UI.Battle
         private int seconds = -1;
         private int winner = -1;
         private int seat = -1;
-        private bool host;
+        private bool canReturnToLobby;
         public bool BlocksInput => menuOpen || phase != 1;
 
         public void Build(Action leave, Action returnToLobby)
@@ -71,10 +71,10 @@ namespace DogfightThreatAI.UI.Battle
         }
 
         public void Present(int currentPhase, int currentHealth, int maxHealth, int currentAlive,
-            int remaining, int winningSeat, int localSeat, bool isHost)
+            int remaining, int winningSeat, int localSeat, bool allowReturnToLobby)
         {
             if (phase == currentPhase && health == currentHealth && alive == currentAlive &&
-                seconds == remaining && winner == winningSeat && seat == localSeat && host == isHost)
+                seconds == remaining && winner == winningSeat && seat == localSeat && canReturnToLobby == allowReturnToLobby)
             {
                 return;
             }
@@ -84,7 +84,7 @@ namespace DogfightThreatAI.UI.Battle
             seconds = remaining;
             winner = winningSeat;
             seat = localSeat;
-            host = isHost;
+            canReturnToLobby = allowReturnToLobby;
 
             if (phase == 0)
             {
@@ -123,16 +123,16 @@ namespace DogfightThreatAI.UI.Battle
                 return;
             }
             resumeButton.SetActive(!finished);
-            returnButton.gameObject.SetActive(finished && host);
+            returnButton.gameObject.SetActive(finished && canReturnToLobby);
             if (finished)
             {
                 title.text = winner == 0 ? "平局" : winner == seat ? "胜利" : "战败";
-                details.text = host ? "可以返回大厅，再准备下一局。" : "等待房主返回大厅，或退出联机。";
+                details.text = canReturnToLobby ? "可以返回大厅，再准备下一局。" : "等待房主返回大厅，或退出联机。";
             }
             else
             {
                 title.text = "联机菜单";
-                details.text = host ? "退出会结束房间。打开菜单时，对局仍在继续。"
+                details.text = canReturnToLobby ? "打开菜单不会暂停对局。独立服会在玩家离开后继续运行。"
                     : "退出后返回主菜单。打开菜单时，对局仍在继续。";
             }
         }

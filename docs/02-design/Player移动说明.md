@@ -4,7 +4,7 @@
 
 最后更新：2026-10-25
 
-相关文档：[架构约定.md](架构约定.md)、[AI原型交接](../04-manuals/AI原型交接.md)、[本轮集成验证](../03-test/场景改名与上游集成验证.md)、[集成前提交验证摘要](../03-test/evidence/chase-ai-prototype/handoff-validation.md)
+相关文档：[架构约定.md](架构约定.md)、[AI原型交接](../04-manuals/AI原型交接.md)、[集成验证](../03-test/场景改名与上游集成验证.md)、[集成前提交验证摘要](../03-test/evidence/chase-ai-prototype/handoff-validation.md)
 
 ## 一、代码位置与职责
 
@@ -112,7 +112,7 @@ Build Settings 当前顺序为：StartMenu（0）、GameScene（1），路径分
 2. 点击 Play，按任意键显示菜单，再点“开始游戏”进入 GameScene。常规 Play 由 `GameEntrySetup` 从 StartMenu 启动；单独复验 AI 使用 `Tools → Dogfight Threat AI → Open Battle and Play` 临时直入 GameScene，退出 Play 后恢复 StartMenu 入口。
 3. 使用W/S控制油门、A/D转向，Shift长推、Space短冲、R重开；F1～F4固定敌机难度，F5自动。
 4. 点击右上角“返回主菜单”，再次开始时应得到出生点处的新对局。
-5. 进入`Window → General → Test Runner`，分别运行EditMode与PlayMode。本轮执行结果和证据见[场景改名与上游集成验证](../03-test/场景改名与上游集成验证.md)；[可携带验证摘要](../03-test/evidence/chase-ai-prototype/handoff-validation.md)保留为集成前基线，不沿用其数量作为本轮结果。
+5. 进入`Window → General → Test Runner`，分别运行EditMode与PlayMode。执行结果和证据见[场景改名与上游集成验证](../03-test/场景改名与上游集成验证.md)；[可携带验证摘要](../03-test/evidence/chase-ai-prototype/handoff-validation.md)保留为集成前基线，不沿用其数量作为结果。
 
 预期行为：
 
@@ -224,7 +224,7 @@ Drag 的半衰期可由 `ln(2) / drag` 估算。当前值 0.1 对应约 6.9 秒�
 
 - [架构约定.md](架构约定.md)：分层、目录、提交规范。
 - [AI原型交接](../04-manuals/AI原型交接.md)：共享动作、碰撞与可见线索契约的评审范围。
-- [场景改名与上游集成验证](../03-test/场景改名与上游集成验证.md)：本轮菜单、地图、AI与场景入口的复跑状态。
+- [场景改名与上游集成验证](../03-test/场景改名与上游集成验证.md)：菜单、地图、AI与场景入口的复跑状态。
 - [提交验证摘要](../03-test/evidence/chase-ai-prototype/handoff-validation.md)：集成前可携带证据与执行结果。
 - 立项书：《基于实时威胁评估与动态决策的飞机对战游戏》。
 

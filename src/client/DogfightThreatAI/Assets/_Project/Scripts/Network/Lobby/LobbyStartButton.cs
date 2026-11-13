@@ -36,17 +36,17 @@ public sealed class LobbyStartButton : MonoBehaviour
         DogfightNetworkManager manager =
             NetworkManager.singleton as DogfightNetworkManager;
 
-        // 当前采用 Host 模式：只有房主显示开始按钮。
-        bool isHost =
-            NetworkServer.active &&
-            NetworkClient.isConnected &&
-            NetworkServer.localConnection != null;
+        if (startButton == null || coopButton == null)
+        {
+            return;
+        }
+        bool isOwner = manager != null && manager.IsLocalRoomOwner;
 
-        startButton.gameObject.SetActive(isHost);
+        startButton.gameObject.SetActive(isOwner);
 
         startButton.interactable =
-            isHost && manager != null && manager.CanStartMatch();
-        coopButton.gameObject.SetActive(isHost);
+            isOwner && manager.CanStartMatch();
+        coopButton.gameObject.SetActive(isOwner);
         coopButton.interactable = startButton.interactable;
     }
 

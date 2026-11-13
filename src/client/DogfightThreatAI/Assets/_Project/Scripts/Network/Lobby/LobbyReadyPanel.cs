@@ -37,33 +37,10 @@ public sealed class LobbyReadyPanel : MonoBehaviour
         buttonText.text =
             localPlayer.ReadyToStart ? "取消准备" : "准备";
 
-        int total = 0;
-        int ready = 0;
-
-        foreach (NetworkIdentity identity in NetworkClient.spawned.Values)
-        {
-            if (identity == null)
-            {
-                continue;
-            }
-
-            LobbyNetworkPlayer player =
-                identity.GetComponent<LobbyNetworkPlayer>();
-
-            if (player == null)
-            {
-                continue;
-            }
-
-            total++;
-
-            if (player.ReadyToStart)
-            {
-                ready++;
-            }
-        }
-
-        string message = $"已准备：{ready} / {total}";
+        var manager = NetworkManager.singleton as DogfightNetworkManager;
+        SessionStateMessage state = manager != null ? manager.ClientSession : default;
+        string role = state.IsRoomOwner ? "房主" : "队员";
+        string message = $"{role} · 已准备：{state.ReadyCount} / {state.PlayerCount}";
 
         if (countText.text != message)
         {

@@ -84,11 +84,11 @@
 
 ## 原生键盘试玩补验
 
-本次按用户要求，以 Windows `SendInput` 发送真实 W/A/S/D、Shift、R 和 F1–F4，完整经过生产 `KeyboardInputSource`，未替换输入源或修改血量/位置/AI。临时 `NativeBattleObserver` 只读取按键、焦点、速度、推进阶段、AI、血量和无敌时间。正常速率、正常 5 HP、`runInBackground=0`；截取真实 Unity 编辑器窗口。驾驶脚本根据公开瞄准倒计时及双方可见位置选择转向，用途是原生按键验证，不称为人手操作。
+测试使用 Windows `SendInput` 发送真实 W/A/S/D、Shift、R 和 F1–F4，完整经过生产 `KeyboardInputSource`，未替换输入源或修改血量/位置/AI。临时 `NativeBattleObserver` 只读取按键、焦点、速度、推进阶段、AI、血量和无敌时间。正常速率、正常 5 HP、`runInBackground=0`；截取真实 Unity 编辑器窗口。驾驶脚本根据公开瞄准倒计时及双方可见位置选择转向，用途是原生按键验证，不称为人手操作。
 
 点按实测 `native-v2-tap-actions.jsonl`：Shift 约 0.08 秒，真实 Dash → Coast → Idle，没有进入 Sustain；实际峰值 21.5569，松键后仍完成已经支付的短冲。长按实测 `native-v2-hold-actions.jsonl`：Shift 约 2.02 秒，真实 Dash → Sustain → Coast → Idle，约起爆后 1 秒升到 3 倍/26.9461，松键约 0.24 秒回普通 8.982。最低能量 0.28，结束已回到约 0.90。推进期间没有额外 A/D/S/右 Shift 干扰，均为前台实际按键。
 
-用户确认暂不操作后，完整重跑 4 段同样 W+A 绕圈及 5 段反制。前面有额外 D、失焦、未重新按下 W 或观测发布空窗而中止的试验全部弃用，未用来修改游戏。完整段落以前缀 `native-v2-clean-` 保存。统计按 runId、session 和首尾真实采样时刻截取，避免死亡后游戏时钟停住而混入段落结束后的状态。
+在无额外按键干扰的条件下，重跑 4 段同样 W+A 绕圈及 5 段反制。前面有额外 D、失焦、未重新按下 W 或观测发布空窗而中止的试验全部弃用，未用来修改游戏。完整段落以前缀 `native-v2-clean-` 保存。统计按 runId、session 和首尾真实采样时刻截取，避免死亡后游戏时钟停住而混入段落结束后的状态。
 
 **各段测量开始时均为 HP4**：原生 R 重开与等级选择期间已发生一次初始接触，未补血。F2–F4 在初次 Lv1 攻击恢复结束后生效，因此表格是实际按键选择流程，不能称为从第 0 帧固定高级的纯等级基准。
 
@@ -103,4 +103,4 @@
 
 证据：`native-battle-jsonl`、`native-v2-clean-lv{1,2,3,4}-{circle,tap-counter}-actions.jsonl`、`native-v2-clean-lv4-hold-counter-actions.jsonl` 及对应 `-end.png`。本轮未发现需要修改生产逻辑的新问题；当前生产推进快照另重跑 21 项边界回归全部通过（`boost-v2-readonly-review.trx`）。临时观察器已从 Assets 移除，最后重新打开正常 Battle。
 
-最终交付 `native-keyboard-handoff.log` 记录正常进入 Play，无 C# 异常。用真实 R 重开后返回聊天窗口，利用原有未聚焦暂停保留新局；`native-keyboard-handoff.png` 已核对 HULL 5/5、满推进能量、AUTO Lv1、游戏约 0.1 秒。切回 Unity 继续即可，没有额外暂停开关。
+`native-keyboard-handoff.log` 记录进入 Play 的结果，无 C# 异常。按 R 重开后通过未聚焦暂停保留新局；`native-keyboard-handoff.png` 已核对 HULL 5/5、满推进能量、AUTO Lv1、游戏约 0.1 秒。聚焦 Unity 后恢复运行。
